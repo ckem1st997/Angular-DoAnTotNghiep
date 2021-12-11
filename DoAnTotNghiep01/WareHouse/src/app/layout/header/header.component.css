@@ -46,7 +46,11 @@ section {
   white-space: nowrap;
   line-height: 26px;
   text-overflow: ellipsis;
-  margin-right: 25px;
+  width: 75px;
+  padding-top: 5px;
+}
+.link-icon i{
+  height:20px;
 }
 .icon-link {
   position: relative;
@@ -54,10 +58,18 @@ section {
   vertical-align: middle;
   width: 20px;
   height: 20px;
-  font-size: 15px;
+  font-size: 20px;
   padding: 5px 0;
   line-height: 20px;
 }
 .header-icon-link {
   margin-right: 35px;
+}
+header div.d-flex.menu-left > a.link-icon.active{
+  background: rgba(255,255,255,.1) !important;
+  color: #fff !important;
+}
+.link-icon.header-a:hover{
+  background: rgba(255,255,255,.1) !important;
+  color: #fff !important;
 }
