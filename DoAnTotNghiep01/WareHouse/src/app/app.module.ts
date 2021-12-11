@@ -1,3 +1,6 @@
+import { WareHouseLimitComponent } from './pages/WareHouseLimit/WareHouseLimit.component';
+import { WareHouseBookComponent } from './pages/WareHouseBook/WareHouseBook.component';
+import { WareHouseBenginingComponent } from './pages/WareHouseBengining/WareHouseBengining.component';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -12,7 +15,10 @@ import {MatMenuModule} from '@angular/material/menu';
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent
+    HeaderComponent,
+    WareHouseBenginingComponent,
+    WareHouseBookComponent,
+    WareHouseLimitComponent
   ],
   imports: [
     BrowserModule,
