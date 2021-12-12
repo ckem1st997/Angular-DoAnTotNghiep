@@ -1,4 +1,3 @@
-
 <div class=" d-flex justify-content-between" style="margin-top: 10px;">
   <ul class="breadcrumbone">
     <li>
@@ -16,15 +15,20 @@
         <i class="bi bi-house"></i>
       </a>
     </li>
-  </ul>  
+  </ul>
   <div class="">
-      <div class="">
-          <a data-action="create-import" href="javascript:void(0)" class="btn btn-success btn-sm"><i class="flaticon2-plus"></i> Nhập kho</a>
-          <a data-action="create-export" href="javascript:void(0)" class="btn btn-info btn-sm"><i class="flaticon-logout"></i> Xuất kho</a>
-          <a data-action="edit" href="javascript:void(0)" class="btn btn-danger btn-sm"><i class="flaticon2-pen"></i> Chỉnh sửa</a>
-          <a data-action="deletes" href="javascript:void(0)" class="btn btn-primary btn-sm"><i class="flaticon-delete"></i> Xóa (Đã chọn)</a>
-          <a data-action="export" href="javascript:void(0)" class="btn btn-secondary btn-sm"><i class="flaticon2-printer"></i> Xuất Excel</a>
-      </div>
+    <div class="">
+      <a data-action="create-import" href="javascript:void(0)" class="btn btn-success btn-sm"><i
+          class="flaticon2-plus"></i> Nhập kho</a>
+      <a data-action="create-export" href="javascript:void(0)" class="btn btn-info btn-sm"><i
+          class="flaticon-logout"></i> Xuất kho</a>
+      <a data-action="edit" href="javascript:void(0)" class="btn btn-danger btn-sm"><i class="flaticon2-pen"></i> Chỉnh
+        sửa</a>
+      <a data-action="deletes" href="javascript:void(0)" class="btn btn-primary btn-sm"><i class="flaticon-delete"></i>
+        Xóa (Đã chọn)</a>
+      <a data-action="export" href="javascript:void(0)" class="btn btn-secondary btn-sm"><i
+          class="flaticon2-printer"></i> Xuất Excel</a>
+    </div>
   </div>
 </div>
 <div style="width: 100%; height: 80%; ">
@@ -34,6 +38,16 @@
     </as-split-area>
     <as-split-area [size]="90">
       <p>RIGHT</p>
+      <form [formGroup]="formUnitTest" (ngSubmit)="onSubmit()">
+
+        <label for="first-name">Unit Name: </label>
+        <input id="first-name" type="text" formControlName="unitName">
+
+        <p>Complete the form to enable button.</p>
+        <button type="submit" [disabled]="!formUnitTest.valid">Submit</button>
+      </form>
+      <p>Message:</p>
+      <p>{{message}}</p>
     </as-split-area>
   </as-split>
 </div>
