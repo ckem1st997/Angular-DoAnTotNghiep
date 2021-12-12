@@ -48,6 +48,7 @@ section {
   text-overflow: ellipsis;
   width: 75px;
   padding-top: 5px;
+  z-index: 1001;
 }
 .link-icon i{
   height:20px;
@@ -101,3 +102,8 @@ line-height: 25px;
 .dropdown:hover .dropdown-content {display: block;}
 
 .dropdown:hover .dropbtn {background-color: #3e8e41;} */
+.navbar .hor-menu {
+  margin: 0;
+  float: left;
+}
+

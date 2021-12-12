@@ -1,3 +1,4 @@
+import { HomeComponent } from './pages/home/home.component';
 import { WareHouseLimitComponent } from './pages/WareHouseLimit/WareHouseLimit.component';
 import { WareHouseBookComponent } from './pages/WareHouseBook/WareHouseBook.component';
 import { WareHouseBenginingComponent } from './pages/WareHouseBengining/WareHouseBengining.component';
@@ -12,13 +13,15 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {MatMenuModule} from '@angular/material/menu';
+import { AngularSplitModule } from 'angular-split';
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     WareHouseBenginingComponent,
     WareHouseBookComponent,
-    WareHouseLimitComponent
+    WareHouseLimitComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
@@ -27,7 +30,8 @@ import {MatMenuModule} from '@angular/material/menu';
     MatToolbarModule,
     MatIconModule,
     MatButtonModule,
-    MatMenuModule
+    MatMenuModule,
+    AngularSplitModule
   ],
   providers: [],
   bootstrap: [AppComponent]
