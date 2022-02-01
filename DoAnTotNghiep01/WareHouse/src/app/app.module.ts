@@ -16,6 +16,21 @@ import {MatMenuModule} from '@angular/material/menu';
 import { AngularSplitModule } from 'angular-split';
 import { FormsModule }   from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import {MatTableModule} from '@angular/material/table';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {ScrollingModule} from '@angular/cdk/scrolling';
+import {MatInputModule} from '@angular/material/input';
+import { MatSortModule } from '@angular/material/sort';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatExpansionModule} from '@angular/material/expansion';
+import {MatGridListModule} from '@angular/material/grid-list';
+import {MatTreeModule} from '@angular/material/tree';
+import { VendorService } from './service/VendorService.service';
+import { VendorComponent } from './pages/Vendor/Vendor.component';
+import {CdkTreeModule} from '@angular/cdk/tree';
+import { VendorEditComponent } from './method/edit/VendorEdit/VendorEdit.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -23,21 +38,36 @@ import { ReactiveFormsModule } from '@angular/forms';
     WareHouseBenginingComponent,
     WareHouseBookComponent,
     WareHouseLimitComponent,
-    HomeComponent
+    HomeComponent,
+    VendorComponent,
+    VendorEditComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MatToolbarModule,
-    MatIconModule,
-    MatButtonModule,
     MatMenuModule,
     AngularSplitModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatCheckboxModule,
     FormsModule,
-    ReactiveFormsModule
+    MatButtonModule,
+    ScrollingModule,
+    MatInputModule,
+    MatIconModule,
+    MatSortModule,
+    MatDialogModule,
+    MatExpansionModule,
+    MatGridListModule,
+    AngularSplitModule,
+    MatTreeModule,
+    CdkTreeModule
   ],
-  providers: [],
+  providers: [VendorService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

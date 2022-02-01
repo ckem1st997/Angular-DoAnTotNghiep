@@ -1,0 +1,47 @@
+<h3 mat-dialog-title>{{title}}</h3>
+<div mat-dialog-content>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="form-group d-none">
+      <mat-label class="form-label">Id</mat-label>
+      <input type="text" formControlName="id" class="form-control" /> 
+    </div>
+    <div class="form-group">
+      <mat-label class="form-label">Tên</mat-label>
+      <input type="text" formControlName="name" class="form-control" /> 
+    </div>
+    <div class="form-group">
+      <mat-label class="form-label">Code</mat-label>
+      <input type="text" formControlName="code" class="form-control" /> 
+    </div>
+
+    <div class="form-group">
+      <mat-label class="form-label">Địa chỉ</mat-label>
+      <input type="text" formControlName="address" class="form-control" /> 
+    </div>
+    <div class="form-group">
+      <mat-label class="form-label">Contact Person</mat-label>
+      <input type="text" formControlName="contactPerson" class="form-control" /> 
+    </div>
+    <div class="form-group">
+      <mat-label class="form-label">Email</mat-label>
+      <input type="text" formControlName="email" class="form-control" /> 
+    </div>
+    <div class="form-group">
+      <mat-label class="form-label">Trạng thái</mat-label>
+      <input type="checkbox" formControlName="inactive" class="form-check-input" /> 
+    </div>
+    <div mat-dialog-actions>
+      <button mat-button (click)="onNoClick()">Huỷ bỏ</button>
+      <button type="submit" mat-button cdkFocusInitial>Save</button>
+    </div>
+  </form>
+
+
+
+</div>
+
+
+
+<!-- Copyright 2022 Google LLC. All Rights Reserved.
+    Use of this source code is governed by an MIT-style license that
+    can be found in the LICENSE file at https://angular.io/license -->
