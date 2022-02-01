@@ -19,6 +19,10 @@
       <textarea readonly type="text" formControlName="address" class="form-control col"></textarea>
     </div>
     <div class="form-group row mb-1">
+      <mat-label class="form-label col-3">Điện thoại</mat-label>
+      <input type="text" formControlName="phone" class="form-control col" /> 
+    </div>
+    <div class="form-group row mb-1">
       <mat-label class="form-label col-3">Contact Person</mat-label>
       <input readonly type="text" formControlName="contactPerson" class="form-control col" /> 
     </div>
@@ -28,7 +32,6 @@
     </div>
     <div class="form-group row mb-1 ">
       <mat-label class="form-label col-3 ">Trạng thái</mat-label>
-      <!-- <input type="checkbox" formControlName="inactive" class="form-check-input" />  -->
       <mat-checkbox disabled style="padding-left: 0;" class="example-margin col"
       [checked]="dt.inactive"></mat-checkbox>
     </div>
@@ -38,9 +41,3 @@
     </div>
   </form>
 </div>
-
-
-
-<!-- Copyright 2022 Google LLC. All Rights Reserved.
-    Use of this source code is governed by an MIT-style license that
-    can be found in the LICENSE file at https://angular.io/license -->

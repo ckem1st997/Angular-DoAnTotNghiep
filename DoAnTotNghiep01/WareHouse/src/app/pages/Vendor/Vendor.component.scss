@@ -81,4 +81,9 @@ ul.breadcrumbone {
     // height: 100px;
     // line-height: 20px;
   }
-  
+  .mat-row:hover .mat-cell {
+    border-color: currentColor;
+  }
+  .mat-column-id{
+    display: none;
+  }

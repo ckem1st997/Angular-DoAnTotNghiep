@@ -21,6 +21,6 @@ export class VendorValidator extends Validator<Vendor> {
             .withMessage('Xin vui lòng nhập mã của bạn !')
             .minLength(5).withMessage('Độ dài mã min là 3')
             .maxLength(50).withMessage('Độ dài mã max là 50');
-            this.ruleFor('email').emailAddress().withMessage("Định dạng mail chưa đúng !");
+        this.ruleFor('email').emailAddress().withMessage("Định dạng mail chưa đúng !");
     }
 }

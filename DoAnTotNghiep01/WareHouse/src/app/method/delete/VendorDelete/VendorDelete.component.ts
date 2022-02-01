@@ -16,31 +16,32 @@ export class VendorDeleteComponent implements OnInit {
   title = "Xoá nhà cung cấp !"
   private readonly notifier!: NotifierService;
   success = false;
-  form!: FormGroup;
-  dt!: VendorDTO;
+  dt: VendorDTO[]=[];
   options!: FormGroup;
   constructor(
     public dialogRef: MatDialogRef<VendorDeleteComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: VendorDTO,
+    @Inject(MAT_DIALOG_DATA) public data: VendorDTO[],
     private formBuilder: FormBuilder,
     private service: VendorService,
     notifierService: NotifierService
   ) { this.notifier = notifierService; }
   ngOnInit() {
-    this.dt = this.data;
-    this.form = this.formBuilder.group({
-      id: this.dt.id,
-    });
+    for (let index = 0; index <  this.data.length; index++) {
+      const element =  this.data[index];
+      this.dt.push(element);
+    }
+
   }
-  get f() { return this.form.controls; }
   onNoClick(): void {
     this.dialogRef.close(false);
   }
   onSubmit() {
     var ids = Array<string>();
-    if (this.dt.id != undefined && this.dt.id != null) {
-      ids.push(this.dt.id);
-      console.log(ids);
+    for (let index = 0; index < this.dt.length; index++) {
+      const element = this.dt[index];
+      ids.push(element.id);
+    }
+    if (this.dt !== undefined && this.dt.length>0) {
       this.service.DeleteVendor(ids).subscribe(x => {
         if (x.success)
           this.dialogRef.close(x.success)

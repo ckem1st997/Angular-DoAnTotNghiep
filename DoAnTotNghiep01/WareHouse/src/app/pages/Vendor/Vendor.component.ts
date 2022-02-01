@@ -19,13 +19,17 @@ import { VendorDetailsComponent } from 'src/app/method/details/VendorDetails/Ven
 import { VendorCreateComponent } from 'src/app/method/create/VendorCreate/VendorCreate.component';
 import { Guid } from 'src/app/extension/Guid';
 import { VendorDeleteComponent } from 'src/app/method/delete/VendorDelete/VendorDelete.component';
+import { SelectionModel } from '@angular/cdk/collections';
 @Component({
   selector: 'app-Vendor',
   templateUrl: './Vendor.component.html',
   styleUrls: ['./Vendor.component.scss']
 })
 export class VendorComponent implements OnInit {
-  //noti
+  //
+  listDelete:VendorDTO[]=[];
+  //select
+  selection = new SelectionModel<VendorDTO>(true, []);
   //noti
   private readonly notifier!: NotifierService;
   //tree-view
@@ -62,7 +66,7 @@ export class VendorComponent implements OnInit {
   pageSize = 15;
   currentPage = 0;
   pageSizeOptions: number[] = [15, 50, 100];
-  displayedColumns: string[] = ['id', 'name', 'code', 'address', 'phone', 'email', 'contactPerson', 'inactive', 'method'];
+  displayedColumns: string[] = ['select', 'id', 'name', 'code', 'address', 'phone', 'email', 'contactPerson', 'inactive', 'method'];
   dataSource = new MatTableDataSource<VendorDTO>();
   model: VendorSearchModel = {
     active: null,
@@ -99,7 +103,7 @@ export class VendorComponent implements OnInit {
     this.service.getTreeView().subscribe(x => this.dataSourceTreee.data = x.data);
     this.getScreenWidth = window.innerWidth;
     this.getScreenHeight = window.innerHeight;
-
+    this.selection.clear();
 
   }
   @HostListener('window:resize', ['$event'])
@@ -122,6 +126,8 @@ export class VendorComponent implements OnInit {
         this.paginator.length = list.totalCount;
       });
     });
+    this.listDelete=[];
+    this.selection.clear();
   }
   announceSortChange(sortState: Sort) {
     if (sortState.direction) {
@@ -154,8 +160,7 @@ export class VendorComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       var res = result;
-      if (res)
-      {
+      if (res) {
         this.notifier.notify('success', 'Chỉnh sửa thành công !');
         this.GetData();
       }
@@ -175,11 +180,10 @@ export class VendorComponent implements OnInit {
     const dialogRef = this.dialog.open(VendorCreateComponent, {
       width: '550px'
     });
-    
+
     dialogRef.afterClosed().subscribe(result => {
       var res = result;
-      if (res)
-      {
+      if (res) {
         this.notifier.notify('success', 'Thêm mới thành công !');
         this.GetData();
       }
@@ -188,19 +192,59 @@ export class VendorComponent implements OnInit {
 
   openDialogDelelte(model: VendorDTO): void {
     var val = document.getElementById("searchInput") as HTMLInputElement;
-
+    this.listDelete.push(model);
     const dialogRef = this.dialog.open(VendorDeleteComponent, {
       width: '550px',
-      data: model,
+      data:this.listDelete
     });
 
     dialogRef.afterClosed().subscribe(result => {
       var res = result;
-      if (res)
-      {
+      if (res) {
         this.notifier.notify('success', 'Xoá thành công !');
-        this.GetData();
+        this.GetData(); 
       }
     });
+  }
+  openDialogDeleteAll(): void {
+    var model = this.selection.selected;
+    var val = document.getElementById("searchInput") as HTMLInputElement;
+    this.listDelete=model;
+    const dialogRef = this.dialog.open(VendorDeleteComponent, {
+      width: '550px',
+      data: this.listDelete,
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      var res = result;
+      if (res) {
+        this.notifier.notify('success', 'Xoá thành công !');
+        this.GetData(); 
+      }
+    });
+  }
+  /** Whether the number of selected elements matches the total number of rows. */
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.data.length;
+    return numSelected === numRows;
+  }
+
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  masterToggle() {
+    if (this.isAllSelected()) {
+      this.selection.clear();
+      return;
+    }
+
+    this.selection.select(...this.dataSource.data);
+  }
+
+  /** The label for the checkbox on the passed row */
+  checkboxLabel(row?: VendorDTO): string {
+    if (!row) {
+      return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
+    }
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.id}`;
   }
 }
