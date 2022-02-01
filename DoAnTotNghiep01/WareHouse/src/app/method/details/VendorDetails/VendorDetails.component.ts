@@ -5,27 +5,22 @@ import { NotifierService } from 'angular-notifier';
 import { VendorDTO } from 'src/app/model/VendorDTO';
 import { VendorService } from 'src/app/service/VendorService.service';
 import { VendorValidator } from 'src/app/validator/VendorValidator';
-export interface DialogData {
-  animal: string;
-  name: string;
-}
 @Component({
-  selector: 'app-VendorEdit',
-  templateUrl: './VendorEdit.component.html',
-  styleUrls: ['./VendorEdit.component.scss']
+  selector: 'app-VendorDetails',
+  templateUrl: './VendorDetails.component.html',
+  styleUrls: ['./VendorDetails.component.scss']
 })
-export class VendorEditComponent implements OnInit {
-  title = "Chỉnh sửa nhà cung cấp";
+export class VendorDetailsComponent implements OnInit {
+  title="Thông tin chi tiết nhà cung cấp !";
   private readonly notifier!: NotifierService;
   success = false;
   form!: FormGroup;
   dt!: VendorDTO;
   options!: FormGroup;
   constructor(
-    public dialogRef: MatDialogRef<VendorEditComponent>,
+    public dialogRef: MatDialogRef<VendorDetailsComponent>,
     @Inject(MAT_DIALOG_DATA) public data: VendorDTO,
     private formBuilder: FormBuilder,
-    private service: VendorService,
     notifierService: NotifierService
   ) { this.notifier = notifierService; }
   ngOnInit() {
@@ -44,27 +39,6 @@ export class VendorEditComponent implements OnInit {
   get f() { return this.form.controls; }
   onNoClick(): void {
     this.dialogRef.close(false);
-  }
-  onSubmit() {
-    var test = new VendorValidator();
-    var msg = test.validate(this.form.value);
-    var check = JSON.stringify(msg) == '{}';
-    if (check == true)
-      this.service.EditVendor(this.form.value).subscribe(x => {
-        if (x.success)
-          this.dialogRef.close(x.success)
-        else
-          this.notifier.notify('error', x.errors["msg"][0]);
-      }
-      );
-    else {
-      var message='';
-      for (const [key, value] of Object.entries(msg)) {
-        message=message+" "+value;
-      }
-      this.notifier.notify('error', message);
-    }
-
   }
 }
 

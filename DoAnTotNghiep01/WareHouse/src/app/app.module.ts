@@ -31,6 +31,50 @@ import { VendorService } from './service/VendorService.service';
 import { VendorComponent } from './pages/Vendor/Vendor.component';
 import {CdkTreeModule} from '@angular/cdk/tree';
 import { VendorEditComponent } from './method/edit/VendorEdit/VendorEdit.component';
+import { NotifierModule,NotifierOptions } from 'angular-notifier';
+import { VendorDetailsComponent } from './method/details/VendorDetails/VendorDetails.component';
+import { VendorCreateComponent } from './method/create/VendorCreate/VendorCreate.component';
+import { VendorDeleteComponent } from './method/delete/VendorDelete/VendorDelete.component';
+const customNotifierOptions: NotifierOptions = {
+  position: {
+		horizontal: {
+			position: 'middle',
+			distance: 12
+		},
+		vertical: {
+			position: 'bottom',
+			distance: 100,
+			gap: 10
+		}
+	},
+  theme: 'material',
+  behaviour: {
+    autoHide: 3000,
+    onClick: 'hide',
+    onMouseover: 'pauseAutoHide',
+    showDismissButton: true,
+    stacking: 4
+  },
+  animations: {
+    enabled: true,
+    show: {
+      preset: 'slide',
+      speed: 300,
+      easing: 'ease'
+    },
+    hide: {
+      preset: 'fade',
+      speed: 300,
+      easing: 'ease',
+      offset: 50
+    },
+    shift: {
+      speed: 300,
+      easing: 'ease'
+    },
+    overlap: 150
+  }
+};
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,7 +84,10 @@ import { VendorEditComponent } from './method/edit/VendorEdit/VendorEdit.compone
     WareHouseLimitComponent,
     HomeComponent,
     VendorComponent,
-    VendorEditComponent
+    VendorEditComponent,
+    VendorDetailsComponent,
+    VendorCreateComponent,
+    VendorDeleteComponent
   ],
   imports: [
     BrowserModule,
@@ -65,7 +112,8 @@ import { VendorEditComponent } from './method/edit/VendorEdit/VendorEdit.compone
     MatGridListModule,
     AngularSplitModule,
     MatTreeModule,
-    CdkTreeModule
+    CdkTreeModule,
+    NotifierModule.withConfig(customNotifierOptions)
   ],
   providers: [VendorService],
   bootstrap: [AppComponent]

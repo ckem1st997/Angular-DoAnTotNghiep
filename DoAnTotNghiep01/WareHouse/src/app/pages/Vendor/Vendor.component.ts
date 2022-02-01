@@ -14,13 +14,20 @@ import { TreeView } from 'src/app/model/TreeView';
 import { ExampleFlatNode } from 'src/app/model/ExampleFlatNode';
 import { WareHouseBenginingComponent } from '../WareHouseBengining/WareHouseBengining.component';
 import { VendorEditComponent } from 'src/app/method/edit/VendorEdit/VendorEdit.component';
-
+import { NotifierService } from 'angular-notifier';
+import { VendorDetailsComponent } from 'src/app/method/details/VendorDetails/VendorDetails.component';
+import { VendorCreateComponent } from 'src/app/method/create/VendorCreate/VendorCreate.component';
+import { Guid } from 'src/app/extension/Guid';
+import { VendorDeleteComponent } from 'src/app/method/delete/VendorDelete/VendorDelete.component';
 @Component({
   selector: 'app-Vendor',
   templateUrl: './Vendor.component.html',
   styleUrls: ['./Vendor.component.scss']
 })
 export class VendorComponent implements OnInit {
+  //noti
+  //noti
+  private readonly notifier!: NotifierService;
   //tree-view
   private _transformer = (node: TreeView, level: number) => {
     return {
@@ -52,10 +59,10 @@ export class VendorComponent implements OnInit {
   name: string = '';
   checkedl = false;
   totalRows = 0;
-  pageSize = 5;
+  pageSize = 15;
   currentPage = 0;
-  pageSizeOptions: number[] = [5, 50, 100];
-  displayedColumns: string[] = ['id', 'name', 'code', 'address', 'phone', 'email','contactPerson', 'inactive', 'method'];
+  pageSizeOptions: number[] = [15, 50, 100];
+  displayedColumns: string[] = ['id', 'name', 'code', 'address', 'phone', 'email', 'contactPerson', 'inactive', 'method'];
   dataSource = new MatTableDataSource<VendorDTO>();
   model: VendorSearchModel = {
     active: null,
@@ -79,7 +86,8 @@ export class VendorComponent implements OnInit {
   paginator!: MatPaginator;
   @ViewChild(MatSort)
   sort!: MatSort;
-  constructor(private service: VendorService, private _liveAnnouncer: LiveAnnouncer, public dialog: MatDialog) {
+  constructor(private service: VendorService, private _liveAnnouncer: LiveAnnouncer, public dialog: MatDialog, notifierService: NotifierService) {
+    this.notifier = notifierService;
   }
   hasChild = (_: number, node: ExampleFlatNode) => node.expandable;
   ngAfterViewInit() {
@@ -106,10 +114,6 @@ export class VendorComponent implements OnInit {
   }
   lll(l: string) {
     console.log(l);
-    // var val = document.getElementById("searchInput") as HTMLInputElement;
-    // this.model.keySearch =l;
-    // this.model.active=this.checkedl;
-    // this.GetData();
   }
   GetData() {
     this.service.getList(this.model).subscribe(list => {
@@ -140,7 +144,7 @@ export class VendorComponent implements OnInit {
     this.model.active = this.checkedl;
     this.GetData();
   }
-  openDialog(model:VendorDTO): void {
+  openDialog(model: VendorDTO): void {
     var val = document.getElementById("searchInput") as HTMLInputElement;
 
     const dialogRef = this.dialog.open(VendorEditComponent, {
@@ -149,8 +153,54 @@ export class VendorComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      this.animal = result;
+      var res = result;
+      if (res)
+      {
+        this.notifier.notify('success', 'Chỉnh sửa thành công !');
+        this.GetData();
+      }
+    });
+  }
+  openDialogDetals(model: VendorDTO): void {
+    var val = document.getElementById("searchInput") as HTMLInputElement;
+
+    const dialogRef = this.dialog.open(VendorDetailsComponent, {
+      width: '550px',
+      data: model,
+    });
+  }
+  openDialogCreate(): void {
+    var val = document.getElementById("searchInput") as HTMLInputElement;
+
+    const dialogRef = this.dialog.open(VendorCreateComponent, {
+      width: '550px'
+    });
+    
+    dialogRef.afterClosed().subscribe(result => {
+      var res = result;
+      if (res)
+      {
+        this.notifier.notify('success', 'Thêm mới thành công !');
+        this.GetData();
+      }
+    });
+  }
+
+  openDialogDelelte(model: VendorDTO): void {
+    var val = document.getElementById("searchInput") as HTMLInputElement;
+
+    const dialogRef = this.dialog.open(VendorDeleteComponent, {
+      width: '550px',
+      data: model,
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      var res = result;
+      if (res)
+      {
+        this.notifier.notify('success', 'Xoá thành công !');
+        this.GetData();
+      }
     });
   }
 }
