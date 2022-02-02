@@ -23,6 +23,8 @@
     "angular-notifier": "^9.1.0",
     "angular-split": "^13.1.0",
     "fluentvalidation-ts": "^2.2.2",
+    "ng-select2": "^1.4.1",
+    "ng-select2-component": "^8.0.6",
     "rxjs": "~7.4.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"

@@ -34,9 +34,7 @@ export class WarehouseService {
   }
 
   getById(id:string): Observable<ResultMessageResponse<WareHouseDTO>> {
-    var param = this.GetParams(search);
-    var check = search.active == null ? '' : search.active;
-    var url = this.baseUrl + `WareHouses/get-list?KeySearch=` + search.keySearch + `&Active=` + check + `&Skip=` + search.skip + `&Take=` + search.take + ``;
+    var url = this.baseUrl + `WareHouses/get-list?`;
     return this.http.get<ResultMessageResponse<WareHouseDTO>>(url, this.httpOptions).pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(this.handleError) // then handle the error

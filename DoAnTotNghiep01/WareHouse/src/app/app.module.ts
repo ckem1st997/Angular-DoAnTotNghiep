@@ -35,6 +35,10 @@ import { NotifierModule,NotifierOptions } from 'angular-notifier';
 import { VendorDetailsComponent } from './method/details/VendorDetails/VendorDetails.component';
 import { VendorCreateComponent } from './method/create/VendorCreate/VendorCreate.component';
 import { VendorDeleteComponent } from './method/delete/VendorDelete/VendorDelete.component';
+import { FormsearchComponent } from './method/search/formsearch/formsearch.component';
+import { WareHouseComponent } from './pages/WareHouse/WareHouse.component';
+import { WareHouseCreateComponent } from './method/create/WareHouseCreate/WareHouseCreate.component';
+import { WareHouseEditComponent } from './method/edit/WareHouseEdit/WareHouseEdit.component';
 const customNotifierOptions: NotifierOptions = {
   position: {
 		horizontal: {
@@ -87,7 +91,11 @@ const customNotifierOptions: NotifierOptions = {
     VendorEditComponent,
     VendorDetailsComponent,
     VendorCreateComponent,
-    VendorDeleteComponent
+    VendorDeleteComponent,
+    FormsearchComponent,
+    WareHouseComponent,
+    WareHouseCreateComponent,
+    WareHouseEditComponent
   ],
   imports: [
     BrowserModule,
@@ -114,6 +122,7 @@ const customNotifierOptions: NotifierOptions = {
     MatTreeModule,
     CdkTreeModule,
     NotifierModule.withConfig(customNotifierOptions)
+
   ],
   providers: [VendorService],
   bootstrap: [AppComponent]

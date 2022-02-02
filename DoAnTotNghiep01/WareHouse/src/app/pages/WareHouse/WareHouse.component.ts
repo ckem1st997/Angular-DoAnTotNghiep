@@ -161,7 +161,7 @@ export class WareHouseComponent implements OnInit {
 
     const dialogRef = this.dialog.open(WareHouseEditComponent, {
       width: '550px',
-      data: model,
+  //    data: model,
     });
 
     dialogRef.afterClosed().subscribe(result => {
