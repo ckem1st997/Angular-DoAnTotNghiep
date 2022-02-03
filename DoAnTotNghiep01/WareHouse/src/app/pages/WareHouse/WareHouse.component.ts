@@ -25,6 +25,8 @@ import { WareHouseDTO } from 'src/app/model/WareHouseDTO';
 import { WarehouseService } from 'src/app/service/warehouse.service';
 import { WareHouseCreateComponent } from 'src/app/method/create/WareHouseCreate/WareHouseCreate.component';
 import { WareHouseEditComponent } from 'src/app/method/edit/WareHouseEdit/WareHouseEdit.component';
+import { WareHouse } from 'src/app/entity/WareHouse';
+import { WareHouseDetailsComponent } from 'src/app/method/details/WareHouseDetails/WareHouseDetails.component';
 
 @Component({
   selector: 'app-WareHouse',
@@ -72,7 +74,7 @@ export class WareHouseComponent implements OnInit {
   pageSize = 15;
   currentPage = 0;
   pageSizeOptions: number[] = [15, 50, 100];
-  displayedColumns: string[] = ['select', 'id', 'name', 'code', 'address', 'inactive', 'method'];
+  displayedColumns: string[] = ['select', 'id', 'name', 'code', 'address','description','parentId', 'inactive', 'method'];
   dataSource = new MatTableDataSource<WareHouseDTO>();
   model: VendorSearchModel = {
     active: null,
@@ -156,12 +158,12 @@ export class WareHouseComponent implements OnInit {
     this.model.active = this.checkedl;
     this.GetData();
   }
-  openDialog(id:string): void {
+  openDialog(model:WareHouseDTO): void {
     var val = document.getElementById("searchInput") as HTMLInputElement;
 
     const dialogRef = this.dialog.open(WareHouseEditComponent, {
       width: '550px',
-  //    data: model,
+      data: model,
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -175,7 +177,7 @@ export class WareHouseComponent implements OnInit {
   openDialogDetals(model: WareHouseDTO): void {
     var val = document.getElementById("searchInput") as HTMLInputElement;
 
-    const dialogRef = this.dialog.open(VendorDetailsComponent, {
+    const dialogRef = this.dialog.open(WareHouseDetailsComponent, {
       width: '550px',
       data: model,
     });

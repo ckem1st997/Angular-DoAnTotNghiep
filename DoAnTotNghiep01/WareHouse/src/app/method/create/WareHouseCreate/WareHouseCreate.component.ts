@@ -2,7 +2,6 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NotifierService } from 'angular-notifier';
-import { Select2Data, Select2Group } from 'ng-select2-component';
 import { Guid } from 'src/app/extension/Guid';
 import { ResultMessageResponse } from 'src/app/model/ResultMessageResponse';
 import { VendorDTO } from 'src/app/model/VendorDTO';
@@ -18,7 +17,7 @@ import { WareHouseValidator } from 'src/app/validator/WareHouseValidator';
   styleUrls: ['./WareHouseCreate.component.scss']
 })
 export class WareHouseCreateComponent implements OnInit {
-  title = "Chỉnh sửa kho vận";
+  title = "Thêm kho vận";
   private readonly notifier!: NotifierService;
   success = false;
   form!: FormGroup;

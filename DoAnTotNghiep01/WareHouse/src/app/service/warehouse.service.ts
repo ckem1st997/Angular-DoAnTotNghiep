@@ -61,7 +61,7 @@ export class WarehouseService {
   Edit(model: WareHouse): Observable<ResultMessageResponse<WareHouse>> {
     var url = this.baseUrl + `WareHouses/edit`;
     return this.http.post<ResultMessageResponse<WareHouse>>(url, model, this.httpOptions).pipe(
-      tap(_ => console.log(`edit vendor id=${model.id}`)),
+      tap(_ => console.log(`edit WareHouses id=${model.id}`)),
       catchError(this.handleError) // then handle the error
     );
   }
@@ -87,7 +87,7 @@ export class WarehouseService {
     var url = this.baseUrl + `WareHouses/get-tree-view?Active=true`;
     return this.http.get<ResultMessageResponse<TreeView>>(url, this.httpOptions).pipe(
       retry(3), // retry a failed request up to 3 times
-      catchError(this.handleError) // then handle the error
+      catchError(this.handleError) 
     );
   }
   private handleError(error: HttpErrorResponse) {
