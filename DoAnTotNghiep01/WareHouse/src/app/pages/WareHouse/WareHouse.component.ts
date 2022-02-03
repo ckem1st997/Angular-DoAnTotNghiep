@@ -27,6 +27,8 @@ import { WareHouseCreateComponent } from 'src/app/method/create/WareHouseCreate/
 import { WareHouseEditComponent } from 'src/app/method/edit/WareHouseEdit/WareHouseEdit.component';
 import { WareHouse } from 'src/app/entity/WareHouse';
 import { WareHouseDetailsComponent } from 'src/app/method/details/WareHouseDetails/WareHouseDetails.component';
+import { WareHouseDeleteComponent } from 'src/app/method/delete/WareHouseDelete/WareHouseDelete.component';
+import { FormSearchWareHouseComponent } from 'src/app/method/search/FormSearchWareHouse/FormSearchWareHouse.component';
 
 @Component({
   selector: 'app-WareHouse',
@@ -199,9 +201,8 @@ export class WareHouseComponent implements OnInit {
   }
 
   openDialogDelelte(model: WareHouseDTO): void {
-    var val = document.getElementById("searchInput") as HTMLInputElement;
     this.listDelete.push(model);
-    const dialogRef = this.dialog.open(VendorDeleteComponent, {
+    const dialogRef = this.dialog.open(WareHouseDeleteComponent, {
       width: '550px',
       data: this.listDelete
     });
@@ -216,31 +217,35 @@ export class WareHouseComponent implements OnInit {
   }
   openDialogDeleteAll(): void {
     var model = this.selection.selected;
-    var val = document.getElementById("searchInput") as HTMLInputElement;
-    this.listDelete = model;
-    const dialogRef = this.dialog.open(VendorDeleteComponent, {
-      width: '550px',
-      data: this.listDelete,
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      var res = result;
-      if (res) {
-        this.notifier.notify('success', 'Xoá thành công !');
-        this.GetData();
-      }
-    });
+    if(model.length>0)
+    {
+      this.listDelete = model;
+      const dialogRef = this.dialog.open(WareHouseDeleteComponent, {
+        width: '550px',
+        data: this.listDelete,
+      });
+  
+      dialogRef.afterClosed().subscribe(result => {
+        var res = result;
+        if (res) {
+          this.notifier.notify('success', 'Xoá thành công !');
+          this.GetData();
+        }
+      });
+    }
+    else
+    this.notifier.notify('warning',"Bạn chưa chọn kho nào !");
+   
   }
   //searchQueryDialog
   searchQueryDialog(): void {
-    const dialogRef = this.dialog.open(FormsearchComponent, {
+    const dialogRef = this.dialog.open(FormSearchWareHouseComponent, {
       width: '550px',
       height: '350px',
     });
 
     dialogRef.afterClosed().subscribe(result => {
       var res = result;
-      console.log(res);
       this.model.keySearch = res.key;
       this.model.active = res.inactive;
       this.GetData();

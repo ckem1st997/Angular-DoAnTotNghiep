@@ -28,7 +28,7 @@ import { FormsearchComponent } from 'src/app/method/search/formsearch/formsearch
 })
 export class VendorComponent implements OnInit {
   //
-  listDelete:VendorDTO[]=[];
+  listDelete: VendorDTO[] = [];
   //select
   selection = new SelectionModel<VendorDTO>(true, []);
   //noti
@@ -127,7 +127,7 @@ export class VendorComponent implements OnInit {
         this.paginator.length = list.totalCount;
       });
     });
-    this.listDelete=[];
+    this.listDelete = [];
     this.selection.clear();
   }
   announceSortChange(sortState: Sort) {
@@ -196,45 +196,51 @@ export class VendorComponent implements OnInit {
     this.listDelete.push(model);
     const dialogRef = this.dialog.open(VendorDeleteComponent, {
       width: '550px',
-      data:this.listDelete
+      data: this.listDelete
     });
 
     dialogRef.afterClosed().subscribe(result => {
       var res = result;
       if (res) {
         this.notifier.notify('success', 'Xoá thành công !');
-        this.GetData(); 
+        this.GetData();
       }
     });
   }
   openDialogDeleteAll(): void {
     var model = this.selection.selected;
-    var val = document.getElementById("searchInput") as HTMLInputElement;
-    this.listDelete=model;
-    const dialogRef = this.dialog.open(VendorDeleteComponent, {
-      width: '550px',
-      data: this.listDelete,
-    });
+    if (model.length > 0) {
+      var val = document.getElementById("searchInput") as HTMLInputElement;
+      this.listDelete = model;
+      const dialogRef = this.dialog.open(VendorDeleteComponent, {
+        width: '550px',
+        data: this.listDelete,
+      });
 
-    dialogRef.afterClosed().subscribe(result => {
-      var res = result;
-      if (res) {
-        this.notifier.notify('success', 'Xoá thành công !');
-        this.GetData(); 
-      }
-    });
+      dialogRef.afterClosed().subscribe(result => {
+        var res = result;
+        if (res) {
+          this.notifier.notify('success', 'Xoá thành công !');
+          this.GetData();
+        }
+      });
+    }
+    else
+      this.notifier.notify('warning', "Bạn chưa nhà cung cấp nào !");
+
+
   }
   //searchQueryDialog
   searchQueryDialog(): void {
     const dialogRef = this.dialog.open(FormsearchComponent, {
       width: '550px',
-      height:'350px',
+      height: '350px',
     });
 
     dialogRef.afterClosed().subscribe(result => {
       var res = result;
       console.log(res);
-      this.model.keySearch =res.key;
+      this.model.keySearch = res.key;
       this.model.active = res.inactive;
       this.GetData();
     });

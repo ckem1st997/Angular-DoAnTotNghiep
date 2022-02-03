@@ -2,20 +2,19 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NotifierService } from 'angular-notifier';
-import { VendorService } from 'src/app/service/VendorService.service';
+
 
 @Component({
-  selector: 'app-formsearch',
-  templateUrl: './formsearch.component.html',
-  styleUrls: ['./formsearch.component.scss']
+  selector: 'app-FormSearchWareHouse',
+  templateUrl: './FormSearchWareHouse.component.html',
+  styleUrls: ['./FormSearchWareHouse.component.scss']
 })
-export class FormsearchComponent implements OnInit {
+export class FormSearchWareHouseComponent implements OnInit {
   private readonly notifier!: NotifierService;
   form!: FormGroup;
   constructor(
-    public dialogRef: MatDialogRef<FormsearchComponent>,
+    public dialogRef: MatDialogRef<FormSearchWareHouseComponent>,
     private formBuilder: FormBuilder,
-    private service: VendorService,
     notifierService: NotifierService
   ) { this.notifier = notifierService; }
   ngOnInit() {

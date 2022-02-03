@@ -40,6 +40,8 @@ import { WareHouseComponent } from './pages/WareHouse/WareHouse.component';
 import { WareHouseCreateComponent } from './method/create/WareHouseCreate/WareHouseCreate.component';
 import { WareHouseEditComponent } from './method/edit/WareHouseEdit/WareHouseEdit.component';
 import { WareHouseDetailsComponent } from './method/details/WareHouseDetails/WareHouseDetails.component';
+import { WareHouseDeleteComponent } from './method/delete/WareHouseDelete/WareHouseDelete.component';
+import { FormSearchWareHouseComponent } from './method/search/FormSearchWareHouse/FormSearchWareHouse.component';
 const customNotifierOptions: NotifierOptions = {
   position: {
     horizontal: {
@@ -97,7 +99,9 @@ const customNotifierOptions: NotifierOptions = {
     WareHouseComponent,
     WareHouseCreateComponent,
     WareHouseEditComponent,
-    WareHouseDetailsComponent
+    WareHouseDetailsComponent,
+    WareHouseDeleteComponent,
+    FormSearchWareHouseComponent
   ],
   imports: [
     BrowserModule,

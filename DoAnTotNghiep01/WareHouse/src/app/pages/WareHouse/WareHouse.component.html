@@ -36,9 +36,7 @@
 <div id="viewcheck" [hidden]="!checkSizeWindows">
 
   <div class="" style="border-top: 1px solid #b49c9c;overflow: auto;height: 77vh;">
-    <!-- <cdk-virtual-scroll-viewport appendOnly style="height: 95%;" itemSize="150" class="example-viewport"> -->
     <table cdk-table matSort (matSortChange)="announceSortChange($event)" class="" mat-table [dataSource]="dataSource">
-      <!-- Checkbox Column -->
       <ng-container matColumnDef="select">
         <th mat-header-cell *matHeaderCellDef>
           <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
@@ -102,18 +100,11 @@
           <button mat-icon-button color="warn" (click)="openDialogDelelte(element)">
             <mat-icon class="mat-18">delete</mat-icon>
           </button>
-
         </td>
       </ng-container>
-
       <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
     </table>
-    <!-- </cdk-virtual-scroll-viewport> -->
-
-
-
   </div>
   <mat-paginator style="height: 45px;width: 100%;" #paginator [length]="totalRows" [pageIndex]="currentPage"
     [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="pageChanged($event)" showFirstLastButtons

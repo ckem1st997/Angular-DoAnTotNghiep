@@ -42,7 +42,6 @@ export class WarehouseService {
   }
 
   getList(search: WareHouseSearchModel): Observable<ResultMessageResponse<WareHouseDTO>> {
-    var param = this.GetParams(search);
     var check = search.active == null ? '' : search.active;
     var url = this.baseUrl + `WareHouses/get-list?KeySearch=` + search.keySearch + `&Active=` + check + `&Skip=` + search.skip + `&Take=` + search.take + ``;
     return this.http.get<ResultMessageResponse<WareHouseDTO>>(url, this.httpOptions).pipe(
