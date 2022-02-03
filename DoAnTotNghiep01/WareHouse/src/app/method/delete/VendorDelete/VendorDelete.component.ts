@@ -5,7 +5,6 @@ import { NotifierService } from 'angular-notifier';
 import { Guid } from 'src/app/extension/Guid';
 import { VendorDTO } from 'src/app/model/VendorDTO';
 import { VendorService } from 'src/app/service/VendorService.service';
-import { VendorValidator } from 'src/app/validator/VendorValidator';
 
 @Component({
   selector: 'app-VendorDelete',
