@@ -10,12 +10,14 @@ import { WareHouseComponent } from './pages/WareHouse/WareHouse.component';
 import { UnitComponent } from './pages/Unit/Unit.component';
 import { WareHouseItemCategoryService } from './service/WareHouseItemCategory.service';
 import { WareHouseItemCategoryComponent } from './pages/WareHouseItemCategory/WareHouseItemCategory.component';
+import { WareHouseItemComponent } from './pages/WareHouseItem/WareHouseItem.component';
 
 const routes: Routes = [
   { path: 'warehouse-limit', component: WareHouseLimitComponent },
   { path: 'warehouse-book', component: WareHouseBookComponent },
   { path: 'warehouse-benging', component: WareHouseBenginingComponent },
   { path: 'warehouse-item-category', component: WareHouseItemCategoryComponent },
+  { path: 'warehouse-item', component: WareHouseItemComponent },
   { path: 'vendor', component: VendorComponent },
   { path: 'warehouse', component:  WareHouseComponent },
   { path: 'unit', component:  UnitComponent },

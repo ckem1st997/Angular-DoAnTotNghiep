@@ -52,6 +52,7 @@ import { WareHouseItemCategoryCreateComponent } from './method/create/WareHouseI
 import { WareHouseItemCategoryEditComponent } from './method/edit/WareHouseItemCategoryEdit/WareHouseItemCategoryEdit.component';
 import { WareHouseItemCategoryDelelteComponent } from './method/delete/WareHouseItemCategoryDelelte/WareHouseItemCategoryDelelte.component';
 import { WareHouseItemCategoryEditDetailsComponent } from './method/details/WareHouseItemCategoryEditDetails/WareHouseItemCategoryEditDetails.component';
+import { WareHouseItemComponent } from './pages/WareHouseItem/WareHouseItem.component';
 const customNotifierOptions: NotifierOptions = {
   position: {
     horizontal: {
@@ -121,7 +122,8 @@ const customNotifierOptions: NotifierOptions = {
     WareHouseItemCategoryCreateComponent,
     WareHouseItemCategoryEditComponent,
     WareHouseItemCategoryDelelteComponent,
-    WareHouseItemCategoryEditDetailsComponent
+    WareHouseItemCategoryEditDetailsComponent,
+    WareHouseItemComponent
   ],
   imports: [
     BrowserModule,

@@ -29,9 +29,9 @@ export class VendorCreateComponent implements OnInit {
   ngOnInit() {
     this.dt = this.data;
     this.form = this.formBuilder.group({
-      id:Guid.newGuid(),
-      code:'',
-      name:'',
+      id: Guid.newGuid(),
+      code: '',
+      name: '',
       address: '',
       phone: '',
       email: null,
@@ -51,14 +51,18 @@ export class VendorCreateComponent implements OnInit {
       this.service.AddVendor(this.form.value).subscribe(x => {
         if (x.success)
           this.dialogRef.close(x.success)
-        else
-          this.notifier.notify('error', x.errors["msg"][0]);
+        else {
+          if (x.errors["msg"] != undefined)
+            this.notifier.notify('error', x.errors["msg"][0]);
+          else
+            this.notifier.notify('error', x.message);
+        }
       }
       );
     else {
-      var message='';
+      var message = '';
       for (const [key, value] of Object.entries(msg)) {
-        message=message+" "+value;
+        message = message + " " + value;
       }
       this.notifier.notify('error', message);
     }

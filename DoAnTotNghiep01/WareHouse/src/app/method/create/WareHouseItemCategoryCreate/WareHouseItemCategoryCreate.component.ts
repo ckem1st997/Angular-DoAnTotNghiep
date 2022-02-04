@@ -71,11 +71,10 @@ export class WareHouseItemCategoryCreateComponent implements OnInit {
         if (x.success)
           this.dialogRef.close(x.success)
         else {
-          console.log(x.errors["msg"][0]);
-          if (x.errors["msg"][0] != undefined)
-            this.notifier.notify('error', x.errors["msg"][0]);
-          else
-            this.notifier.notify('error', x.message);
+          if (x.errors["msg"] != undefined)
+          this.notifier.notify('error', x.errors["msg"][0]);
+        else
+          this.notifier.notify('error', x.message);
         }
 
       }

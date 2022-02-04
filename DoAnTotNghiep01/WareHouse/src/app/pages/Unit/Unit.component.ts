@@ -213,7 +213,7 @@ export class UnitComponent implements OnInit {
       });
     }
     else
-      this.notifier.notify('warning', "Bạn chưa chọn kho nào !");
+      this.notifier.notify('warning', "Bạn chưa chọn đơn vị tính nào !");
 
   }
   //searchQueryDialog

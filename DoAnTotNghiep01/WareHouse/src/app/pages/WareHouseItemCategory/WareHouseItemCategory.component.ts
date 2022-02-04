@@ -196,7 +196,7 @@ export class WareHouseItemCategoryComponent implements OnInit {
       });
     }
     else
-      this.notifier.notify('warning', "Bạn chưa chọn kho nào !");
+      this.notifier.notify('warning', "Bạn chưa loại vật tư nào !");
 
   }
   //searchQueryDialog
