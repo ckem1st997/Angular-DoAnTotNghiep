@@ -73,7 +73,12 @@ export class WareHouseCreateComponent implements OnInit {
         if (x.success)
           this.dialogRef.close(x.success)
         else
-          this.notifier.notify('error', x.errors["msg"][0]);
+          {
+            if (x.errors["msg"] != undefined)
+              this.notifier.notify('error', x.errors["msg"][0]);
+            else
+              this.notifier.notify('error', x.message);
+          }
       }
       );
     else {

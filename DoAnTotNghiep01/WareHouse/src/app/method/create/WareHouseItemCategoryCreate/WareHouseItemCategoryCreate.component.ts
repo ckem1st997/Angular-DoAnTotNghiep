@@ -70,8 +70,14 @@ export class WareHouseItemCategoryCreateComponent implements OnInit {
       this.service.Add(this.form.value).subscribe(x => {
         if (x.success)
           this.dialogRef.close(x.success)
-        else
-          this.notifier.notify('error', x.errors["msg"][0]);
+        else {
+          console.log(x.errors["msg"][0]);
+          if (x.errors["msg"][0] != undefined)
+            this.notifier.notify('error', x.errors["msg"][0]);
+          else
+            this.notifier.notify('error', x.message);
+        }
+
       }
       );
     else {
