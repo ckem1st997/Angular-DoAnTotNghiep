@@ -47,7 +47,7 @@ export class WareHouseItemComponent implements OnInit {
  pageSize = 15;
  currentPage = 0;
  pageSizeOptions: number[] = [15, 50, 100];
- displayedColumns: string[] = ['select', 'id', 'name', 'code', 'description', 'inactive', 'method'];
+ displayedColumns: string[] = ['select', 'id', 'name', 'code', 'description','categoryId','vendorId','unitId', 'inactive', 'method'];
  dataSource = new MatTableDataSource<WareHouseItemDTO>();
  model: WareHouseSearchModel = {
    active: null,
