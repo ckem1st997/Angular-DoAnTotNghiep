@@ -7,12 +7,12 @@ export class UnitValidator extends Validator<Unit> {
 
         this.ruleFor('unitName')
             .notEmpty()
-            .notNull()
             .withMessage('Xin vui lòng nhập tên của bạn !')
-            .minLength(5).withMessage('Độ dài min là 5')
-            .maxLength(9).withMessage('Độ dài max là 9');
-            this.ruleFor('id')
+            .notNull()
+            .withMessage('Xin vui lòng nhập tên của bạn !');
+        this.ruleFor('id')
             .notEmpty()
+            .withMessage('Xin vui lòng nhập id của bạn !')
             .notNull()
             .withMessage('Xin vui lòng nhập id của bạn !');
     }

@@ -1,46 +1,35 @@
+import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { SelectionModel } from '@angular/cdk/collections';
 import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
-import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FlatTreeControl } from '@angular/cdk/tree';
-import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
-import { VendorService } from 'src/app/service/VendorService.service';
-import { ResultMessageResponse } from 'src/app/model/ResultMessageResponse';
-import { VendorDTO } from 'src/app/model/VendorDTO';
-import { VendorSearchModel } from 'src/app/model/VendorSearchModel';
-import { TreeView } from 'src/app/model/TreeView';
-import { ExampleFlatNode } from 'src/app/model/ExampleFlatNode';
-import { WareHouseBenginingComponent } from '../WareHouseBengining/WareHouseBengining.component';
-import { VendorEditComponent } from 'src/app/method/edit/VendorEdit/VendorEdit.component';
+import { MatTableDataSource } from '@angular/material/table';
 import { NotifierService } from 'angular-notifier';
-import { VendorDetailsComponent } from 'src/app/method/details/VendorDetails/VendorDetails.component';
-import { VendorCreateComponent } from 'src/app/method/create/VendorCreate/VendorCreate.component';
-import { Guid } from 'src/app/extension/Guid';
-import { VendorDeleteComponent } from 'src/app/method/delete/VendorDelete/VendorDelete.component';
-import { SelectionModel } from '@angular/cdk/collections';
-import { FormsearchComponent } from 'src/app/method/search/formsearch/formsearch.component';
-import { WareHouseDTO } from 'src/app/model/WareHouseDTO';
-import { WarehouseService } from 'src/app/service/warehouse.service';
 import { WareHouseCreateComponent } from 'src/app/method/create/WareHouseCreate/WareHouseCreate.component';
-import { WareHouseEditComponent } from 'src/app/method/edit/WareHouseEdit/WareHouseEdit.component';
-import { WareHouse } from 'src/app/entity/WareHouse';
-import { WareHouseDetailsComponent } from 'src/app/method/details/WareHouseDetails/WareHouseDetails.component';
+import { WareHouseItemCategoryCreateComponent } from 'src/app/method/create/WareHouseItemCategoryCreate/WareHouseItemCategoryCreate.component';
 import { WareHouseDeleteComponent } from 'src/app/method/delete/WareHouseDelete/WareHouseDelete.component';
+import { WareHouseItemCategoryDelelteComponent } from 'src/app/method/delete/WareHouseItemCategoryDelelte/WareHouseItemCategoryDelelte.component';
+import { WareHouseDetailsComponent } from 'src/app/method/details/WareHouseDetails/WareHouseDetails.component';
+import { WareHouseItemCategoryEditDetailsComponent } from 'src/app/method/details/WareHouseItemCategoryEditDetails/WareHouseItemCategoryEditDetails.component';
+import { WareHouseEditComponent } from 'src/app/method/edit/WareHouseEdit/WareHouseEdit.component';
+import { WareHouseItemCategoryEditComponent } from 'src/app/method/edit/WareHouseItemCategoryEdit/WareHouseItemCategoryEdit.component';
 import { FormSearchWareHouseComponent } from 'src/app/method/search/FormSearchWareHouse/FormSearchWareHouse.component';
+import { ResultMessageResponse } from 'src/app/model/ResultMessageResponse';
+import { WareHouseItemCategoryDTO } from 'src/app/model/WareHouseItemCategoryDTO';
 import { WareHouseSearchModel } from 'src/app/model/WareHouseSearchModel';
+import { WareHouseItemCategoryService } from 'src/app/service/WareHouseItemCategory.service';
 
 @Component({
-  selector: 'app-WareHouse',
-  templateUrl: './WareHouse.component.html',
-  styleUrls: ['./WareHouse.component.scss']
+  selector: 'app-WareHouseItemCategory',
+  templateUrl: './WareHouseItemCategory.component.html',
+  styleUrls: ['./WareHouseItemCategory.component.scss']
 })
-export class WareHouseComponent implements OnInit {
+export class WareHouseItemCategoryComponent implements OnInit {
   //
-  listDelete: WareHouseDTO[] = [];
+  listDelete: WareHouseItemCategoryDTO[] = [];
   //select
-  selection = new SelectionModel<WareHouseDTO>(true, []);
+  selection = new SelectionModel<WareHouseItemCategoryDTO>(true, []);
   //noti
   private readonly notifier!: NotifierService;
   //tree-view
@@ -55,15 +44,15 @@ export class WareHouseComponent implements OnInit {
   pageSize = 15;
   currentPage = 0;
   pageSizeOptions: number[] = [15, 50, 100];
-  displayedColumns: string[] = ['select', 'id', 'name', 'code', 'address','description','parentId', 'inactive', 'method'];
-  dataSource = new MatTableDataSource<WareHouseDTO>();
+  displayedColumns: string[] = ['select', 'id', 'name', 'code', 'description', 'parentId', 'inactive', 'method'];
+  dataSource = new MatTableDataSource<WareHouseItemCategoryDTO>();
   model: WareHouseSearchModel = {
     active: null,
     keySearch: '',
     skip: this.currentPage * this.pageSize,
     take: this.pageSize
   };
-  list: ResultMessageResponse<WareHouseDTO> = {
+  list: ResultMessageResponse<WareHouseItemCategoryDTO> = {
     success: false,
     code: '',
     httpStatusCode: 0,
@@ -79,10 +68,9 @@ export class WareHouseComponent implements OnInit {
   paginator!: MatPaginator;
   @ViewChild(MatSort)
   sort!: MatSort;
-  constructor(private service: WarehouseService, private _liveAnnouncer: LiveAnnouncer, public dialog: MatDialog, notifierService: NotifierService) {
+  constructor(private service: WareHouseItemCategoryService, private _liveAnnouncer: LiveAnnouncer, public dialog: MatDialog, notifierService: NotifierService) {
     this.notifier = notifierService;
   }
-  hasChild = (_: number, node: ExampleFlatNode) => node.expandable;
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -135,10 +123,10 @@ export class WareHouseComponent implements OnInit {
     this.model.active = this.checkedl;
     this.GetData();
   }
-  openDialog(model:WareHouseDTO): void {
+  openDialog(model: WareHouseItemCategoryDTO): void {
     var val = document.getElementById("searchInput") as HTMLInputElement;
 
-    const dialogRef = this.dialog.open(WareHouseEditComponent, {
+    const dialogRef = this.dialog.open(WareHouseItemCategoryEditComponent, {
       width: '550px',
       data: model,
     });
@@ -151,10 +139,10 @@ export class WareHouseComponent implements OnInit {
       }
     });
   }
-  openDialogDetals(model: WareHouseDTO): void {
+  openDialogDetals(model: WareHouseItemCategoryDTO): void {
     var val = document.getElementById("searchInput") as HTMLInputElement;
 
-    const dialogRef = this.dialog.open(WareHouseDetailsComponent, {
+    const dialogRef = this.dialog.open(WareHouseItemCategoryEditDetailsComponent, {
       width: '550px',
       data: model,
     });
@@ -162,7 +150,7 @@ export class WareHouseComponent implements OnInit {
   openDialogCreate(): void {
     var val = document.getElementById("searchInput") as HTMLInputElement;
 
-    const dialogRef = this.dialog.open(WareHouseCreateComponent, {
+    const dialogRef = this.dialog.open(WareHouseItemCategoryCreateComponent, {
       width: '550px'
     });
 
@@ -175,9 +163,9 @@ export class WareHouseComponent implements OnInit {
     });
   }
 
-  openDialogDelelte(model: WareHouseDTO): void {
+  openDialogDelelte(model: WareHouseItemCategoryDTO): void {
     this.listDelete.push(model);
-    const dialogRef = this.dialog.open(WareHouseDeleteComponent, {
+    const dialogRef = this.dialog.open(WareHouseItemCategoryDelelteComponent, {
       width: '550px',
       data: this.listDelete
     });
@@ -192,14 +180,13 @@ export class WareHouseComponent implements OnInit {
   }
   openDialogDeleteAll(): void {
     var model = this.selection.selected;
-    if(model.length>0)
-    {
+    if (model.length > 0) {
       this.listDelete = model;
-      const dialogRef = this.dialog.open(WareHouseDeleteComponent, {
+      const dialogRef = this.dialog.open(WareHouseItemCategoryDelelteComponent, {
         width: '550px',
         data: this.listDelete,
       });
-  
+
       dialogRef.afterClosed().subscribe(result => {
         var res = result;
         if (res) {
@@ -209,8 +196,8 @@ export class WareHouseComponent implements OnInit {
       });
     }
     else
-    this.notifier.notify('warning',"Bạn chưa chọn kho nào !");
-   
+      this.notifier.notify('warning', "Bạn chưa chọn kho nào !");
+
   }
   //searchQueryDialog
   searchQueryDialog(): void {
@@ -244,7 +231,7 @@ export class WareHouseComponent implements OnInit {
   }
 
   /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: WareHouseDTO): string {
+  checkboxLabel(row?: WareHouseItemCategoryDTO): string {
     if (!row) {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }

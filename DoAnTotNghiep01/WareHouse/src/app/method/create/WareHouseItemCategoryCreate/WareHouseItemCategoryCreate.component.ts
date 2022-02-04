@@ -4,24 +4,25 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NotifierService } from 'angular-notifier';
 import { Guid } from 'src/app/extension/Guid';
 import { ResultMessageResponse } from 'src/app/model/ResultMessageResponse';
-import { UnitDTO } from 'src/app/model/UnitDTO';
-import { UnitService } from 'src/app/service/Unit.service';
-import { UnitValidator } from 'src/app/validator/UnitValidator';
+import { WareHouseItemCategoryDTO } from 'src/app/model/WareHouseItemCategoryDTO';
+import { WareHouseItemCategoryService } from 'src/app/service/WareHouseItemCategory.service';
+import { WareHouseValidator } from 'src/app/validator/WareHouseValidator';
+import { WareHouseCreateComponent } from '../WareHouseCreate/WareHouseCreate.component';
 
 @Component({
-  selector: 'app-UnitCreate',
-  templateUrl: './UnitCreate.component.html',
-  styleUrls: ['./UnitCreate.component.scss']
+  selector: 'app-WareHouseItemCategoryCreate',
+  templateUrl: './WareHouseItemCategoryCreate.component.html',
+  styleUrls: ['./WareHouseItemCategoryCreate.component.scss']
 })
-export class UnitCreateComponent implements OnInit {
+export class WareHouseItemCategoryCreateComponent implements OnInit {
 
-  title = "Thêm đơn vị tính";
+  title = "Thêm loại vật tư";
   private readonly notifier!: NotifierService;
   success = false;
   form!: FormGroup;
-  dt!: UnitDTO;
+  dt!: WareHouseItemCategoryDTO;
   options!: FormGroup;
-  listDropDown: ResultMessageResponse<UnitDTO> = {
+  listDropDown: ResultMessageResponse<WareHouseItemCategoryDTO> = {
     success: false,
     code: '',
     httpStatusCode: 0,
@@ -34,27 +35,35 @@ export class UnitCreateComponent implements OnInit {
     errors: {}
   }
   constructor(
-    public dialogRef: MatDialogRef<UnitCreateComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: UnitDTO,
+    public dialogRef: MatDialogRef<WareHouseCreateComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: WareHouseItemCategoryDTO,
     private formBuilder: FormBuilder,
-    private service: UnitService,
+    private service: WareHouseItemCategoryService,
     notifierService: NotifierService
   ) { this.notifier = notifierService; }
   ngOnInit() {
     this.dt = this.data;
     this.form = this.formBuilder.group({
       id: Guid.newGuid(),
-      unitName: '',
+      code: '',
+      name: '',
+      description: null,
+      parentId: null,
+      path: null,
       inactive: true,
     });
+    this.getDropDown();
   }
   get f() { return this.form.controls; }
   onNoClick(): void {
     this.dialogRef.close(false);
   }
+  getDropDown() {
+    this.service.getListDropDown().subscribe(x => this.listDropDown = x);
+  }
 
   onSubmit() {
-    var test = new UnitValidator();
+    var test = new WareHouseValidator();
     var msg = test.validate(this.form.value);
     var check = JSON.stringify(msg) == '{}';
     if (check == true)
@@ -75,5 +84,4 @@ export class UnitCreateComponent implements OnInit {
 
   }
 }
-
 

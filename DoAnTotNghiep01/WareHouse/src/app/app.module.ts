@@ -42,6 +42,16 @@ import { WareHouseEditComponent } from './method/edit/WareHouseEdit/WareHouseEdi
 import { WareHouseDetailsComponent } from './method/details/WareHouseDetails/WareHouseDetails.component';
 import { WareHouseDeleteComponent } from './method/delete/WareHouseDelete/WareHouseDelete.component';
 import { FormSearchWareHouseComponent } from './method/search/FormSearchWareHouse/FormSearchWareHouse.component';
+import { UnitComponent } from './pages/Unit/Unit.component';
+import { UnitCreateComponent } from './method/create/UnitCreate/UnitCreate.component';
+import { UnitEditComponent } from './method/edit/UnitEdit/UnitEdit.component';
+import { UnitDetailsComponent } from './method/details/UnitDetails/UnitDetails.component';
+import { UnitDeleteComponent } from './method/delete/UnitDelete/UnitDelete.component';
+import { WareHouseItemCategoryComponent } from './pages/WareHouseItemCategory/WareHouseItemCategory.component';
+import { WareHouseItemCategoryCreateComponent } from './method/create/WareHouseItemCategoryCreate/WareHouseItemCategoryCreate.component';
+import { WareHouseItemCategoryEditComponent } from './method/edit/WareHouseItemCategoryEdit/WareHouseItemCategoryEdit.component';
+import { WareHouseItemCategoryDelelteComponent } from './method/delete/WareHouseItemCategoryDelelte/WareHouseItemCategoryDelelte.component';
+import { WareHouseItemCategoryEditDetailsComponent } from './method/details/WareHouseItemCategoryEditDetails/WareHouseItemCategoryEditDetails.component';
 const customNotifierOptions: NotifierOptions = {
   position: {
     horizontal: {
@@ -101,7 +111,17 @@ const customNotifierOptions: NotifierOptions = {
     WareHouseEditComponent,
     WareHouseDetailsComponent,
     WareHouseDeleteComponent,
-    FormSearchWareHouseComponent
+    FormSearchWareHouseComponent,
+    UnitComponent,
+    UnitCreateComponent,
+    UnitEditComponent,
+    UnitDetailsComponent,
+    UnitDeleteComponent,
+    WareHouseItemCategoryComponent,
+    WareHouseItemCategoryCreateComponent,
+    WareHouseItemCategoryEditComponent,
+    WareHouseItemCategoryDelelteComponent,
+    WareHouseItemCategoryEditDetailsComponent
   ],
   imports: [
     BrowserModule,

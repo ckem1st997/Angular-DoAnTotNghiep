@@ -21,7 +21,7 @@ import { Guid } from 'src/app/extension/Guid';
 import { VendorDeleteComponent } from 'src/app/method/delete/VendorDelete/VendorDelete.component';
 import { SelectionModel } from '@angular/cdk/collections';
 import { FormsearchComponent } from 'src/app/method/search/formsearch/formsearch.component';
-import { WareHouseDTO } from 'src/app/model/WareHouseDTO';
+import { UnitDTO } from 'src/app/model/UnitDTO';
 import { WarehouseService } from 'src/app/service/warehouse.service';
 import { WareHouseCreateComponent } from 'src/app/method/create/WareHouseCreate/WareHouseCreate.component';
 import { WareHouseEditComponent } from 'src/app/method/edit/WareHouseEdit/WareHouseEdit.component';
@@ -30,17 +30,22 @@ import { WareHouseDetailsComponent } from 'src/app/method/details/WareHouseDetai
 import { WareHouseDeleteComponent } from 'src/app/method/delete/WareHouseDelete/WareHouseDelete.component';
 import { FormSearchWareHouseComponent } from 'src/app/method/search/FormSearchWareHouse/FormSearchWareHouse.component';
 import { WareHouseSearchModel } from 'src/app/model/WareHouseSearchModel';
+import { UnitService } from 'src/app/service/Unit.service';
+import { UnitCreateComponent } from 'src/app/method/create/UnitCreate/UnitCreate.component';
+import { UnitEditComponent } from 'src/app/method/edit/UnitEdit/UnitEdit.component';
+import { UnitDetailsComponent } from 'src/app/method/details/UnitDetails/UnitDetails.component';
+import { UnitDeleteComponent } from 'src/app/method/delete/UnitDelete/UnitDelete.component';
 
 @Component({
-  selector: 'app-WareHouse',
-  templateUrl: './WareHouse.component.html',
-  styleUrls: ['./WareHouse.component.scss']
+  selector: 'app-Unit',
+  templateUrl: './Unit.component.html',
+  styleUrls: ['./Unit.component.scss']
 })
-export class WareHouseComponent implements OnInit {
+export class UnitComponent implements OnInit {
   //
-  listDelete: WareHouseDTO[] = [];
+  listDelete: UnitDTO[] = [];
   //select
-  selection = new SelectionModel<WareHouseDTO>(true, []);
+  selection = new SelectionModel<UnitDTO>(true, []);
   //noti
   private readonly notifier!: NotifierService;
   //tree-view
@@ -55,15 +60,15 @@ export class WareHouseComponent implements OnInit {
   pageSize = 15;
   currentPage = 0;
   pageSizeOptions: number[] = [15, 50, 100];
-  displayedColumns: string[] = ['select', 'id', 'name', 'code', 'address','description','parentId', 'inactive', 'method'];
-  dataSource = new MatTableDataSource<WareHouseDTO>();
+  displayedColumns: string[] = ['select', 'id', 'unitName', 'inactive', 'method'];
+  dataSource = new MatTableDataSource<UnitDTO>();
   model: WareHouseSearchModel = {
     active: null,
     keySearch: '',
     skip: this.currentPage * this.pageSize,
     take: this.pageSize
   };
-  list: ResultMessageResponse<WareHouseDTO> = {
+  list: ResultMessageResponse<UnitDTO> = {
     success: false,
     code: '',
     httpStatusCode: 0,
@@ -79,7 +84,7 @@ export class WareHouseComponent implements OnInit {
   paginator!: MatPaginator;
   @ViewChild(MatSort)
   sort!: MatSort;
-  constructor(private service: WarehouseService, private _liveAnnouncer: LiveAnnouncer, public dialog: MatDialog, notifierService: NotifierService) {
+  constructor(private service: UnitService, private _liveAnnouncer: LiveAnnouncer, public dialog: MatDialog, notifierService: NotifierService) {
     this.notifier = notifierService;
   }
   hasChild = (_: number, node: ExampleFlatNode) => node.expandable;
@@ -135,10 +140,10 @@ export class WareHouseComponent implements OnInit {
     this.model.active = this.checkedl;
     this.GetData();
   }
-  openDialog(model:WareHouseDTO): void {
+  openDialog(model: UnitDTO): void {
     var val = document.getElementById("searchInput") as HTMLInputElement;
 
-    const dialogRef = this.dialog.open(WareHouseEditComponent, {
+    const dialogRef = this.dialog.open(UnitEditComponent, {
       width: '550px',
       data: model,
     });
@@ -151,10 +156,10 @@ export class WareHouseComponent implements OnInit {
       }
     });
   }
-  openDialogDetals(model: WareHouseDTO): void {
+  openDialogDetals(model: UnitDTO): void {
     var val = document.getElementById("searchInput") as HTMLInputElement;
 
-    const dialogRef = this.dialog.open(WareHouseDetailsComponent, {
+    const dialogRef = this.dialog.open(UnitDetailsComponent, {
       width: '550px',
       data: model,
     });
@@ -162,7 +167,7 @@ export class WareHouseComponent implements OnInit {
   openDialogCreate(): void {
     var val = document.getElementById("searchInput") as HTMLInputElement;
 
-    const dialogRef = this.dialog.open(WareHouseCreateComponent, {
+    const dialogRef = this.dialog.open(UnitCreateComponent, {
       width: '550px'
     });
 
@@ -175,9 +180,9 @@ export class WareHouseComponent implements OnInit {
     });
   }
 
-  openDialogDelelte(model: WareHouseDTO): void {
+  openDialogDelelte(model: UnitDTO): void {
     this.listDelete.push(model);
-    const dialogRef = this.dialog.open(WareHouseDeleteComponent, {
+    const dialogRef = this.dialog.open(UnitDeleteComponent, {
       width: '550px',
       data: this.listDelete
     });
@@ -192,14 +197,13 @@ export class WareHouseComponent implements OnInit {
   }
   openDialogDeleteAll(): void {
     var model = this.selection.selected;
-    if(model.length>0)
-    {
+    if (model.length > 0) {
       this.listDelete = model;
-      const dialogRef = this.dialog.open(WareHouseDeleteComponent, {
+      const dialogRef = this.dialog.open(UnitDeleteComponent, {
         width: '550px',
         data: this.listDelete,
       });
-  
+
       dialogRef.afterClosed().subscribe(result => {
         var res = result;
         if (res) {
@@ -209,8 +213,8 @@ export class WareHouseComponent implements OnInit {
       });
     }
     else
-    this.notifier.notify('warning',"Bạn chưa chọn kho nào !");
-   
+      this.notifier.notify('warning', "Bạn chưa chọn kho nào !");
+
   }
   //searchQueryDialog
   searchQueryDialog(): void {
@@ -244,7 +248,7 @@ export class WareHouseComponent implements OnInit {
   }
 
   /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: WareHouseDTO): string {
+  checkboxLabel(row?: UnitDTO): string {
     if (!row) {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }

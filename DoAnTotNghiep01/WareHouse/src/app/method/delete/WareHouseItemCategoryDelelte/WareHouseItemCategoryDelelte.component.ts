@@ -2,26 +2,26 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NotifierService } from 'angular-notifier';
-import { UnitDTO } from 'src/app/model/UnitDTO';
-import { UnitService } from 'src/app/service/Unit.service';
+import { WareHouseItemCategoryDTO } from 'src/app/model/WareHouseItemCategoryDTO';
+import { WareHouseItemCategoryService } from 'src/app/service/WareHouseItemCategory.service';
 
 @Component({
-  selector: 'app-UnitDelete',
-  templateUrl: './UnitDelete.component.html',
-  styleUrls: ['./UnitDelete.component.scss']
+  selector: 'app-WareHouseItemCategoryDelelte',
+  templateUrl: './WareHouseItemCategoryDelelte.component.html',
+  styleUrls: ['./WareHouseItemCategoryDelelte.component.scss']
 })
-export class UnitDeleteComponent implements OnInit {
+export class WareHouseItemCategoryDelelteComponent implements OnInit {
 
-  title = "Xoá đơn vị tính !"
+  title = "Xoá loại vật tư !"
   private readonly notifier!: NotifierService;
   success = false;
-  dt: UnitDTO[]=[];
+  dt: WareHouseItemCategoryDTO[]=[];
   options!: FormGroup;
   constructor(
-    public dialogRef: MatDialogRef<UnitDeleteComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: UnitDTO[],
+    public dialogRef: MatDialogRef<WareHouseItemCategoryDelelteComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: WareHouseItemCategoryDTO[],
     private formBuilder: FormBuilder,
-    private service: UnitService,
+    private service: WareHouseItemCategoryService,
     notifierService: NotifierService
   ) { this.notifier = notifierService; }
   ngOnInit() {

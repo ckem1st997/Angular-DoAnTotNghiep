@@ -1,4 +1,6 @@
-export interface WareHouseDTO {
+import { BaseModel } from "./BaseModel";
+
+export interface WareHouseDTO extends BaseModel {
     code: string;
     name: string;
     address: string;
