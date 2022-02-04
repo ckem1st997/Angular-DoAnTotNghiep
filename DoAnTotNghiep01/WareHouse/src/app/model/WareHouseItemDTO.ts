@@ -1,4 +1,7 @@
 import { BaseModel } from "./BaseModel";
+import { UnitDTO } from "./UnitDTO";
+import { VendorDTO } from "./VendorDTO";
+import { WareHouseItemCategoryDTO } from "./WareHouseItemCategoryDTO";
 
 export interface WareHouseItemDTO extends BaseModel {
     code: string;
@@ -10,4 +13,7 @@ export interface WareHouseItemDTO extends BaseModel {
     country: string;
     unitId: string;
     inactive: boolean | null;
+    categoryDTO: WareHouseItemCategoryDTO[];
+    unitDTO: UnitDTO[];
+    vendorDTO: VendorDTO[];
 }
