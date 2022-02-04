@@ -52,6 +52,13 @@ export class WareHouseItemService {
     );
   }
 
+  AddIndex(): Observable<ResultMessageResponse<WareHouseItemDTO>> {
+    var url = this.baseUrl + `/create`;
+    return this.http.get<ResultMessageResponse<WareHouseItemDTO>>(url, this.httpOptions).pipe(
+      tap(_ => console.log(`create`)),
+      catchError(this.handleError) // then handle the error
+    );
+  }
   Add(model: WareHouseItem): Observable<ResultMessageResponse<WareHouseItem>> {
     var url = this.baseUrl + `/create`;
     return this.http.post<ResultMessageResponse<WareHouseItem>>(url, model, this.httpOptions).pipe(
