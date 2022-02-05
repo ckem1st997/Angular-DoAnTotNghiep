@@ -83,7 +83,6 @@ export class WareHouseItemCreateComponent implements OnInit {
       }
       this.notifier.notify('error', message);
     }
-
   }
 }
 

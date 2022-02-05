@@ -28,7 +28,7 @@ export class WareHouseItemEditComponent implements OnInit {
 
   // table
 
-  displayedColumns: string[] = ['id', 'itemId', 'unitId', 'unitName','convertRate'];
+  displayedColumns: string[] = ['id', 'itemId', 'unitId', 'unitName','convertRate','note'];
   dataSourceItemUnit = new MatTableDataSource<WareHouseItemUnitDTO>();
   constructor(
     public dialogRef: MatDialogRef<WareHouseItemEditComponent>,

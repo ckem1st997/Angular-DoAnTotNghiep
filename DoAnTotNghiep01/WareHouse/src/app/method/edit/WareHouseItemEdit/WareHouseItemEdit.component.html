@@ -45,7 +45,7 @@
 
     <div class="form-group row mb-1">
       <mat-label class="form-label col-3">Quốc gia</mat-label>
-      <textarea type="text" formControlName="country" class="form-control col"></textarea>
+      <input type="text" formControlName="country" class="form-control col"/>
     </div>
     <div class="form-group row mb-1">
       <mat-label class="form-label col-3">Mô tả</mat-label>
@@ -93,7 +93,11 @@
         <th mat-header-cell *matHeaderCellDef> Tỉ lệ </th>
         <td mat-cell *matCellDef="let element"> {{element.convertRate}} </td>
       </ng-container>
-
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="note">
+        <th mat-header-cell *matHeaderCellDef> Tỉ lệ </th>
+        <td mat-cell *matCellDef="let element">1 {{element.unitName}} =1 {{element.unitName}}</td>
+      </ng-container>
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>

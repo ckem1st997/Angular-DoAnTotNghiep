@@ -70,3 +70,11 @@ a{
 .mat-icon-button.mat-success {
   color:#5cb85c;
 }
+input.form-control,select{
+    height: 28px !important;
+    font-size: 12.9px !important;
+}
+select{
+    padding-bottom: 0 !important;
+    padding-top: 0 !important;
+}
