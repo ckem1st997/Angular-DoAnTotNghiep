@@ -7,6 +7,7 @@ import { BaseSearchModel } from '../model/BaseSearchModel';
 import { ResultMessageResponse } from '../model/ResultMessageResponse';
 import { WareHouseDTO } from '../model/WareHouseDTO';
 import { WareHouseItemDTO } from '../model/WareHouseItemDTO';
+import { WareHouseItemUnitDTO } from '../model/WareHouseItemUnitDTO';
 import { WareHouseSearchModel } from '../model/WareHouseSearchModel';
 
 @Injectable({
@@ -23,6 +24,15 @@ export class WareHouseItemService {
   getById(id:string): Observable<ResultMessageResponse<WareHouseItemDTO>> {
     var url = this.baseUrl + `/get-list?`;
     return this.http.get<ResultMessageResponse<WareHouseItemDTO>>(url, this.httpOptions).pipe(
+      retry(3), // retry a failed request up to 3 times
+      catchError(this.handleError) // then handle the error
+    );
+  }
+
+  getListItemUnit(id:string): Observable<ResultMessageResponse<WareHouseItemUnitDTO>> {
+    var urlGet=environment.baseApi+'WareHouseItemUnit'
+    var url =urlGet + `/get-list?idItem=`+id;
+    return this.http.get<ResultMessageResponse<WareHouseItemUnitDTO>>(url, this.httpOptions).pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(this.handleError) // then handle the error
     );
@@ -69,7 +79,7 @@ export class WareHouseItemService {
   Add(model: WareHouseItem): Observable<ResultMessageResponse<WareHouseItem>> {
     var url = this.baseUrl + `/create`;
     return this.http.post<ResultMessageResponse<WareHouseItem>>(url, model, this.httpOptions).pipe(
-      tap(_ => console.log(`create vendor id=${model.id}`)),
+      tap(_ => console.log(`create  id=${model.id}`)),
       catchError(this.handleError) // then handle the error
     );
   }
@@ -77,7 +87,7 @@ export class WareHouseItemService {
  Delete(ids:string[]): Observable<ResultMessageResponse<WareHouseItem>> {
     var url = this.baseUrl + `/delete`;
     return this.http.post<ResultMessageResponse<WareHouseItem>>(url, ids, this.httpOptions).pipe(
-      tap(_ => console.log(`delete vendor id=${ids}`)),
+      tap(_ => console.log(`delete  id=${ids}`)),
       catchError(this.handleError) // then handle the error
     );
   }
@@ -87,8 +97,6 @@ export class WareHouseItemService {
       // A client-side or network error occurred. Handle it accordingly.
       console.error('An error occurred:', error.error);
     } else {
-      // The backend returned an unsuccessful response code.
-      // The response body may contain clues as to what went wrong.
       console.error(
         `Backend returned code ${error.status}, body was: `, error);
     }

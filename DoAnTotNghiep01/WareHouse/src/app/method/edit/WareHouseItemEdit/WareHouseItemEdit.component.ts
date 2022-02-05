@@ -1,12 +1,16 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatTableDataSource } from '@angular/material/table';
 import { NotifierService } from 'angular-notifier';
 import { Guid } from 'src/app/extension/Guid';
 import { WareHouseItemDTO } from 'src/app/model/WareHouseItemDTO';
+import { WareHouseItemUnitDTO } from 'src/app/model/WareHouseItemUnitDTO';
 import { WareHouseItemService } from 'src/app/service/WareHouseItem.service';
 import { WareHouseItemValidator } from 'src/app/validator/WareHouseItemValidator';
 import { WareHouseItemCreateComponent } from '../../create/WareHouseItemCreate/WareHouseItemCreate.component';
+
+
 
 @Component({
   selector: 'app-WareHouseItemEdit',
@@ -21,6 +25,11 @@ export class WareHouseItemEditComponent implements OnInit {
   form!: FormGroup;
   dt!: WareHouseItemDTO;
   options!: FormGroup;
+
+  // table
+
+  displayedColumns: string[] = ['id', 'itemId', 'unitId', 'unitName','convertRate'];
+  dataSourceItemUnit = new MatTableDataSource<WareHouseItemUnitDTO>();
   constructor(
     public dialogRef: MatDialogRef<WareHouseItemEditComponent>,
     @Inject(MAT_DIALOG_DATA) public data: WareHouseItemDTO,
@@ -32,7 +41,6 @@ export class WareHouseItemEditComponent implements OnInit {
   }
   ngOnInit(): void {
     this.dt=this.data;
-    console.log(this.data)
     this.form = this.formBuilder.group({
       id: this.dt.id,
       code: this.dt.code,
@@ -44,12 +52,19 @@ export class WareHouseItemEditComponent implements OnInit {
       description: this.dt.description,
       inactive: this.dt.inactive,
     });
+    this.GetDataItemUnit();
   }
   get f() { return this.form.controls; }
   onNoClick(): void {
     this.dialogRef.close(false);
   }
-
+  GetDataItemUnit() {
+    this.service.getListItemUnit(this.dt.id).subscribe(list => {
+      this.dataSourceItemUnit.data = list.data;
+    });
+    // this.listDelete = [];
+    // this.selection.clear();
+  }
   onSubmit() {
     var test = new WareHouseItemValidator();
     var msg = test.validate(this.form.value);
