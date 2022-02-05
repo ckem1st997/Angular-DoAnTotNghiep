@@ -73,7 +73,11 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header > Nhà cung cấp </th>
         <td mat-cell *matCellDef="let element"> {{element.vendorId}} </td>
       </ng-container>
-
+      
+      <ng-container matColumnDef="country">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header > Quốc gia </th>
+        <td mat-cell *matCellDef="let element"> {{element.country}} </td>
+      </ng-container>
       <ng-container matColumnDef="unitId">
         <th mat-header-cell *matHeaderCellDef mat-sort-header > Đơn vị tính </th>
         <td mat-cell *matCellDef="let element"> {{element.unitId}} </td>

@@ -52,6 +52,13 @@ export class WareHouseItemService {
     );
   }
 
+  EditIndex(id:string): Observable<ResultMessageResponse<WareHouseItemDTO>> {
+    var url = this.baseUrl + `/edit?id=`+id;
+    return this.http.get<ResultMessageResponse<WareHouseItemDTO>>(url, this.httpOptions).pipe(
+      tap(_ => console.log(`edit`)),
+      catchError(this.handleError) // then handle the error
+    );
+  }
   AddIndex(): Observable<ResultMessageResponse<WareHouseItemDTO>> {
     var url = this.baseUrl + `/create`;
     return this.http.get<ResultMessageResponse<WareHouseItemDTO>>(url, this.httpOptions).pipe(

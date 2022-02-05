@@ -11,10 +11,13 @@ import { WareHouseItemCategoryCreateComponent } from 'src/app/method/create/Ware
 import { WareHouseItemCreateComponent } from 'src/app/method/create/WareHouseItemCreate/WareHouseItemCreate.component';
 import { WareHouseDeleteComponent } from 'src/app/method/delete/WareHouseDelete/WareHouseDelete.component';
 import { WareHouseItemCategoryDelelteComponent } from 'src/app/method/delete/WareHouseItemCategoryDelelte/WareHouseItemCategoryDelelte.component';
+import { WareHouseItemDeleteComponent } from 'src/app/method/delete/WareHouseItemDelete/WareHouseItemDelete.component';
 import { WareHouseDetailsComponent } from 'src/app/method/details/WareHouseDetails/WareHouseDetails.component';
 import { WareHouseItemCategoryEditDetailsComponent } from 'src/app/method/details/WareHouseItemCategoryEditDetails/WareHouseItemCategoryEditDetails.component';
+import { WareHouseItemDetailsComponent } from 'src/app/method/details/WareHouseItemDetails/WareHouseItemDetails.component';
 import { WareHouseEditComponent } from 'src/app/method/edit/WareHouseEdit/WareHouseEdit.component';
 import { WareHouseItemCategoryEditComponent } from 'src/app/method/edit/WareHouseItemCategoryEdit/WareHouseItemCategoryEdit.component';
+import { WareHouseItemEditComponent } from 'src/app/method/edit/WareHouseItemEdit/WareHouseItemEdit.component';
 import { FormSearchWareHouseComponent } from 'src/app/method/search/FormSearchWareHouse/FormSearchWareHouse.component';
 import { ResultMessageResponse } from 'src/app/model/ResultMessageResponse';
 import { WareHouseItemCategoryDTO } from 'src/app/model/WareHouseItemCategoryDTO';
@@ -51,7 +54,7 @@ export class WareHouseItemComponent implements OnInit {
   pageSize = 15;
   currentPage = 0;
   pageSizeOptions: number[] = [15, 50, 100];
-  displayedColumns: string[] = ['select', 'id', 'name', 'code', 'description', 'categoryId', 'vendorId', 'unitId', 'inactive', 'method'];
+  displayedColumns: string[] = ['select', 'id', 'name', 'code', 'description', 'categoryId', 'vendorId', 'unitId', 'country', 'inactive', 'method'];
   dataSource = new MatTableDataSource<WareHouseItemDTO>();
   model: WareHouseSearchModel = {
     active: null,
@@ -131,46 +134,60 @@ export class WareHouseItemComponent implements OnInit {
     this.GetData();
   }
   openDialog(model: WareHouseItemDTO): void {
-    var val = document.getElementById("searchInput") as HTMLInputElement;
+    this.service.EditIndex(model.id).subscribe(x => {
 
-    const dialogRef = this.dialog.open(WareHouseItemCategoryEditComponent, {
-      width: '550px',
-      data: model,
+      this.modelCreate = x.data;
+      const dialogRef = this.dialog.open(WareHouseItemEditComponent, {
+        width: '550px',
+        data: this.modelCreate,
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        var res = result;
+        if (res) {
+          this.notifier.notify('success', 'Chỉnh sửa thành công !');
+          this.GetData();
+        }
+      });
+
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      var res = result;
-      if (res) {
-        this.notifier.notify('success', 'Chỉnh sửa thành công !');
-        this.GetData();
-      }
-    });
   }
   openDialogDetals(model: WareHouseItemDTO): void {
-    var val = document.getElementById("searchInput") as HTMLInputElement;
 
-    const dialogRef = this.dialog.open(WareHouseItemCategoryEditDetailsComponent, {
-      width: '550px',
-      data: model,
+    this.service.EditIndex(model.id).subscribe(x => {
+
+      this.modelCreate = x.data;
+      const dialogRef = this.dialog.open(WareHouseItemDetailsComponent, {
+        width: '550px',
+        data: this.modelCreate,
+      });
+
     });
   }
   openDialogCreate() {
-    const dialogRef = this.dialog.open(WareHouseItemCreateComponent, {
-      width: '550px'
+    this.service.AddIndex().subscribe(x => {
+      this.modelCreate = x.data;
+      const dialogRef = this.dialog.open(WareHouseItemCreateComponent, {
+        width: '550px',
+        data: this.modelCreate
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        var res = result;
+        if (res) {
+          this.notifier.notify('success', 'Thêm mới thành công !');
+          this.GetData();
+        }
+      });
+
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      var res = result;
-      if (res) {
-        this.notifier.notify('success', 'Thêm mới thành công !');
-        this.GetData();
-      }
-    });
   }
 
   openDialogDelelte(model: WareHouseItemDTO): void {
     this.listDelete.push(model);
-    const dialogRef = this.dialog.open(WareHouseItemCategoryDelelteComponent, {
+    const dialogRef = this.dialog.open(WareHouseItemDeleteComponent, {
       width: '550px',
       data: this.listDelete
     });
@@ -187,7 +204,7 @@ export class WareHouseItemComponent implements OnInit {
     var model = this.selection.selected;
     if (model.length > 0) {
       this.listDelete = model;
-      const dialogRef = this.dialog.open(WareHouseItemCategoryDelelteComponent, {
+      const dialogRef = this.dialog.open(WareHouseItemDeleteComponent, {
         width: '550px',
         data: this.listDelete,
       });

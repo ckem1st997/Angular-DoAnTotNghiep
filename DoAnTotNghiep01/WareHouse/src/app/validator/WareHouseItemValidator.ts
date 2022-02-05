@@ -18,6 +18,10 @@ export class WareHouseItemValidator extends Validator<WareHouseItem> {
             .notEmpty()
             .notNull()
             .withMessage('Xin vui lòng nhập id của bạn !');
+        this.ruleFor('unitId')
+            .notEmpty()
+            .notNull()
+            .withMessage('Xin vui lòng chọn đơn vị tính của bạn !');
         this.ruleFor('code')
             .notEmpty().withMessage('Xin vui lòng nhập mã của bạn !')
             .notNull()

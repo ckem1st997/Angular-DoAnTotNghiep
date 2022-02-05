@@ -1,28 +1,20 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { FormGroup, FormBuilder } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NotifierService } from 'angular-notifier';
-import { Observable } from 'rxjs';
 import { Guid } from 'src/app/extension/Guid';
-import { ResultMessageResponse } from 'src/app/model/ResultMessageResponse';
-import { VendorDTO } from 'src/app/model/VendorDTO';
-import { WareHouseDTO } from 'src/app/model/WareHouseDTO';
 import { WareHouseItemDTO } from 'src/app/model/WareHouseItemDTO';
-import { VendorService } from 'src/app/service/VendorService.service';
-import { WarehouseService } from 'src/app/service/warehouse.service';
 import { WareHouseItemService } from 'src/app/service/WareHouseItem.service';
-import { VendorValidator } from 'src/app/validator/VendorValidator';
 import { WareHouseItemValidator } from 'src/app/validator/WareHouseItemValidator';
-import { WareHouseValidator } from 'src/app/validator/WareHouseValidator';
+import { WareHouseItemCreateComponent } from '../../create/WareHouseItemCreate/WareHouseItemCreate.component';
 
 @Component({
-  selector: 'app-WareHouseItemCreate',
-  templateUrl: './WareHouseItemCreate.component.html',
-  styleUrls: ['./WareHouseItemCreate.component.scss']
+  selector: 'app-WareHouseItemEdit',
+  templateUrl: './WareHouseItemEdit.component.html',
+  styleUrls: ['./WareHouseItemEdit.component.css']
 })
-export class WareHouseItemCreateComponent implements OnInit {
-  title = "Thêm vật tư";
+export class WareHouseItemEditComponent implements OnInit {
+  title = "Chỉnh sửa vật tư";
   isDataLoaded: boolean = true;
   private readonly notifier!: NotifierService;
   success = false;
@@ -30,7 +22,7 @@ export class WareHouseItemCreateComponent implements OnInit {
   dt!: WareHouseItemDTO;
   options!: FormGroup;
   constructor(
-    public dialogRef: MatDialogRef<WareHouseItemCreateComponent>,
+    public dialogRef: MatDialogRef<WareHouseItemEditComponent>,
     @Inject(MAT_DIALOG_DATA) public data: WareHouseItemDTO,
     private formBuilder: FormBuilder,
     private service: WareHouseItemService,
@@ -40,20 +32,18 @@ export class WareHouseItemCreateComponent implements OnInit {
   }
   ngOnInit(): void {
     this.dt=this.data;
+    console.log(this.data)
     this.form = this.formBuilder.group({
-      id: Guid.newGuid(),
-      code: '',
-      name: '',
-      categoryId: null,
-      vendorId: null,
-      country: null,
-      unitId: null,
-      description: null,
-      parentId: null,
-      path: null,
-      inactive: true,
+      id: this.dt.id,
+      code: this.dt.code,
+      name: this.dt.name,
+      categoryId: this.dt.categoryId,
+      vendorId: this.dt.vendorId,
+      country: this.dt.country,
+      unitId: this.dt.unitId,
+      description: this.dt.description,
+      inactive: this.dt.inactive,
     });
-
   }
   get f() { return this.form.controls; }
   onNoClick(): void {
@@ -65,7 +55,7 @@ export class WareHouseItemCreateComponent implements OnInit {
     var msg = test.validate(this.form.value);
     var check = JSON.stringify(msg) == '{}';
     if (check == true)
-      this.service.Add(this.form.value).subscribe(x => {
+      this.service.Edit(this.form.value).subscribe(x => {
         if (x.success)
           this.dialogRef.close(x.success)
         else {
