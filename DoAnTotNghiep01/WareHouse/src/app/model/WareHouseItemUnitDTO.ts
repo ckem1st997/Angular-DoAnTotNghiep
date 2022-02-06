@@ -8,6 +8,6 @@ export interface WareHouseItemUnitDTO extends BaseModel {
     unitName: string;
     convertRate: number;
     isPrimary: boolean | null;
-    item: WareHouseItemDTO;
-    unit: UnitDTO;
+    item: WareHouseItemDTO| null;
+    unit: UnitDTO| null;
 }

@@ -12,6 +12,7 @@
     overflow-x: auto;
     overflow-y: hidden;
     box-shadow: none;
+    overflow: auto;
 }
 input,select{
     height: 28px !important;

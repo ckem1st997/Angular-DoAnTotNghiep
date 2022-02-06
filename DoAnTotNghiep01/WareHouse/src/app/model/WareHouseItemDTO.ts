@@ -2,6 +2,7 @@ import { BaseModel } from "./BaseModel";
 import { UnitDTO } from "./UnitDTO";
 import { VendorDTO } from "./VendorDTO";
 import { WareHouseItemCategoryDTO } from "./WareHouseItemCategoryDTO";
+import { WareHouseItemUnitDTO } from "./WareHouseItemUnitDTO";
 
 export interface WareHouseItemDTO extends BaseModel {
     code: string;
@@ -16,4 +17,5 @@ export interface WareHouseItemDTO extends BaseModel {
     categoryDTO: WareHouseItemCategoryDTO[];
     unitDTO: UnitDTO[];
     vendorDTO: VendorDTO[];
+    wareHouseItemUnits:WareHouseItemUnitDTO[];
 }

@@ -1,7 +1,7 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { NotifierService } from 'angular-notifier';
 import { Guid } from 'src/app/extension/Guid';
 import { WareHouseItemDTO } from 'src/app/model/WareHouseItemDTO';
@@ -25,10 +25,20 @@ export class WareHouseItemEditComponent implements OnInit {
   form!: FormGroup;
   dt!: WareHouseItemDTO;
   options!: FormGroup;
-
+  item: WareHouseItemUnitDTO = {
+    itemId: '',
+    unitId: '',
+    unitName: '',
+    convertRate: 0,
+    isPrimary: null,
+    item: null,
+    unit: null,
+    id: '',
+    domainEvents: []
+  };
   // table
-
-  displayedColumns: string[] = ['id', 'itemId', 'unitId', 'unitName','convertRate','note'];
+  
+  displayedColumns: string[] = ['id', 'itemId', 'unitId', 'unitName', 'convertRate', 'note'];
   dataSourceItemUnit = new MatTableDataSource<WareHouseItemUnitDTO>();
   constructor(
     public dialogRef: MatDialogRef<WareHouseItemEditComponent>,
@@ -40,7 +50,7 @@ export class WareHouseItemEditComponent implements OnInit {
     this.notifier = notifierService;
   }
   ngOnInit(): void {
-    this.dt=this.data;
+    this.dt = this.data;
     this.form = this.formBuilder.group({
       id: this.dt.id,
       code: this.dt.code,
@@ -52,22 +62,59 @@ export class WareHouseItemEditComponent implements OnInit {
       description: this.dt.description,
       inactive: this.dt.inactive,
     });
-    this.GetDataItemUnit();
+    this.dataSourceItemUnit.data = this.dt.wareHouseItemUnits;
+    //  this.GetDataItemUnit();
   }
   get f() { return this.form.controls; }
   onNoClick(): void {
     this.dialogRef.close(false);
   }
-  GetDataItemUnit() {
-    this.service.getListItemUnit(this.dt.id).subscribe(list => {
-      this.dataSourceItemUnit.data = list.data;
-    });
-    // this.listDelete = [];
-    // this.selection.clear();
+  // GetDataItemUnit() {
+  //   this.service.getListItemUnit(this.dt.id).subscribe(list => {
+  //     this.dataSourceItemUnit.data = list.data;
+  //   });
+  // this.listDelete = [];
+  // this.selection.clear();
+  //}
+  //
+
+
+  changUnit(e: any) {
+
+    var idSelect = e.target.value.split(" ")[1];
+    var check = this.dataSourceItemUnit.data.find(x => x.id == idSelect);
+    if (check?.id === undefined) {
+      var getUnitName = document.getElementById("unitSelect") as HTMLSelectElement;
+      var nameUnit = getUnitName.options[getUnitName.selectedIndex].text;
+      var item= {
+        itemId: this.dt.id,
+        unitId: idSelect,
+        unitName: nameUnit,
+        convertRate: 1,
+        isPrimary: true,
+        item: null,
+        unit: null,
+        id:  Guid.newGuid(),
+        domainEvents: []
+      };
+      this.dt.wareHouseItemUnits.push(item);
+      this.dataSourceItemUnit.data=this.dt.wareHouseItemUnits;
+    }
   }
+
+
+  getNote(name: string, convert: number): string {
+    //
+    var getUnitName = document.getElementById("unitSelect") as HTMLSelectElement;
+    var nameUnit = getUnitName.options[getUnitName.selectedIndex].text;
+    return convert + ' ' + name + ' = ' + '1 ' + nameUnit;
+  }
+
+  //
   onSubmit() {
     var test = new WareHouseItemValidator();
     var msg = test.validate(this.form.value);
+    this.form.value.wareHouseItemUnits=this.dt.wareHouseItemUnits;
     var check = JSON.stringify(msg) == '{}';
     if (check == true)
       this.service.Edit(this.form.value).subscribe(x => {
