@@ -37,8 +37,8 @@ export class WareHouseItemEditComponent implements OnInit {
     domainEvents: []
   };
   // table
-  
-  displayedColumns: string[] = ['id', 'itemId', 'unitId', 'unitName', 'convertRate', 'note'];
+
+  displayedColumns: string[] = ['id', 'itemId', 'unitId', 'unitName', 'convertRate', 'note', 'method'];
   dataSourceItemUnit = new MatTableDataSource<WareHouseItemUnitDTO>();
   constructor(
     public dialogRef: MatDialogRef<WareHouseItemEditComponent>,
@@ -86,7 +86,7 @@ export class WareHouseItemEditComponent implements OnInit {
     if (check?.id === undefined) {
       var getUnitName = document.getElementById("unitSelect") as HTMLSelectElement;
       var nameUnit = getUnitName.options[getUnitName.selectedIndex].text;
-      var item= {
+      var item = {
         itemId: this.dt.id,
         unitId: idSelect,
         unitName: nameUnit,
@@ -94,11 +94,11 @@ export class WareHouseItemEditComponent implements OnInit {
         isPrimary: true,
         item: null,
         unit: null,
-        id:  Guid.newGuid(),
+        id: Guid.newGuid(),
         domainEvents: []
       };
       this.dt.wareHouseItemUnits.push(item);
-      this.dataSourceItemUnit.data=this.dt.wareHouseItemUnits;
+      this.dataSourceItemUnit.data = this.dt.wareHouseItemUnits;
     }
   }
 
@@ -114,7 +114,7 @@ export class WareHouseItemEditComponent implements OnInit {
   onSubmit() {
     var test = new WareHouseItemValidator();
     var msg = test.validate(this.form.value);
-    this.form.value.wareHouseItemUnits=this.dt.wareHouseItemUnits;
+    this.form.value.wareHouseItemUnits = this.dt.wareHouseItemUnits;
     var check = JSON.stringify(msg) == '{}';
     if (check == true)
       this.service.Edit(this.form.value).subscribe(x => {
@@ -136,6 +136,15 @@ export class WareHouseItemEditComponent implements OnInit {
       this.notifier.notify('error', message);
     }
 
+  }
+
+
+  openItemUnit() {
+
+  }
+
+  openDialogDelelteItemUnit(model: WareHouseItemUnitDTO) {
+    console.log(model);
   }
 }
 
