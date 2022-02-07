@@ -3,5 +3,4 @@ export interface BaseSearchModel {
     active: boolean | null;
     skip: number;
     take: number;
-
 }

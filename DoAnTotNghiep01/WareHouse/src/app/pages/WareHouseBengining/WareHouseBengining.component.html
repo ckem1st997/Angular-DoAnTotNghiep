@@ -1,0 +1,69 @@
+<div class=" d-flex justify-content-between" style="margin-top: 10px;">
+    <ul class="breadcrumbone">
+      <li>
+        <a href="#">
+          <span class="text">Test</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <span class="text">Quản lý sổ kho</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/">
+          <i class="bi bi-house"></i>
+        </a>
+      </li>
+    </ul>
+    <div class="">
+      <div class="">
+        <a data-action="create-import" href="javascript:void(0)" class="btn btn-success btn-sm"><i
+            class="flaticon2-plus"></i> Nhập kho</a>
+        <a data-action="create-export" href="javascript:void(0)" class="btn btn-info btn-sm"><i
+            class="flaticon-logout"></i> Xuất kho</a>
+        <a data-action="edit" href="javascript:void(0)" class="btn btn-danger btn-sm"><i class="flaticon2-pen"></i> Chỉnh
+          sửa</a>
+        <a data-action="deletes" href="javascript:void(0)" class="btn btn-primary btn-sm"><i class="flaticon-delete"></i>
+          Xóa (Đã chọn)</a>
+        <a data-action="export" href="javascript:void(0)" class="btn btn-secondary btn-sm"><i
+            class="flaticon2-printer"></i> Xuất Excel</a>
+      </div>
+    </div>
+  </div>
+  <div style="width: 100%; height: 80%; ">
+    <as-split direction="horizontal">
+      <as-split-area [size]="15">
+        <mat-tree [dataSource]="dataSourceTreee" [treeControl]="treeControl">
+            <!-- This is the tree node template for leaf nodes -->
+            <mat-tree-node *matTreeNodeDef="let node" >
+              <!-- use a disabled button to provide padding for tree leaf -->
+              <button mat-icon-button disabled></button>
+              <button mat-raised-button (click)="lll(node.name)">{{node.name}}</button>
+            </mat-tree-node>
+            <!-- This is the tree node template for expandable nodes -->
+            <mat-tree-node *matTreeNodeDef="let node;when: hasChild">
+              <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.name">
+                <mat-icon class="mat-icon-rtl-mirror">
+                  {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                </mat-icon>
+              </button>
+              <button mat-raised-button (click)="lll(node.name)">{{node.name}}</button>
+            </mat-tree-node>
+          </mat-tree>
+      </as-split-area>
+      <as-split-area [size]="85">
+        <p>RIGHT</p>
+        <form [formGroup]="formUnitTest" (ngSubmit)="onSubmit()">
+  
+          <label for="first-name">Unit Name: </label>
+          <input id="first-name" type="text" formControlName="unitName">
+  
+          <p>Complete the form to enable button.</p>
+          <button type="submit" [disabled]="!formUnitTest.valid">Submit</button>
+        </form>
+        <p>Message:</p>
+        <p>{{message}}</p>
+      </as-split-area>
+    </as-split>
+  </div>
