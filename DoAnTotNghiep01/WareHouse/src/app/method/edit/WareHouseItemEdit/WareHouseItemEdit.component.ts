@@ -72,14 +72,6 @@ export class WareHouseItemEditComponent implements OnInit {
   onNoClick(): void {
     this.dialogRef.close(false);
   }
-  // GetDataItemUnit() {
-  //   this.service.getListItemUnit(this.dt.id).subscribe(list => {
-  //     this.dataSourceItemUnit.data = list.data;
-  //   });
-  // this.listDelete = [];
-  // this.selection.clear();
-  //}
-  //
 
 
   changUnit(e: any) {
