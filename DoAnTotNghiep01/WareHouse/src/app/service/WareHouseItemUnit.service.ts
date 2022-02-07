@@ -42,6 +42,15 @@ export class WareHouseItemUnitService {
     );
   }
 
+
+  getCheckItemUnit(): Observable<ResultMessageResponse<WareHouseItemUnitDTO>> {
+    var url = this.baseUrl + `/get-drop-tree?Active=true`;
+    return this.http.get<ResultMessageResponse<WareHouseItemUnitDTO>>(url, this.httpOptions).pipe(
+      retry(3), // retry a failed request up to 3 times
+      catchError(this.handleError) // then handle the error
+    );
+  }
+
   Edit(model: WareHouseItemUnit): Observable<ResultMessageResponse<WareHouseItemUnit>> {
     var url = this.baseUrl + `/edit`;
     return this.http.post<ResultMessageResponse<WareHouseItemUnit>>(url, model, this.httpOptions).pipe(

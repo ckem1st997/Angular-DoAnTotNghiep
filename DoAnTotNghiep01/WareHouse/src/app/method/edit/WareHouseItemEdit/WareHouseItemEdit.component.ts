@@ -151,11 +151,11 @@ export class WareHouseItemEditComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       var res = result;
-      
+
       if (res?.unitId !== undefined) {
-        var check = this.dt.wareHouseItemUnits.find(x => x.unitId == res.unitId);    
+        var check = this.dt.wareHouseItemUnits.find(x => x.unitId == res.unitId);
         if (check === undefined) {
-          res.unitName=this.dt.unitDTO.find(x=>x.id == res.unitId)?.unitName;
+          res.unitName = this.dt.unitDTO.find(x => x.id == res.unitId)?.unitName;
           this.dt.wareHouseItemUnits.push(res);
           this.dataSourceItemUnit.data = this.dt.wareHouseItemUnits;
           this.notifier.notify('success', 'Thêm thành công !');
@@ -168,20 +168,24 @@ export class WareHouseItemEditComponent implements OnInit {
   }
 
   openDialogDelelteItemUnit(model: WareHouseItemUnitDTO) {
-    console.log(model)
-    const dialogRef = this.dialog.open(WareHouseItemUnitDelelteComponent, {
-      width: '550px',
-      data: model
-    });
+    if (this.dt.unitId === model.unitId)
+      this.notifier.notify('error', 'Bạn không thể xoá đơn vị tính chính !');
+    else {
+      const dialogRef = this.dialog.open(WareHouseItemUnitDelelteComponent, {
+        width: '550px',
+        data: model
+      });
 
-    dialogRef.afterClosed().subscribe(result => {
-      var res = result;
-      if (res) {
-        this.dt.wareHouseItemUnits = this.dt.wareHouseItemUnits.filter(x => x !== model);
-        this.dataSourceItemUnit.data = this.dt.wareHouseItemUnits;
-        this.notifier.notify('success', 'Xoá thành công !');
-      }
-    });
+      dialogRef.afterClosed().subscribe(result => {
+        var res = result;
+        if (res) {
+          this.dt.wareHouseItemUnits = this.dt.wareHouseItemUnits.filter(x => x !== model);
+          this.dataSourceItemUnit.data = this.dt.wareHouseItemUnits;
+          this.notifier.notify('success', 'Xoá thành công !');
+        }
+      });
+    }
+
   }
 }
 
