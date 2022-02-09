@@ -3,7 +3,7 @@ import { UnitDTO } from "./UnitDTO";
 import { WareHouseItemDTO } from "./WareHouseItemDTO";
 
 export interface BeginningWareHouseDTO extends BaseModel {
-    wareHouseId: string;
+    wareHouseId: string|null;
     itemId: string;
     unitId: string;
     unitName: string;

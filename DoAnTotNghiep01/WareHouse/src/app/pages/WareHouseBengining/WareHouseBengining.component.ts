@@ -25,11 +25,13 @@ import { WareHouseSearchModel } from 'src/app/model/WareHouseSearchModel';
 import { BeginningWareHouse } from 'src/app/entity/BeginningWareHouse';
 import { BeginningWareHouseService } from 'src/app/service/BeginningWareHouse.service';
 import { WareHouseBenginingEditComponent } from 'src/app/method/edit/WareHouseBenginingEdit/WareHouseBenginingEdit.component';
+import { WareHouseBenginingCreateComponent } from 'src/app/method/create/WareHouseBenginingCreate/WareHouseBenginingCreate.component';
 
 interface ExampleFlatNode {
   expandable: boolean;
   name: string;
   level: number;
+  key: string;
 }
 @Component({
   selector: 'app-WareHouseBengining',
@@ -87,6 +89,7 @@ export class WareHouseBenginingComponent implements OnInit {
       expandable: !!node.children && node.children.length > 0,
       name: node.name,
       level: level,
+      key: node.key
     };
   };
   hasChild = (_: number, node: ExampleFlatNode) => node.expandable;
@@ -118,7 +121,7 @@ export class WareHouseBenginingComponent implements OnInit {
     this.GetData();
     this.getScreenWidth = window.innerWidth;
     this.getScreenHeight = window.innerHeight;
-       this.selection.clear();
+    this.selection.clear();
     this.serviceW.getTreeView().subscribe(x => this.dataSourceTreee.data = x.data);
 
   }
@@ -191,19 +194,32 @@ export class WareHouseBenginingComponent implements OnInit {
     });
   }
   openDialogCreate(): void {
-    var val = document.getElementById("searchInput") as HTMLInputElement;
-
-    const dialogRef = this.dialog.open(WareHouseCreateComponent, {
-      width: '550px'
+    var idCheck: string | null = null;
+    var selectDelete = document.querySelectorAll("#treeview button");
+    selectDelete.forEach(element => {
+      if (element.className.includes("activeButtonTreeView"))
+        idCheck = element.getAttribute("id");
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      var res = result;
-      if (res) {
-        this.notifier.notify('success', 'Thêm mới thành công !');
-        this.GetData();
-      }
-    });
+    if (idCheck !== null) {
+      this.service.AddIndex(idCheck).subscribe(x => {
+        this.modelCreate = x.data;
+        const dialogRef = this.dialog.open(WareHouseBenginingCreateComponent, {
+          width: '550px',
+          data: this.modelCreate
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+          var res = result;
+          if (res) {
+            this.notifier.notify('success', 'Chỉnh sửa thành công !');
+            this.GetData();
+          }
+        });
+      });
+    }
+    else
+      this.notifier.notify('warning', "Bạn chưa chọn kho nào !");
   }
 
   openDialogDelelte(model: BeginningWareHouseDTO): void {
@@ -273,9 +289,13 @@ export class WareHouseBenginingComponent implements OnInit {
     this.selection.select(...this.dataSource.data);
   }
 
-  lll(id:string)
-  {
-
+  GetActive(e: any) {
+    var select = document.getElementById(e.key) as HTMLButtonElement;
+    var selectDelete = document.querySelectorAll("#treeview button");
+    selectDelete.forEach(element => {
+      element.className = element.className.replace("activeButtonTreeView", " ");
+    });
+    select.className += " activeButtonTreeView";
   }
   /** The label for the checkbox on the passed row */
   checkboxLabel(row?: BeginningWareHouseDTO): string {

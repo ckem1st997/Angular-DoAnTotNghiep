@@ -14,11 +14,11 @@
           <mat-icon class="icon-link" aria-hidden="false" aria-label="Example home icon">home</mat-icon>
           Trang chủ
         </a>
-        <a id="QuanLyDanhMucLink" class="link-icon header-a" #createPlanmenuTrigger="matMenuTrigger" [matMenuTriggerFor]="menu" (mouseover)="createPlanmenuTrigger.openMenu()"  (click)="changActive($event)" >
+        <a id="QuanLyDanhMucLink" class="link-icon header-a" #createPlanmenuTrigger="matMenuTrigger" [matMenuTriggerFor]="menu" (click)="createPlanmenuTrigger.openMenu()"  (click)="changActive($event)" >
           <mat-icon class="icon-link" aria-hidden="false" aria-label="Example home icon">layers</mat-icon>
           Quản lý kho
           <mat-menu #menu="matMenu">
-            <span data-active="QuanLyDanhMucLink" (mouseleave)="createPlanmenuTrigger.closeMenu()">
+            <span data-active="QuanLyDanhMucLink" (click)="createPlanmenuTrigger.closeMenu()">
               <a (click)="changActive($event)" routerLink="/warehouse-book" mat-menu-item >Quản lý sổ kho</a>
               <a (click)="changActive($event)" routerLink="/warehouse-limit" mat-menu-item >Định mức tồn kho</a>
               <a (click)="changActive($event)" routerLink="/warehouse-benging" mat-menu-item >Tồn kho đầu kì</a>
@@ -30,11 +30,11 @@
           <mat-icon class="icon-link" aria-hidden="false" aria-label="Example home icon">list</mat-icon>
           Kiểm kê kho
         </a>
-        <a id="QuanLyDanhMucLinkTwo" #createPlanmenuTriggerDanhMuc="matMenuTrigger" [matMenuTriggerFor]="menuDanhMuc" (mouseover)="createPlanmenuTriggerDanhMuc.openMenu()" class="link-icon header-a" (click)="changActive($event)" >
+        <a id="QuanLyDanhMucLinkTwo" #createPlanmenuTriggerDanhMuc="matMenuTrigger" [matMenuTriggerFor]="menuDanhMuc" (click)="createPlanmenuTriggerDanhMuc.openMenu()" class="link-icon header-a" (click)="changActive($event)" >
           <mat-icon class="icon-link" aria-hidden="false" aria-label="Example home icon">playlist_add_check</mat-icon>
           Danh mục
           <mat-menu #menuDanhMuc="matMenu">
-            <span data-active="QuanLyDanhMucLinkTwo" (mouseleave)="createPlanmenuTriggerDanhMuc.closeMenu()">
+            <span data-active="QuanLyDanhMucLinkTwo" (click)="createPlanmenuTriggerDanhMuc.closeMenu()">
               <a (click)="changActive($event)" routerLink="/warehouse" mat-menu-item >Kho vận</a>
               <a (click)="changActive($event)" routerLink="/warehouse-item" mat-menu-item >Vật tư</a>
               <a (click)="changActive($event)" routerLink="/warehouse-item-category" mat-menu-item >Loại vật tư</a>

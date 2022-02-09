@@ -60,9 +60,9 @@ export class BeginningWareHouseService {
       catchError(this.handleError) // then handle the error
     );
   }
-  AddIndex(): Observable<ResultMessageResponse<BeginningWareHouse>> {
-    var url = this.baseUrl + `/create`;
-    return this.http.get<ResultMessageResponse<BeginningWareHouse>>(url, this.httpOptions).pipe(
+  AddIndex(id:string): Observable<ResultMessageResponse<BeginningWareHouseDTO>> {
+    var url = this.baseUrl + `/create?idWareHouse=`+id;
+    return this.http.get<ResultMessageResponse<BeginningWareHouseDTO>>(url, this.httpOptions).pipe(
       tap(_ => console.log(`create`)),
       catchError(this.handleError) // then handle the error
     );
