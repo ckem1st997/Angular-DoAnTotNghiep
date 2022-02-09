@@ -4,9 +4,9 @@ import { WareHouseItemDTO } from "./WareHouseItemDTO";
 
 export interface BeginningWareHouseDTO extends BaseModel {
     wareHouseId: string|null;
-    itemId: string;
-    unitId: string;
-    unitName: string;
+    itemId: string|null;
+    unitId: string|null;
+    unitName: string|null;
     quantity: number;
     createdDate: string;
     createdBy: string;

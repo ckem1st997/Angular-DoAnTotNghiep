@@ -6,6 +6,7 @@ import { BeginningWareHouseDTO } from 'src/app/model/BeginningWareHouseDTO';
 import { BeginningWareHouseService } from 'src/app/service/BeginningWareHouse.service';
 import { BeginningWareHouseValidator } from 'src/app/validator/BeginningWareHouseValidator';
 import { WareHouseBenginingEditComponent } from '../../edit/WareHouseBenginingEdit/WareHouseBenginingEdit.component';
+import { Guid } from './../../../extension/Guid';
 
 @Component({
   selector: 'app-WareHouseBenginingCreate',
@@ -54,7 +55,7 @@ export class WareHouseBenginingCreateComponent implements OnInit {
   ngOnInit(): void {
     this.dt = this.data;
     this.form = this.formBuilder.group({
-      id: this.dt.id,
+      id: this.dt.id ?? Guid.newGuid(),
       wareHouseId: this.dt.wareHouseId,
       itemId: this.dt.itemId,
       unitId: this.dt.unitId,
@@ -65,7 +66,11 @@ export class WareHouseBenginingCreateComponent implements OnInit {
   onNoClick(): void {
     this.dialogRef.close(false);
   }
-
+  changItem(e: any) {
+    var idSelect = e.target.value.split(" ")[1];
+    this.dt.unitId = this.dt.wareHouseItemDTO?.find(x => x.id === idSelect)?.unitId ?? null;
+    this.form.patchValue({ unitId: this.dt.unitId });
+  }
 
   //
   onSubmit() {
@@ -73,7 +78,7 @@ export class WareHouseBenginingCreateComponent implements OnInit {
     var msg = test.validate(this.form.value);
     var check = JSON.stringify(msg) == '{}';
     if (check == true)
-      this.service.Edit(this.form.value).subscribe(x => {
+      this.service.Add(this.form.value).subscribe(x => {
         if (x.success)
           this.dialogRef.close(x.success)
         else {
@@ -96,6 +101,6 @@ export class WareHouseBenginingCreateComponent implements OnInit {
 
 
 
-  
+
 }
 
