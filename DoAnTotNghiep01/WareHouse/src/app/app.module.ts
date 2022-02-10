@@ -63,6 +63,9 @@ import { WareHouseItemUnitCreateComponent } from './method/create/WareHouseItemU
 import { WareHouseBenginingEditComponent } from './method/edit/WareHouseBenginingEdit/WareHouseBenginingEdit.component';
 import { WareHouseBenginingCreateComponent } from './method/create/WareHouseBenginingCreate/WareHouseBenginingCreate.component';
 import { WareHouseBenginingCreateDeleteComponent } from './method/delete/WareHouseBenginingCreateDelete/WareHouseBenginingCreateDelete.component';
+import { WareHouseLimitCreateComponent } from './method/create/WareHouseLimitCreate/WareHouseLimitCreate.component';
+import { WareHouseLimitEditComponent } from './method/edit/WareHouseLimitEdit/WareHouseLimitEdit.component';
+import { WareHouseLimitDeleteComponent } from './method/delete/WareHouseLimitDelete/WareHouseLimitDelete.component';
 const customNotifierOptions: NotifierOptions = {
   position: {
     horizontal: {
@@ -143,7 +146,11 @@ const customNotifierOptions: NotifierOptions = {
     WareHouseBenginingComponent,
     WareHouseBenginingEditComponent,
     WareHouseBenginingCreateComponent,
-    WareHouseBenginingCreateDeleteComponent
+    WareHouseBenginingCreateDeleteComponent,
+    WareHouseLimitComponent,
+    WareHouseLimitCreateComponent,
+    WareHouseLimitEditComponent,
+    WareHouseLimitDeleteComponent
   ],
   imports: [
     BrowserModule,
