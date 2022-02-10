@@ -35,7 +35,12 @@
   <div style="width: 100%; height: 80%; ">
     <as-split direction="horizontal">
       <as-split-area [size]="15">
+        <div class="d-flex justify-content-center">
+          <button mat-raised-button (click)="GetAll()">Tất cả</button>         
+        </div>
+
         <mat-tree id="treeview" [dataSource]="dataSourceTreee" [treeControl]="treeControl">
+             <!-- This is the tree node template for leaf nodes -->
             <!-- This is the tree node template for leaf nodes -->
             <mat-tree-node *matTreeNodeDef="let node" >
               <!-- use a disabled button to provide padding for tree leaf -->

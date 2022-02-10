@@ -31,7 +31,8 @@ export class BeginningWareHouseService {
 
   getList(search: BeginningWareHouseSearchModel): Observable<ResultMessageResponse<BeginningWareHouseDTO>> {
     var check = search.active == null ? '' : search.active;
-    var url = this.baseUrl + `/get-list?KeySearch=` + search.keySearch + `&Active=` + check + `&Skip=` + search.skip + `&Take=` + search.take + ``;
+    var wareHouseId = search.wareHouseId == null ? '' : search.wareHouseId;
+    var url = this.baseUrl + `/get-list?KeySearch=` + search.keySearch + `&Active=` + check + `&Skip=` + search.skip + `&Take=` + search.take + `&WareHouseId=`+wareHouseId+``;
     return this.http.get<ResultMessageResponse<BeginningWareHouseDTO>>(url, this.httpOptions).pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(this.handleError) // then handle the error

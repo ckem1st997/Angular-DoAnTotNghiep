@@ -26,6 +26,8 @@ import { BeginningWareHouse } from 'src/app/entity/BeginningWareHouse';
 import { BeginningWareHouseService } from 'src/app/service/BeginningWareHouse.service';
 import { WareHouseBenginingEditComponent } from 'src/app/method/edit/WareHouseBenginingEdit/WareHouseBenginingEdit.component';
 import { WareHouseBenginingCreateComponent } from 'src/app/method/create/WareHouseBenginingCreate/WareHouseBenginingCreate.component';
+import { WareHouseBenginingCreateDeleteComponent } from 'src/app/method/delete/WareHouseBenginingCreateDelete/WareHouseBenginingCreateDelete.component';
+import { BeginningWareHouseSearchModel } from './../../model/BeginningWareHouseSearchModel';
 
 interface ExampleFlatNode {
   expandable: boolean;
@@ -60,11 +62,12 @@ export class WareHouseBenginingComponent implements OnInit {
   pageSizeOptions: number[] = [15, 50, 100];
   displayedColumns: string[] = ['select', 'id', 'wareHouseName', 'itemName', 'unitName', 'quantity', 'method'];
   dataSource = new MatTableDataSource<BeginningWareHouseDTO>();
-  model: WareHouseSearchModel = {
+  model: BeginningWareHouseSearchModel = {
     active: null,
     keySearch: '',
     skip: this.currentPage * this.pageSize,
-    take: this.pageSize
+    take: this.pageSize,
+    wareHouseId:null
   };
   list: ResultMessageResponse<BeginningWareHouseDTO> = {
     success: false,
@@ -224,7 +227,7 @@ export class WareHouseBenginingComponent implements OnInit {
 
   openDialogDelelte(model: BeginningWareHouseDTO): void {
     this.listDelete.push(model);
-    const dialogRef = this.dialog.open(WareHouseDeleteComponent, {
+    const dialogRef = this.dialog.open(WareHouseBenginingCreateDeleteComponent, {
       width: '550px',
       data: this.listDelete
     });
@@ -241,7 +244,7 @@ export class WareHouseBenginingComponent implements OnInit {
     var model = this.selection.selected;
     if (model.length > 0) {
       this.listDelete = model;
-      const dialogRef = this.dialog.open(WareHouseDeleteComponent, {
+      const dialogRef = this.dialog.open(WareHouseBenginingCreateDeleteComponent, {
         width: '550px',
         data: this.listDelete,
       });
@@ -296,6 +299,17 @@ export class WareHouseBenginingComponent implements OnInit {
       element.className = element.className.replace("activeButtonTreeView", " ");
     });
     select.className += " activeButtonTreeView";
+    this.model.wareHouseId=e.key;
+    this.GetData();
+  }
+
+  GetAll() {
+    var selectDelete = document.querySelectorAll("#treeview button");
+    selectDelete.forEach(element => {
+      element.className = element.className.replace("activeButtonTreeView", " ");
+    });
+    this.model.wareHouseId=null;
+    this.GetData();
   }
   /** The label for the checkbox on the passed row */
   checkboxLabel(row?: BeginningWareHouseDTO): string {

@@ -72,7 +72,11 @@ export class WareHouseBenginingEditComponent implements OnInit {
     this.dialogRef.close(false);
   }
 
-
+  changItem(e: any) {
+    var idSelect = e.target.value.split(" ")[1];
+    this.dt.unitId = this.dt.wareHouseItemDTO?.find(x => x.id === idSelect)?.unitId ?? null;
+    this.form.patchValue({ unitId: this.dt.unitId });
+  }
   //
   onSubmit() {
     var test = new BeginningWareHouseValidator();
