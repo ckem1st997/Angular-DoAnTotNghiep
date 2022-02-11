@@ -150,7 +150,8 @@ const customNotifierOptions: NotifierOptions = {
     WareHouseLimitComponent,
     WareHouseLimitCreateComponent,
     WareHouseLimitEditComponent,
-    WareHouseLimitDeleteComponent
+    WareHouseLimitDeleteComponent,
+    WareHouseBookComponent
   ],
   imports: [
     BrowserModule,
