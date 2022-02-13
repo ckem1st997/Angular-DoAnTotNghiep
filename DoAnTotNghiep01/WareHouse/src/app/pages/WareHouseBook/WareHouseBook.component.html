@@ -93,7 +93,7 @@
           
                 <ng-container matColumnDef="voucherDate">
                   <th style="width:110px;text-align: center;" mat-header-cell *matHeaderCellDef> Ngày tạo</th>
-                  <td style="text-align: center;" mat-cell *matCellDef="let element"> {{element.voucherDate.split('T')[0]}} </td>
+                  <td style="text-align: center;" mat-cell *matCellDef="let element">{{element.voucherDate.split('T')[0].split('-')[2]}}-{{element.voucherDate.split('T')[0].split('-')[1]}}- {{element.voucherDate.split('T')[0].split('-')[0]}} </td>
                 </ng-container>
                 
                 <ng-container matColumnDef="wareHouseName">

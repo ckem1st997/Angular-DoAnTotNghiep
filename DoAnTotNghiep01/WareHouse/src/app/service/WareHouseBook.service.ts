@@ -32,7 +32,7 @@ export class WareHouseBookService {
     var FromDate = search.fromDate == null ? '' : search.fromDate;
     var ToDate = search.toDate == null ? '' : search.toDate;
     var wareHouseId = search.wareHouseId == null ? '' : search.wareHouseId;
-    var url = this.baseUrl + `/get-list?KeySearch=` + search.keySearch + `&TypeWareHouseBook=` + TypeWareHouseBook + `&Skip=` + search.skip + `&Take=` + search.take + `&FromDate=`+FromDate+`&ToDate`+ToDate+ `&WareHouseId=`+wareHouseId+``;
+    var url = this.baseUrl + `/get-list?KeySearch=` + search.keySearch + `&TypeWareHouseBook=` + TypeWareHouseBook + `&Skip=` + search.skip + `&Take=` + search.take + `&FromDate=`+FromDate+`&ToDate=`+ToDate+ `&WareHouseId=`+wareHouseId+``;
     return this.http.get<ResultMessageResponse<WareHouseBookDTO>>(url, this.httpOptions).pipe(
       retry(3), // retry a failed request up to 3 times
       catchError(this.handleError) // then handle the error

@@ -13,6 +13,7 @@ import { WareHouseLimitDeleteComponent } from "src/app/method/delete/WareHouseLi
 import { WareHouseDetailsComponent } from "src/app/method/details/WareHouseDetails/WareHouseDetails.component";
 import { WareHouseLimitEditComponent } from "src/app/method/edit/WareHouseLimitEdit/WareHouseLimitEdit.component";
 import { FormSearchWareHouseComponent } from "src/app/method/search/FormSearchWareHouse/FormSearchWareHouse.component";
+import { FormSearchWareHouseBookComponent } from "src/app/method/search/formSearchWareHouseBook/formSearchWareHouseBook.component";
 import { ResultMessageResponse } from "src/app/model/ResultMessageResponse";
 import { TreeView } from "src/app/model/TreeView";
 import { WareHouseBookDTO } from "src/app/model/WareHouseBookDTO";
@@ -258,7 +259,7 @@ export class WareHouseBookComponent implements OnInit {
   }
   //searchQueryDialog
   searchQueryDialog(): void {
-    const dialogRef = this.dialog.open(FormSearchWareHouseComponent, {
+    const dialogRef = this.dialog.open(FormSearchWareHouseBookComponent, {
       width: '550px',
       height: '350px',
     });
@@ -267,6 +268,8 @@ export class WareHouseBookComponent implements OnInit {
       var res = result;
       this.model.keySearch = res.key;
       this.model.active = res.inactive;
+      this.model.fromDate=res.end !==null?new Date(res.start).toLocaleDateString():null;
+      this.model.toDate=res.start !==null?new Date(res.end).toLocaleDateString():null;
       this.GetData();
     });
   }

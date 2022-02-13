@@ -66,6 +66,10 @@ import { WareHouseBenginingCreateDeleteComponent } from './method/delete/WareHou
 import { WareHouseLimitCreateComponent } from './method/create/WareHouseLimitCreate/WareHouseLimitCreate.component';
 import { WareHouseLimitEditComponent } from './method/edit/WareHouseLimitEdit/WareHouseLimitEdit.component';
 import { WareHouseLimitDeleteComponent } from './method/delete/WareHouseLimitDelete/WareHouseLimitDelete.component';
+import { FormSearchBeginningComponent } from './method/search/formSearchBeginning/formSearchBeginning.component';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatNativeDateModule, MAT_DATE_LOCALE} from '@angular/material/core';
+import { FormSearchWareHouseBookComponent } from './method/search/formSearchWareHouseBook/formSearchWareHouseBook.component';
 const customNotifierOptions: NotifierOptions = {
   position: {
     horizontal: {
@@ -151,7 +155,9 @@ const customNotifierOptions: NotifierOptions = {
     WareHouseLimitCreateComponent,
     WareHouseLimitEditComponent,
     WareHouseLimitDeleteComponent,
-    WareHouseBookComponent
+    WareHouseBookComponent,
+    FormSearchBeginningComponent,
+    FormSearchWareHouseBookComponent
   ],
   imports: [
     BrowserModule,
@@ -177,10 +183,12 @@ const customNotifierOptions: NotifierOptions = {
     AngularSplitModule,
     MatTreeModule,
     CdkTreeModule,
-    NotifierModule.withConfig(customNotifierOptions)
+    NotifierModule.withConfig(customNotifierOptions),
+    MatDatepickerModule,
+    MatNativeDateModule
 
   ],
-  providers: [VendorService,WareHouseItemService],
+  providers: [VendorService,WareHouseItemService,{ provide: MAT_DATE_LOCALE, useValue: 'vn-VN' }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

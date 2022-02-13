@@ -48,7 +48,7 @@ export class WareHouseLimitService {
     var url = this.baseUrl + `/edit`;
     return this.http.post<ResultMessageResponse<WareHouseLimit>>(url, model, this.httpOptions).pipe(
       tap(_ => console.log(`edit WareHouses id=${model.id}`)),
-      catchError(this.handleError) // then handle the error
+      catchError(this.handleError) 
     );
   }
 
