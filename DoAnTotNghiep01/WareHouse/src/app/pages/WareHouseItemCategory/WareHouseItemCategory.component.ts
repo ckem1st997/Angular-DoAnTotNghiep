@@ -12,7 +12,7 @@ import { WareHouseDeleteComponent } from 'src/app/method/delete/WareHouseDelete/
 import { WareHouseItemCategoryDelelteComponent } from 'src/app/method/delete/WareHouseItemCategoryDelelte/WareHouseItemCategoryDelelte.component';
 import { WareHouseDetailsComponent } from 'src/app/method/details/WareHouseDetails/WareHouseDetails.component';
 import { WareHouseItemCategoryEditDetailsComponent } from 'src/app/method/details/WareHouseItemCategoryEditDetails/WareHouseItemCategoryEditDetails.component';
-import { WareHouseEditComponent } from 'src/app/method/edit/WareHouseEdit/WareHouseEdit.component';
+
 import { WareHouseItemCategoryEditComponent } from 'src/app/method/edit/WareHouseItemCategoryEdit/WareHouseItemCategoryEdit.component';
 import { FormSearchWareHouseComponent } from 'src/app/method/search/FormSearchWareHouse/FormSearchWareHouse.component';
 import { ResultMessageResponse } from 'src/app/model/ResultMessageResponse';

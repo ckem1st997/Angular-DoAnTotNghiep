@@ -11,6 +11,8 @@ import { UnitComponent } from './pages/Unit/Unit.component';
 import { WareHouseItemCategoryService } from './service/WareHouseItemCategory.service';
 import { WareHouseItemCategoryComponent } from './pages/WareHouseItemCategory/WareHouseItemCategory.component';
 import { WareHouseItemComponent } from './pages/WareHouseItem/WareHouseItem.component';
+import { InwardCreateComponent } from './method/create/InwardCreate/InwardCreate.component';
+import { NotFoundComponent } from './pages/NotFound/NotFound.component';
 
 const routes: Routes = [
   { path: 'warehouse-limit', component: WareHouseLimitComponent },
@@ -21,7 +23,10 @@ const routes: Routes = [
   { path: 'vendor', component: VendorComponent },
   { path: 'warehouse', component:  WareHouseComponent },
   { path: 'unit', component:  UnitComponent },
-  { path: '', component: HomeComponent }
+  { path: 'create-inward/:whid', component:  InwardCreateComponent },
+  { path: '', component: HomeComponent },
+  {path: '404', component: NotFoundComponent},
+  {path: '**', redirectTo: '/404'}
 ];
 
 @NgModule({

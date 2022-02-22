@@ -7,6 +7,7 @@ import { MatPaginator, PageEvent } from "@angular/material/paginator";
 import { MatSort, Sort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { MatTreeFlattener, MatTreeFlatDataSource } from "@angular/material/tree";
+import { ActivatedRoute, Router } from "@angular/router";
 import { NotifierService } from "angular-notifier";
 import { WareHouseLimitCreateComponent } from "src/app/method/create/WareHouseLimitCreate/WareHouseLimitCreate.component";
 import { WareHouseLimitDeleteComponent } from "src/app/method/delete/WareHouseLimitDelete/WareHouseLimitDelete.component";
@@ -106,7 +107,7 @@ export class WareHouseBookComponent implements OnInit {
 
   dataSourceTreee = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
-  constructor(private service: WareHouseBookService, private serviceW: WarehouseService, private _liveAnnouncer: LiveAnnouncer, public dialog: MatDialog, notifierService: NotifierService) {
+  constructor(private route: Router,private service: WareHouseBookService, private serviceW: WarehouseService, private _liveAnnouncer: LiveAnnouncer, public dialog: MatDialog, notifierService: NotifierService) {
     this.notifier = notifierService;
   }
 
@@ -254,9 +255,25 @@ export class WareHouseBookComponent implements OnInit {
       });
     }
     else
-      this.notifier.notify('warning', "Bạn chưa chọn kho nào !");
+      this.notifier.notify('warning', "Bạn chưa chọn phiếu nào !");
 
   }
+
+
+  createInward(){
+      var idCheck: string | null = null;
+    var selectDelete = document.querySelectorAll("#treeview button");
+    selectDelete.forEach(element => {
+      if (element.className.includes("activeButtonTreeView"))
+        idCheck = element.getAttribute("id");
+    });
+    if (idCheck !==null) {
+      this.route.navigate(['/create-inward', idCheck ]);
+    }
+    else
+      this.notifier.notify('warning', "Bạn chưa chọn kho nào !");
+  }
+
   //searchQueryDialog
   searchQueryDialog(): void {
     const dialogRef = this.dialog.open(FormSearchWareHouseBookComponent, {

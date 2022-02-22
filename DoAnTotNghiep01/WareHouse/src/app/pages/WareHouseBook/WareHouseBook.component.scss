@@ -1,3 +1,17 @@
+table {
+  width: 100%;
+}
+table {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  min-width: 500px;
+}
+
+th.mat-header-cell {
+  text-align: left;
+  max-width: 300px;
+}
 ul.breadcrumbone {
   margin-left: 25px;
   display: inline-block;
@@ -64,6 +78,17 @@ ul.breadcrumbone li:last-child a {
 // }
 ul.breadcrumbone li:last-child:hover a {
   width: 70px;
-  // height: 100px;
-  // line-height: 20px;
+}
+.mat-row:hover .mat-cell {
+  border-color: currentColor;
+}
+.mat-column-id{
+  display: none;
+}
+.mat-column-parentId{
+  display: none;
+}
+
+.activeButtonTreeView{
+  background-color: aqua;;
 }

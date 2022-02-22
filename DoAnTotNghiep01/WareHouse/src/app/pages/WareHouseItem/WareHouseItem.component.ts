@@ -43,7 +43,6 @@ export class WareHouseItemComponent implements OnInit {
   //noti
   private readonly notifier!: NotifierService;
   //tree-view
-
   checkSizeWindows: boolean = true;
   public getScreenWidth: any;
   public getScreenHeight: any;
