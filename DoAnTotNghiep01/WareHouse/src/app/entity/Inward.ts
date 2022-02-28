@@ -10,7 +10,7 @@ export interface Inward extends BaseEntity {
     deliver: string;
     receiver: string;
     vendorId: string;
-    reason: number;
+    reason: string;
     reasonDescription: string;
     description: string;
     reference: string;
@@ -18,6 +18,12 @@ export interface Inward extends BaseEntity {
     createdBy: string;
     modifiedDate: string;
     modifiedBy: string;
+    deliverPhone: string;
+    deliverAddress: string;
+    deliverDepartment: string;
+    receiverPhone: string;
+    receiverAddress: string;
+    receiverDepartment: string;
     vendor: Vendor;
     wareHouse: WareHouse;
     inwardDetails: InwardDetail[];

@@ -70,6 +70,7 @@ import { FormSearchBeginningComponent } from './method/search/formSearchBeginnin
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule, MAT_DATE_LOCALE} from '@angular/material/core';
 import { FormSearchWareHouseBookComponent } from './method/search/formSearchWareHouseBook/formSearchWareHouseBook.component';
+import { InwardCreateComponent } from './method/create/InwardCreate/InwardCreate.component';
 const customNotifierOptions: NotifierOptions = {
   position: {
     horizontal: {
@@ -157,7 +158,8 @@ const customNotifierOptions: NotifierOptions = {
     WareHouseLimitDeleteComponent,
     WareHouseBookComponent,
     FormSearchBeginningComponent,
-    FormSearchWareHouseBookComponent
+    FormSearchWareHouseBookComponent,
+    InwardCreateComponent
   ],
   imports: [
     BrowserModule,
