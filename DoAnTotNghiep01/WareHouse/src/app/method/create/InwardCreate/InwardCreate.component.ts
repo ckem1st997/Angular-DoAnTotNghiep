@@ -39,7 +39,6 @@ export class InwardCreateComponent implements OnInit {
     domainEvents: []
   };
   constructor(private formBuilder: FormBuilder, private route: ActivatedRoute, private service: InwardService) {
-
   }
 
   ngOnInit() {
