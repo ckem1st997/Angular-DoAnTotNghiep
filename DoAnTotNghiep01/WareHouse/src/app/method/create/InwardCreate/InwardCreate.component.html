@@ -109,27 +109,26 @@
         <mat-label class="form-label col-3" style="margin-right: 10px;">Số chứng từ thực tế</mat-label>
         <input formControlName="voucherCode" class="form-control col-8">
       </div>
-      <div class="form-group mb-1 row">
+      <div class="form-group mb-1 row dateselect" >
         <mat-label class="form-label col-3" style="margin-right: 10px;">Ngày</mat-label>
-        <!-- <input matInput [matDatepicker]="datepicker" formControlName="voucherDate" class="form-control col-8"> -->
       
-          <!-- <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+        <mat-form-field appearance="fill" class="example-form-field col-8" style="padding: 0;">
+          <input matInput formControlName="voucherDate" class="form-control col-8" [matDatepicker]="datepicker">
+          <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
           <mat-datepicker #datepicker>
             <mat-datepicker-actions>
               <button mat-button matDatepickerCancel>Cancel</button>
               <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
             </mat-datepicker-actions>
-          </mat-datepicker> -->
+          </mat-datepicker>
+        </mat-form-field>
 
       </div>
       <div class="form-group mb-1 row">
         <mat-label class="form-label col-3" style="margin-right: 10px;">Người tạo</mat-label>
         <input formControlName="createdBy" class="form-control col-8">
       </div>
-      <div class="form-group mb-1 row">
-        <mat-label class="form-label col-3" style="margin-right: 10px;">Ngày tạo</mat-label>
-        <input formControlName="createdDate" class="form-control col-8">
-      </div>
+     
 
     </div>
     <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
