@@ -71,6 +71,8 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule, MAT_DATE_LOCALE} from '@angular/material/core';
 import { FormSearchWareHouseBookComponent } from './method/search/formSearchWareHouseBook/formSearchWareHouseBook.component';
 import { InwardCreateComponent } from './method/create/InwardCreate/InwardCreate.component';
+import {DpDatePickerModule} from 'ng2-date-picker';
+import { AngularDayjsModule } from 'angular-dayjs';
 const customNotifierOptions: NotifierOptions = {
   position: {
     horizontal: {
@@ -187,7 +189,9 @@ const customNotifierOptions: NotifierOptions = {
     CdkTreeModule,
     NotifierModule.withConfig(customNotifierOptions),
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    DpDatePickerModule ,
+    AngularDayjsModule
 
   ],
   providers: [VendorService,WareHouseItemService,{ provide: MAT_DATE_LOCALE, useValue: 'vn-VN' }],

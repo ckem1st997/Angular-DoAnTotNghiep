@@ -113,9 +113,9 @@
         <mat-label class="form-label col-3" style="margin-right: 10px;">Ngày</mat-label>
       
         <mat-form-field appearance="fill" class="example-form-field col-8" style="padding: 0;">
-          <input matInput formControlName="voucherDate" class="form-control col-8" [matDatepicker]="datepicker">
+          <input  matInput formControlName="voucherDate" class=" col-8" [matDatepicker]="datepicker">
           <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
-          <mat-datepicker #datepicker>
+          <mat-datepicker #datepicker disabled="false">
             <mat-datepicker-actions>
               <button mat-button matDatepickerCancel>Cancel</button>
               <button mat-raised-button color="primary" matDatepickerApply>Apply</button>

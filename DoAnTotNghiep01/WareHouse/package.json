@@ -20,9 +20,12 @@
     "@angular/platform-browser": "~13.0.0",
     "@angular/platform-browser-dynamic": "~13.0.0",
     "@angular/router": "~13.0.0",
+    "angular-dayjs": "0.0.4",
     "angular-notifier": "^9.1.0",
     "angular-split": "^13.1.0",
+    "dayjs": "^1.10.8",
     "fluentvalidation-ts": "^2.2.2",
+    "ng2-date-picker": "^13.1.1",
     "rxjs": "~7.4.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
