@@ -34,7 +34,7 @@
 </div>
 <div class="container-fluid" style=" height: 100%; ">
   <form class="row" style="padding: 5px;" [formGroup]="form" (ngSubmit)="onSubmit()">
-    <div class="col-4 ">
+    <div class="col-md-4 ">
       <div class="form-group d-none">
         <mat-label class="form-label">Id</mat-label>
         <input type="text" formControlName="id" class="form-control" />
@@ -73,7 +73,7 @@
         </select>
       </div>
     </div>
-    <div class="col-4 ">
+    <div class="col-md-4 ">
       <div class="form-group mb-1 row " style="opacity: 0;">
         <mat-label class="form-label col-3" style="margin-right: 10px;">Bên nhận</mat-label>
         <input class="form-control col-8">
@@ -100,35 +100,28 @@
       </div>
     </div>
 
-    <div class="col-4 ">
+    <div class="col-md-4 ">
+      
       <div class="form-group mb-1 row ">
         <mat-label class="form-label col-3" style="margin-right: 10px;">Số chứng từ</mat-label>
         <input formControlName="voucherCode" class="form-control col-8">
       </div>
       <div class="form-group mb-1 row">
         <mat-label class="form-label col-3" style="margin-right: 10px;">Số chứng từ thực tế</mat-label>
-        <input formControlName="voucherCode" class="form-control col-8">
+        <input  class="form-control col-8">
       </div>
       <div class="form-group mb-1 row dateselect" >
         <mat-label class="form-label col-3" style="margin-right: 10px;">Ngày</mat-label>
-      
-        <mat-form-field appearance="fill" class="example-form-field col-8" style="padding: 0;">
-          <input  matInput formControlName="voucherDate" class=" col-8" [matDatepicker]="datepicker">
-          <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
-          <mat-datepicker #datepicker disabled="false">
-            <mat-datepicker-actions>
-              <button mat-button matDatepickerCancel>Cancel</button>
-              <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
-            </mat-datepicker-actions>
-          </mat-datepicker>
-        </mat-form-field>
-
+        <input type="datetime-local"  matInput formControlName="voucherDate" class="form-control col-8">
       </div>
       <div class="form-group mb-1 row">
         <mat-label class="form-label col-3" style="margin-right: 10px;">Người tạo</mat-label>
         <input formControlName="createdBy" class="form-control col-8">
       </div>
-     
+      <div class="form-group mb-1 row dateselect" >
+        <mat-label class="form-label col-3" style="margin-right: 10px;">Ngày tạo</mat-label>
+        <input type="datetime-local" [readonly]="true"  matInput formControlName="createdDate" class="form-control col-8">
+      </div>
 
     </div>
     <!-- <button type="submit" class="btn btn-primary">Submit</button> -->

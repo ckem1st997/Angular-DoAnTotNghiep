@@ -13,7 +13,7 @@ export interface InwardDTO extends BaseModel {
     reasonDescription: string|null;
     description: string|null;
     reference: string|null;
-    createdDate: string|null;
+    createdDate: Date|null;
     createdBy: string|null;
     modifiedDate: string|null;
     modifiedBy: string|null;

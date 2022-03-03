@@ -46,7 +46,7 @@ export class InwardCreateComponent implements OnInit {
     this.form = this.formBuilder.group({
       id: Guid.newGuid(),
       voucherCode: null,
-      voucherDate: null,
+      voucherDate: new Date().toISOString().slice(0, 16),
       wareHouseId: this.route.snapshot.paramMap.get('whid'),
       deliver: null,
       receiver: null,
@@ -55,7 +55,7 @@ export class InwardCreateComponent implements OnInit {
       reasonDescription: null,
       description: null,
       reference: null,
-      createdDate: null,
+      createdDate:new Date().toISOString().slice(0, 16),
       createdBy: null,
       modifiedDate: null,
       modifiedBy: null,
