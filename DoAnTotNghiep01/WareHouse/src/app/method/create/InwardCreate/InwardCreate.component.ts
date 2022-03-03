@@ -77,6 +77,7 @@ export class InwardCreateComponent implements OnInit {
   }
 
   onSubmit() {
+    console.log(this.form.value)
     // var test = new UnitValidator();
     // var msg = test.validate(this.form.value);
     // var check = JSON.stringify(msg) == '{}';

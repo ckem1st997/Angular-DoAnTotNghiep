@@ -1,4 +1,6 @@
 <notifier-container></notifier-container>
+<form class="" style="padding: 5px;" [formGroup]="form" (ngSubmit)="onSubmit()">
+
 <div class=" d-flex justify-content-between" style="margin-top: 10px;">
   <ul class="breadcrumbone">
     <li>
@@ -19,9 +21,8 @@
   </ul>
   <div class="">
     <div class="">
-      <button style="margin:5px;" mat-raised-button color="primary">
-        <mat-icon class="mat-18">search</mat-icon>Tìm
-        kiếm
+      <button type="submit" style="margin:5px;" mat-raised-button color="primary">
+        <mat-icon class="mat-18">search</mat-icon>Save
       </button>
       <button style="margin:5px;" mat-raised-button color="success">
         <mat-icon class="mat-18">add</mat-icon>Phiếu nhập
@@ -33,7 +34,7 @@
   </div>
 </div>
 <div class="container-fluid" style=" height: 100%; ">
-  <form class="row" style="padding: 5px;" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div class="row">
     <div class="col-md-4 ">
       <div class="form-group d-none">
         <mat-label class="form-label">Id</mat-label>
@@ -124,6 +125,18 @@
       </div>
 
     </div>
-    <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
-  </form>
+
+
+    <div class="col-md-12 ">
+      
+      <div class="form-group mb-1 row ">
+        <mat-label class="form-label col-1" style="margin-right: 10px;">Mô tả</mat-label>
+        <textarea style="width: 55.666667% !important;" formControlName="description" class="form-control"></textarea>
+      </div>
+     
+    </div>
+  </div>
+
+
 </div>
+</form>

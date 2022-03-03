@@ -96,5 +96,8 @@ table {
     flex: 0 0 auto;
     width: 66.66666667% !important;
 }
-
+input.form-control, select {
+  height: 23px !important;
+  font-size: 10.9px !important;
+}
 
