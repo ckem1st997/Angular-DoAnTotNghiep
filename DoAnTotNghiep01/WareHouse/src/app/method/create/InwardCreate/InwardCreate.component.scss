@@ -107,4 +107,9 @@ input.form-control, select {
   font-weight: 500;
 }
 
-
+.example-table-container {
+  position: relative;
+  min-height: 200px;
+  max-height: 400px;
+  overflow: auto;
+}
