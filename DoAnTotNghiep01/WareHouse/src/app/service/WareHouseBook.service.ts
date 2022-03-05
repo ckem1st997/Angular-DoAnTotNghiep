@@ -4,6 +4,7 @@ import { Observable, retry, catchError, tap, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { WareHouseLimit } from '../entity/WareHouseLimit';
 import { InwardDetailDTO } from '../model/InwardDetailDTO';
+import { ResultDataResponse } from '../model/ResultDataResponse';
 import { ResultMessageResponse } from '../model/ResultMessageResponse';
 import { WareHouseBookSearchModel } from '../model/WareHouseBookSearchModel';
 import { WareHouseBookDTO } from './../model/WareHouseBookDTO';
@@ -54,9 +55,9 @@ export class WareHouseBookService {
   //     catchError(this.handleError) // then handle the error
   //   );
   // }
-  AddInwarDetailsIndex(): Observable<ResultMessageResponse<InwardDetailDTO>> {
+  AddInwarDetailsIndex(): Observable<ResultDataResponse<InwardDetailDTO>> {
     var url = this.baseUrl + `/create-inward-details`;
-    return this.http.get<ResultMessageResponse<InwardDetailDTO>>(url, this.httpOptions).pipe(
+    return this.http.get<ResultDataResponse<InwardDetailDTO>>(url, this.httpOptions).pipe(
       tap(_ => console.log(`create`)),
       catchError(this.handleError) // then handle the error
     );

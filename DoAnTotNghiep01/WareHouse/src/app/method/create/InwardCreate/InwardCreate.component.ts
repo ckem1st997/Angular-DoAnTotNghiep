@@ -36,7 +36,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
 export class InwardCreateComponent implements OnInit {
   form!: FormGroup;
   dt: InwardDTO = {
-    id: Guid.newGuid(),
+    id: "",
     voucherCode: null,
     voucherDate: null,
     wareHouseId: null,
@@ -108,18 +108,22 @@ export class InwardCreateComponent implements OnInit {
   }
 
   addData() {
+    const dialogRef = this.dialog.open(InwarDetailsCreateComponent, {
+      width: '450px',
+      data: null
+    });
     this.serviceBook.AddInwarDetailsIndex().subscribe(x => {
-      this.modelCreate = x.data;
-      const dialogRef = this.dialog.open(WareHouseItemCreateComponent, {
-        width: '550px',
-        data: this.modelCreate
+     const model = x.data;
+     model.inwardId=this.form.value["id"];
+      const dialogRef = this.dialog.open(InwarDetailsCreateComponent, {
+        width: '450px',
+        data: model
       });
 
       dialogRef.afterClosed().subscribe(result => {
         var res = result;
         if (res) {
-          this.notifier.notify('success', 'Thêm mới thành công !');
-          this.GetData();
+          this.notifier.notify('success', 'Thêm mới thành công !');        
         }
       });
 

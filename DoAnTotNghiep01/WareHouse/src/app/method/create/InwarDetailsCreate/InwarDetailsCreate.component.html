@@ -3,43 +3,120 @@
   <form class="container" [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="form-group d-none">
       <mat-label class="form-label">Id</mat-label>
-      <input type="text" formControlName="id" class="form-control" /> 
+      <input type="text" formControlName="id" class="form-control" />
     </div>
-    <div class="form-group row mb-1">
+    <div class="form-group d-none">
+      <mat-label class="form-label">inwardId</mat-label>
+      <input type="text" formControlName="inwardId" class="form-control" />
+    </div>
+    <div class="form-group row mb-1" style="position: relative;">
       <mat-label class="form-label col-3">Vật tư</mat-label>
-      <input type="text" formControlName="name" class="form-control col" /> 
+      <select formControlName="itemId" class="form-select col" required>
+        <option class="s-c option" *ngFor="let state of dt.wareHouseItemDTO" [ngValue]="state.id">
+          {{ state.name }}
+        </option>
+      </select>
+
+    </div>
+    <div class="form-group row mb-1" style="position: relative;">
+      <mat-label class="form-label col-3">Đơn vị tính</mat-label>
+      <select formControlName="unitId" class="form-select col">
+        <option class="s-c option" *ngFor="let state of dt.unitDTO" [ngValue]="state.id">
+          {{ state.unitName }}
+        </option>
+      </select>
     </div>
     <div class="form-group row mb-1">
-      <mat-label class="form-label col-3">Code</mat-label>
-      <input type="text" formControlName="code" class="form-control col" /> 
+      <mat-label class="form-label col-3">Số lượng</mat-label>
+      <input type="text" formControlName="uiquantity" class="form-control col" aria-required="true"/>
+    </div>
+    <div class="form-group row mb-1">
+      <mat-label class="form-label col-3">Đơn giá</mat-label>
+      <input type="text" formControlName="uiprice" class="form-control col" />
+    </div>
+    <div class="form-group row mb-1">
+      <mat-label class="form-label col-3">Thành tiền</mat-label>
+      <input type="text" formControlName="amount" class="form-control col" />
+    </div>
+    <!-- <div class="form-group row mb-1">
+      <mat-label class="form-label col-3">Email</mat-label>
+      <input type="text" formControlName="quantity" class="form-control col" />
     </div>
 
     <div class="form-group row mb-1">
-      <mat-label class="form-label col-3">Địa chỉ</mat-label>
-      <textarea type="text" formControlName="address" class="form-control col"></textarea>
-    </div>
-    <div class="form-group row mb-1">
-      <mat-label class="form-label col-3">Điện thoại</mat-label>
-      <input type="text" formControlName="phone" class="form-control col" /> 
-    </div>
-    <div class="form-group row mb-1">
-      <mat-label class="form-label col-3">Contact Person</mat-label>
-      <input type="text" formControlName="contactPerson" class="form-control col" /> 
-    </div>
-    <div class="form-group row mb-1">
       <mat-label class="form-label col-3">Email</mat-label>
-      <input type="text" formControlName="email" class="form-control col" /> 
+      <input type="text" formControlName="price" class="form-control col" />
+    </div> -->
+
+    <div class="form-group row mb-1" style="position: relative;">
+      <mat-label class="form-label col-3">Bộ phận</mat-label>
+      <select formControlName="departmentId" class="form-select col">
+        <option class="s-c option" *ngFor="let state of dt.wareHouseItemDTO" [ngValue]="state.id">
+          {{ state.name }}
+        </option>
+      </select>
+
     </div>
-    <div class="form-group row mb-1 ">
-      <mat-label class="form-label col-3 ">Trạng thái</mat-label>
-      <!-- <input type="checkbox" formControlName="inactive" class="form-check-input" />  -->
-      <mat-checkbox style="padding-left: 0;" class="example-margin col"formControlName="inactive"></mat-checkbox>
+    <div class="form-group row mb-1" style="position: relative;">
+      <mat-label class="form-label col-3">Nhân viên</mat-label>
+      <select formControlName="employeeId" class="form-select col">
+        <option class="s-c option" *ngFor="let state of dt.wareHouseItemDTO" [ngValue]="state.id">
+          {{ state.name }}
+        </option>
+      </select>
+
     </div>
-    <div  style="margin-top: 10px;float: right;">
-      <button type="submit" mat-button  mat-raised-button cdkFocusInitial color="primary">Save</button>
-      <button style="margin-left: 20px;" mat-button type="button"  mat-raised-button  (click)="onNoClick()">Huỷ bỏ</button>
-     
+    <div class="form-group row mb-1" style="position: relative;">
+      <mat-label class="form-label col-3">Trạm</mat-label>
+      <select formControlName="stationId" class="form-select col">
+        <option class="s-c option" *ngFor="let state of dt.wareHouseItemDTO" [ngValue]="state.id">
+          {{ state.name }}
+        </option>
+      </select>
+
+    </div>
+    <div class="form-group row mb-1" style="position: relative;">
+      <mat-label class="form-label col-3">Dự án</mat-label>
+      <select formControlName="projectId" class="form-select col">
+        <option class="s-c option" *ngFor="let state of dt.wareHouseItemDTO" [ngValue]="state.id">
+          {{ state.name }}
+        </option>
+      </select>
+
+    </div>
+    <div class="form-group row mb-1" style="position: relative;">
+      <mat-label class="form-label col-3">CID</mat-label>
+      <select formControlName="customerId" class="form-select col">
+        <option class="s-c option" *ngFor="let state of dt.wareHouseItemDTO" [ngValue]="state.id">
+          {{ state.name }}
+        </option>
+      </select>
+
+    </div>
+    <div class="form-group row mb-1" style="position: relative;">
+      <mat-label class="form-label col-3">Tài khoản nợ</mat-label>
+      <select formControlName="accountMore" class="form-select col">
+        <option class="s-c option" *ngFor="let state of dt.wareHouseItemDTO" [ngValue]="state.id">
+          {{ state.name }}
+        </option>
+      </select>
+
+    </div>
+    <div class="form-group row mb-1" style="position: relative;">
+      <mat-label class="form-label col-3">Tài khoản có</mat-label>
+      <select formControlName="accountYes" class="form-select col">
+        <option class="s-c option" *ngFor="let state of dt.wareHouseItemDTO" [ngValue]="state.id">
+          {{ state.name }}
+        </option>
+      </select>
+
+    </div>
+
+    <div style="margin-top: 10px;float: right;">
+      <button type="submit" mat-button mat-raised-button cdkFocusInitial color="primary">Save</button>
+      <button style="margin-left: 20px;" mat-button type="button" mat-raised-button (click)="onNoClick()">Huỷ
+        bỏ</button>
+
     </div>
   </form>
 </div>
-

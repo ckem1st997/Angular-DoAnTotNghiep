@@ -28,27 +28,27 @@ export class InwarDetailsCreateComponent implements OnInit {
     this.dt = this.data;
     this.form = this.formBuilder.group({
       id: Guid.newGuid(),
-      inwardId: null,
-    itemId: null,
-    unitId: null,
-    uiquantity: 0,
-    uiprice: 0,
-    amount: 0,
-    quantity: 0,
-    price: 0,
-    departmentId: null,
-    departmentName: null,
-    employeeId: null,
-    employeeName: null,
-    stationId: null,
-    stationName: null,
-    projectId: null,
-    projectName: null,
-    customerId: null,
-    customerName: null,
-    accountMore: null,
-    accountYes: null,
-    status: null
+      inwardId: this.dt.inwardId,
+      itemId: null,
+      unitId: null,
+      uiquantity: 0,
+      uiprice: 0,
+      amount: 0,
+      quantity: 0,
+      price: 0,
+      departmentId: null,
+      departmentName: null,
+      employeeId: null,
+      employeeName: null,
+      stationId: null,
+      stationName: null,
+      projectId: null,
+      projectName: null,
+      customerId: null,
+      customerName: null,
+      accountMore: null,
+      accountYes: null,
+      status: null
     });
   }
   get f() { return this.form.controls; }
@@ -60,7 +60,7 @@ export class InwarDetailsCreateComponent implements OnInit {
     var msg = test.validate(this.form.value);
     var check = JSON.stringify(msg) == '{}';
     if (check == true)
-        this.dialogRef.close(1) 
+      this.dialogRef.close(1)
     else {
       var message = '';
       for (const [key, value] of Object.entries(msg)) {
