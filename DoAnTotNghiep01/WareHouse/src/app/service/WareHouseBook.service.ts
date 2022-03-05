@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, retry, catchError, tap, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { WareHouseLimit } from '../entity/WareHouseLimit';
+import { InwardDetailDTO } from '../model/InwardDetailDTO';
 import { ResultMessageResponse } from '../model/ResultMessageResponse';
 import { WareHouseBookSearchModel } from '../model/WareHouseBookSearchModel';
 import { WareHouseBookDTO } from './../model/WareHouseBookDTO';
@@ -53,13 +54,13 @@ export class WareHouseBookService {
   //     catchError(this.handleError) // then handle the error
   //   );
   // }
-  // AddIndex(id:string): Observable<ResultMessageResponse<WareHouseLimitDTO>> {
-  //   var url = this.baseUrl + `/create?idWareHouse=`+id;
-  //   return this.http.get<ResultMessageResponse<WareHouseLimitDTO>>(url, this.httpOptions).pipe(
-  //     tap(_ => console.log(`create`)),
-  //     catchError(this.handleError) // then handle the error
-  //   );
-  // }
+  AddInwarDetailsIndex(): Observable<ResultMessageResponse<InwardDetailDTO>> {
+    var url = this.baseUrl + `/create-inward-details`;
+    return this.http.get<ResultMessageResponse<InwardDetailDTO>>(url, this.httpOptions).pipe(
+      tap(_ => console.log(`create`)),
+      catchError(this.handleError) // then handle the error
+    );
+  }
   // Add(model: WareHouseLimit): Observable<ResultMessageResponse<WareHouseLimit>> {
   //   var url = this.baseUrl + `/create`;
   //   return this.http.post<ResultMessageResponse<WareHouseLimit>>(url, model, this.httpOptions).pipe(

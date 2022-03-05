@@ -1,11 +1,9 @@
-﻿import { BaseEntity } from "./BaseEntity";
-import { Inward } from "./Inward";
-import { SerialWareHouse } from "./SerialWareHouse";
-import { Unit } from "./Unit";
-import { WareHouseItem } from "./WareHouseItem";
+import { BaseModel } from "./BaseModel";
+import { InwardDTO } from "./InwardDTO";
+import { UnitDTO } from "./UnitDTO";
+import { WareHouseItemDTO } from "./WareHouseItemDTO";
 
-
-export interface InwardDetail extends BaseEntity {
+export interface InwardDetailDTO extends BaseModel {
     inwardId: string;
     itemId: string;
     unitId: string;
@@ -27,8 +25,10 @@ export interface InwardDetail extends BaseEntity {
     accountMore: string;
     accountYes: string;
     status: string;
-    inward: Inward;
-    item: WareHouseItem;
-    unit: Unit;
-    serialWareHouses: SerialWareHouse[];
+    inward: InwardDTO;
+    item: WareHouseItemDTO;
+    unit: UnitDTO;
+    unitDTO: UnitDTO[];
+    wareHouseItemDTO: WareHouseItemDTO[];
+   // serialWareHouses: SerialWareHouse[];
 }

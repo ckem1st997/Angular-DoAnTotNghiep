@@ -73,6 +73,7 @@ import { FormSearchWareHouseBookComponent } from './method/search/formSearchWare
 import { InwardCreateComponent } from './method/create/InwardCreate/InwardCreate.component';
 import {DpDatePickerModule} from 'ng2-date-picker';
 import { AngularDayjsModule } from 'angular-dayjs';
+import { InwarDetailsCreateComponent } from './method/create/InwarDetailsCreate/InwarDetailsCreate.component';
 const customNotifierOptions: NotifierOptions = {
   position: {
     horizontal: {
@@ -161,7 +162,8 @@ const customNotifierOptions: NotifierOptions = {
     WareHouseBookComponent,
     FormSearchBeginningComponent,
     FormSearchWareHouseBookComponent,
-    InwardCreateComponent
+    InwardCreateComponent,
+    InwarDetailsCreateComponent
   ],
   imports: [
     BrowserModule,
