@@ -11,7 +11,10 @@ import { NotifierService } from 'angular-notifier';
 import { InwarDetailsCreateComponent } from '../InwarDetailsCreate/InwarDetailsCreate.component';
 import { WareHouseBookService } from 'src/app/service/WareHouseBook.service';
 import { InwardDetailDTO } from 'src/app/model/InwardDetailDTO';
-
+import { WareHouseItemDTO } from 'src/app/model/WareHouseItemDTO';
+import { UnitDTO } from 'src/app/model/UnitDTO';
+import { BaseSelectDTO } from 'src/app/model/BaseSelectDTO';
+import { InwarDetailsEditComponent } from '../../edit/InwarDetailsEdit/InwarDetailsEdit.component';
 @Component({
   selector: 'app-InwardCreate',
   templateUrl: './InwardCreate.component.html',
@@ -19,6 +22,14 @@ import { InwardDetailDTO } from 'src/app/model/InwardDetailDTO';
 })
 export class InwardCreateComponent implements OnInit {
   form!: FormGroup;
+  listDetails = Array<InwardDetailDTO>();
+  listItem = Array<WareHouseItemDTO>();
+  listUnit = Array<UnitDTO>();
+  getDepartmentDTO = Array<BaseSelectDTO>();
+  getEmployeeDTO = Array<BaseSelectDTO>();
+  getStationDTO = Array<BaseSelectDTO>();
+  getProjectDTO = Array<BaseSelectDTO>();
+  getCustomerDTO = Array<BaseSelectDTO>();
   dt: InwardDTO = {
     id: "",
     voucherCode: null,
@@ -46,7 +57,7 @@ export class InwardCreateComponent implements OnInit {
     domainEvents: []
   };
   private readonly notifier!: NotifierService;
-  displayedColumns: string[] = ['id', 'itemId', 'unitId', 'uiquantity', 'uiprice'];
+  displayedColumns: string[] = ['id', 'itemId', 'unitId', 'uiquantity', 'uiprice', 'amount', 'departmentName', 'employeeName', 'stationName', 'projectName', 'customerName', 'method'];
   dataSource = new MatTableDataSource<InwardDetailDTO>();
   @ViewChild(MatTable)
   table!: MatTable<InwardDetailDTO>;
@@ -66,7 +77,7 @@ export class InwardCreateComponent implements OnInit {
     const getScreenHeight = window.innerHeight;
     var clientHeight = document.getElementById('formCreate') as HTMLFormElement;
     const table = document.getElementById("formTable") as HTMLDivElement;
-    table.style.height = getScreenHeight - 64 - 55 -clientHeight.clientHeight + "px";
+    table.style.height = getScreenHeight - 64 - 55 - clientHeight.clientHeight + "px";
     this.getCreate();
     this.form = this.formBuilder.group({
       id: Guid.newGuid(),
@@ -101,10 +112,23 @@ export class InwardCreateComponent implements OnInit {
     });
 
   }
-
+  getNameItem(id: string) {
+    return this.listItem.find(x => x.id === id)?.name;
+  }
+  getNameUnit(id: string) {
+    return this.listUnit.find(x => x.id === id)?.unitName;
+  }
   addData() {
     this.serviceBook.AddInwarDetailsIndex().subscribe(x => {
       const model = x.data;
+      // lấy data từ api gán vào biến tạm
+      this.listItem = x.data.wareHouseItemDTO;
+      this.listUnit = x.data.unitDTO;
+      this.getCustomerDTO = x.data.getCustomerDTO;
+      this.getDepartmentDTO = x.data.getDepartmentDTO;
+      this.getEmployeeDTO = x.data.getEmployeeDTO;
+      this.getProjectDTO = x.data.getProjectDTO;
+      this.getStationDTO = x.data.getStationDTO;
       model.inwardId = this.form.value["id"];
       const dialogRef = this.dialog.open(InwarDetailsCreateComponent, {
         width: '450px',
@@ -113,9 +137,9 @@ export class InwardCreateComponent implements OnInit {
 
       dialogRef.afterClosed().subscribe(result => {
         var res = result;
-        console.log(res);
         if (res) {
-          this.dataSource.data.push(res);
+          this.listDetails.push(result);
+          this.dataSource.data = this.listDetails;
           this.table.renderRows();
         }
       });
@@ -123,6 +147,39 @@ export class InwardCreateComponent implements OnInit {
     });
 
   }
+
+
+  openDialogedit(id: string): void {
+
+    const model = this.listDetails.find(x => x.id === id);
+    if (model !== undefined) {
+      // gán data từ biến tạm gán vào biến model, để tránh gọi sang api lấy lại data
+      if (model.wareHouseItemDTO.length < 1) this.listItem.forEach(element => { model.wareHouseItemDTO.push(element) });
+      if (model.unitDTO.length < 1) this.listUnit.forEach(element => { model.unitDTO.push(element) });
+      if (model.getCustomerDTO.length < 1) this.getCustomerDTO.forEach(element => { model.getCustomerDTO.push(element) });
+      if (model.getDepartmentDTO.length < 1) this.getDepartmentDTO.forEach(element => { model.getDepartmentDTO.push(element) });
+      if (model.getEmployeeDTO.length < 1) this.getEmployeeDTO.forEach(element => { model.getEmployeeDTO.push(element) });
+      if (model.getProjectDTO.length < 1) this.getProjectDTO.forEach(element => { model.getProjectDTO.push(element) });
+      if (model.getStationDTO.length < 1) this.getStationDTO.forEach(element => { model.getStationDTO.push(element) });
+      console.log(model);
+      const dialogRef = this.dialog.open(InwarDetailsEditComponent, {
+        width: '550px',
+        data: model,
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        var res = result;
+        if (res) {
+          this.listDetails = this.listDetails.filter(x => x !== this.listDetails.find(x => x.id === res.id));
+          this.listDetails.push(res);
+          this.dataSource.data = this.listDetails;
+          this.table.renderRows();
+        }
+      });
+    }
+
+  }
+
 
   removeData() {
     this.dataSource.data.pop();

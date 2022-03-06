@@ -14,6 +14,7 @@ import { WareHouseCreateComponent } from '../WareHouseCreate/WareHouseCreate.com
   templateUrl: './WareHouseItemCategoryCreate.component.html',
   styleUrls: ['./WareHouseItemCategoryCreate.component.scss']
 })
+
 export class WareHouseItemCategoryCreateComponent implements OnInit {
 
   title = "Thêm loại vật tư";

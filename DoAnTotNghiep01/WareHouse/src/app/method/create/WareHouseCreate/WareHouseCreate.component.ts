@@ -6,7 +6,6 @@ import { Guid } from 'src/app/extension/Guid';
 import { ResultMessageResponse } from 'src/app/model/ResultMessageResponse';
 import { VendorDTO } from 'src/app/model/VendorDTO';
 import { WareHouseDTO } from 'src/app/model/WareHouseDTO';
-import { VendorService } from 'src/app/service/VendorService.service';
 import { WarehouseService } from 'src/app/service/warehouse.service';
 import { VendorValidator } from 'src/app/validator/VendorValidator';
 import { WareHouseValidator } from 'src/app/validator/WareHouseValidator';

@@ -14,7 +14,6 @@ import { WarehouseService } from 'src/app/service/warehouse.service';
 import { WareHouseItemService } from 'src/app/service/WareHouseItem.service';
 import { VendorValidator } from 'src/app/validator/VendorValidator';
 import { WareHouseItemValidator } from 'src/app/validator/WareHouseItemValidator';
-import { WareHouseValidator } from 'src/app/validator/WareHouseValidator';
 
 @Component({
   selector: 'app-WareHouseItemCreate',
