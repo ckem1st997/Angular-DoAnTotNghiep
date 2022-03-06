@@ -74,6 +74,7 @@ import { InwardCreateComponent } from './method/create/InwardCreate/InwardCreate
 import {DpDatePickerModule} from 'ng2-date-picker';
 import { AngularDayjsModule } from 'angular-dayjs';
 import { InwarDetailsCreateComponent } from './method/create/InwarDetailsCreate/InwarDetailsCreate.component';
+import {MatChipsModule} from '@angular/material/chips';
 const customNotifierOptions: NotifierOptions = {
   position: {
     horizontal: {
@@ -193,7 +194,8 @@ const customNotifierOptions: NotifierOptions = {
     MatDatepickerModule,
     MatNativeDateModule,
     DpDatePickerModule ,
-    AngularDayjsModule
+    AngularDayjsModule,
+    MatChipsModule
 
   ],
   providers: [VendorService,WareHouseItemService,{ provide: MAT_DATE_LOCALE, useValue: 'vn-VN' }],

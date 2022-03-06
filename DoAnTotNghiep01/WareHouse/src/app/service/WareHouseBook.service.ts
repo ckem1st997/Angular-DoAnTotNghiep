@@ -6,6 +6,7 @@ import { WareHouseLimit } from '../entity/WareHouseLimit';
 import { InwardDetailDTO } from '../model/InwardDetailDTO';
 import { ResultDataResponse } from '../model/ResultDataResponse';
 import { ResultMessageResponse } from '../model/ResultMessageResponse';
+import { UnitDTO } from '../model/UnitDTO';
 import { WareHouseBookSearchModel } from '../model/WareHouseBookSearchModel';
 import { WareHouseBookDTO } from './../model/WareHouseBookDTO';
 
@@ -13,7 +14,7 @@ import { WareHouseBookDTO } from './../model/WareHouseBookDTO';
   providedIn: 'root'
 })
 export class WareHouseBookService {
-  private baseUrl = environment.baseApi+'WareHouseBook';
+  private baseUrl = environment.baseApi + 'WareHouseBook';
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
@@ -34,9 +35,16 @@ export class WareHouseBookService {
     var FromDate = search.fromDate == null ? '' : search.fromDate;
     var ToDate = search.toDate == null ? '' : search.toDate;
     var wareHouseId = search.wareHouseId == null ? '' : search.wareHouseId;
-    var url = this.baseUrl + `/get-list?KeySearch=` + search.keySearch + `&TypeWareHouseBook=` + TypeWareHouseBook + `&Skip=` + search.skip + `&Take=` + search.take + `&FromDate=`+FromDate+`&ToDate=`+ToDate+ `&WareHouseId=`+wareHouseId+``;
+    var url = this.baseUrl + `/get-list?KeySearch=` + search.keySearch + `&TypeWareHouseBook=` + TypeWareHouseBook + `&Skip=` + search.skip + `&Take=` + search.take + `&FromDate=` + FromDate + `&ToDate=` + ToDate + `&WareHouseId=` + wareHouseId + ``;
     return this.http.get<ResultMessageResponse<WareHouseBookDTO>>(url, this.httpOptions).pipe(
       retry(3), // retry a failed request up to 3 times
+      catchError(this.handleError) // then handle the error
+    );
+  }
+  GetUnitByIdItem(id: string): Observable<ResultMessageResponse<UnitDTO>> {
+    var url = this.baseUrl + `/get-unit-by-id?IdItem=`+id;
+    return this.http.get<ResultMessageResponse<UnitDTO>>(url, this.httpOptions).pipe(
+      tap(_ => console.log(`create`)),
       catchError(this.handleError) // then handle the error
     );
   }
@@ -62,6 +70,7 @@ export class WareHouseBookService {
       catchError(this.handleError) // then handle the error
     );
   }
+
   // Add(model: WareHouseLimit): Observable<ResultMessageResponse<WareHouseLimit>> {
   //   var url = this.baseUrl + `/create`;
   //   return this.http.post<ResultMessageResponse<WareHouseLimit>>(url, model, this.httpOptions).pipe(
@@ -70,7 +79,7 @@ export class WareHouseBookService {
   //   );
   // }
 
- Delete(ids:string[]): Observable<ResultMessageResponse<WareHouseLimit>> {
+  Delete(ids: string[]): Observable<ResultMessageResponse<WareHouseLimit>> {
     var url = this.baseUrl + `/delete`;
     return this.http.post<ResultMessageResponse<WareHouseLimit>>(url, ids, this.httpOptions).pipe(
       tap(_ => console.log(`delete  id=${ids}`)),
