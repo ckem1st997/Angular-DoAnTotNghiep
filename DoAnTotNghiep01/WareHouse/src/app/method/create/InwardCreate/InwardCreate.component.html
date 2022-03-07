@@ -1,34 +1,29 @@
 <div id="formCreateDiv" style="height: 100%;position: relative;    padding-top: 362px;">
   <notifier-container></notifier-container>
   <form id="formCreate" style="position: absolute;top: 0;width: 100%;" [formGroup]="form" (ngSubmit)="onSubmit()">
-    <div class=" d-flex justify-content-between" style="border-bottom: 1px solid #ced4da;align-items: center;">
-      <ul class="breadcrumbone">
-        <li>
-          <a href="#">
-            <span class="text">Test</span>
-          </a>
+    <div class=" d-flex justify-content-between" style="border-bottom: 1px solid #ced4da;align-items: center;height: 55px;">
+
+      <ul class="breadcrumb">
+        <li class="breadcrumb__item breadcrumb__item-firstChild">
+          <span class="breadcrumb__inner">
+            <span class="breadcrumb__title">Nhập kho</span>
+          </span>
         </li>
-        <li>
-          <a href="#">
-            <span class="text">Quản lý sổ kho</span>
-          </a>
+        <li class="breadcrumb__item">
+          <span class="breadcrumb__inner">
+            <span class="breadcrumb__title">Thêm kho</span>
+          </span>
         </li>
-        <li>
-          <a routerLink="/">
-            <i class="bi bi-house"></i>
-          </a>
-        </li>
+      
       </ul>
+
       <div class="">
         <div class="">
           <button type="submit" mat-raised-button color="primary">
             <mat-icon class="mat-18">save</mat-icon>Save
           </button>
-          <button style="margin:5px;" mat-raised-button color="success">
-            <mat-icon class="mat-18">add</mat-icon>Phiếu nhập
-          </button>
-          <button mat-raised-button color="warn">
-            <mat-icon class="mat-18">delete</mat-icon>Xóa (Đã chọn)
+          <button style="margin-left: 5px;" mat-raised-button color="warn">
+            <mat-icon class="mat-18">delete</mat-icon>Huỷ
           </button>
         </div>
       </div>
@@ -37,7 +32,9 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-4 ">
-          <p>PHIẾU NHẬP KHO</p>
+          <p style="margin-bottom: 5px;color: #23527c; border-bottom: none; text-transform: uppercase; width: 84%;font-size: 12px;
+          font-weight: 600;
+          font-family: TahomaCustom,Arial,sans-serif !important;">Phiếu nhập kho</p>
           <div class="form-group d-none">
             <mat-label class="form-label">Id</mat-label>
             <input type="text" formControlName="id" class="form-control" />
@@ -105,7 +102,9 @@
         </div>
 
         <div class="col-md-4 ">
-          <p>THÔNG TIN CHUNG</p>
+          <p style="margin-bottom: 5px;color: #23527c; border-bottom: none; text-transform: uppercase; width: 84%;font-size: 12px;
+          font-weight: 600;
+          font-family: TahomaCustom,Arial,sans-serif !important;">Thông tin chung</p>
           <div class="form-group mb-1 row ">
             <mat-label class="form-label col-4" style="margin-right: 10px;">Số chứng từ</mat-label>
             <input type="text" formControlName="voucher" [value]="this.dt.voucher" class="form-control col-7"
@@ -152,15 +151,14 @@
 
   <div id="formTable" style="margin-top: 10px;     padding-left: 10px;
   padding-right: 10px;">
-    <div class="demo-button-container">
-      <button mat-raised-button (click)="addData()" class="demo-button">
-        Add data
-      </button>
-      <button mat-raised-button (click)="removeData()" class="demo-button">
-        Remove data
+    <div class="demo-button-container"
+      style="display: flex;justify-content: space-between;align-items: center; margin-bottom: 3px;">
+      <div>DANH SÁCH VẬT TƯ</div>
+      <button (click)="addData()" mat-raised-button color="success">
+        <mat-icon class="mat-18">add</mat-icon>Thêm vật tư
       </button>
     </div>
-    <div class="table-data" style="height: 90%;overflow: auto;">
+    <div class="table-data" style="height: 90%;overflow: auto;width: 100%;border-top:1px solid #ced4da ;">
 
       <cdk-virtual-scroll-viewport appendOnly itemSize="50" class="example-viewport">
         <table mat-table [dataSource]="dataSource" style="min-height: 1px !important" class="demo-table">
@@ -220,7 +218,7 @@
               <button mat-icon-button color="primary" (click)="openDialogedit(element.id)">
                 <mat-icon class="mat-18">edit</mat-icon>
               </button>
-              <button mat-icon-button color="warn">
+              <button mat-icon-button color="warn" (click)="openDialogDelelte(element.id)">
                 <mat-icon class="mat-18">delete</mat-icon>
               </button>
             </td>

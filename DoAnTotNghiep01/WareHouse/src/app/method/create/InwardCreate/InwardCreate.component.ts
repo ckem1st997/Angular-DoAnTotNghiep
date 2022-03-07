@@ -70,17 +70,16 @@ export class InwardCreateComponent implements OnInit {
   }
   @HostListener('window:resize', ['$event'])
 
-  onWindowResize() {
+  onWindowResize(): void {
     const getScreenHeight = window.innerHeight;
     var clientHeight = document.getElementById('formCreate') as HTMLFormElement;
+    var clientHeightForm = document.getElementById('formCreateDiv') as HTMLFormElement;
     const table = document.getElementById("formTable") as HTMLDivElement;
-    table.style.height = getScreenHeight - 64 - clientHeight.clientHeight + "px";
+    table.style.height = getScreenHeight - 75 - clientHeight.clientHeight + "px";
+    clientHeightForm.style.paddingTop = clientHeight.clientHeight + "px";
   }
   ngOnInit() {
-    const getScreenHeight = window.innerHeight;
-    var clientHeight = document.getElementById('formCreate') as HTMLFormElement;
-    const table = document.getElementById("formTable") as HTMLDivElement;
-    table.style.height = getScreenHeight - 64 - clientHeight.clientHeight + "px";
+    this.onWindowResize();
     const whid = this.route.snapshot.paramMap.get('whid');
     this.service.AddIndex(whid).subscribe(x => {
       this.dt = x.data;
@@ -151,6 +150,18 @@ export class InwardCreateComponent implements OnInit {
     });
 
   }
+  openDialogDelelte(id: string): void {
+    const model = this.listDetails.find(x => x.id === id);
+    if (model !== undefined) {
+      this.listDetails = this.listDetails.filter(x => x !== this.listDetails.find(x => x.id === id));
+      this.dataSource.data = this.listDetails;
+      this.table.renderRows();
+      this.notifier.notify('success', 'Xóa thành công');
+    }
+    else
+      this.notifier.notify('error', 'Xóa thất bại');
+
+  }
 
 
   openDialogedit(id: string): void {
@@ -190,12 +201,10 @@ export class InwardCreateComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.form.value)
     this.form.value["voucher"] = this.dt.voucher;
     var test = new InwardValidator();
     var msg = test.validate(this.form.value);
     var check = JSON.stringify(msg) == '{}';
-    console.log(msg);
     if (check == true) {
       var checkDetails = this.listDetails.length > 0;
       if (checkDetails == true) {
