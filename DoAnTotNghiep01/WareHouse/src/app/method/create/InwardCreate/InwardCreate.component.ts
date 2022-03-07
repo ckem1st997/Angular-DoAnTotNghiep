@@ -15,6 +15,7 @@ import { WareHouseItemDTO } from 'src/app/model/WareHouseItemDTO';
 import { UnitDTO } from 'src/app/model/UnitDTO';
 import { BaseSelectDTO } from 'src/app/model/BaseSelectDTO';
 import { InwarDetailsEditComponent } from '../../edit/InwarDetailsEdit/InwarDetailsEdit.component';
+import { InwardValidator } from 'src/app/validator/InwardValidator';
 @Component({
   selector: 'app-InwardCreate',
   templateUrl: './InwardCreate.component.html',
@@ -73,13 +74,13 @@ export class InwardCreateComponent implements OnInit {
     const getScreenHeight = window.innerHeight;
     var clientHeight = document.getElementById('formCreate') as HTMLFormElement;
     const table = document.getElementById("formTable") as HTMLDivElement;
-    table.style.height = getScreenHeight - 64 - 55 - clientHeight.clientHeight + "px";
+    table.style.height = getScreenHeight - 64 - clientHeight.clientHeight + "px";
   }
   ngOnInit() {
     const getScreenHeight = window.innerHeight;
     var clientHeight = document.getElementById('formCreate') as HTMLFormElement;
     const table = document.getElementById("formTable") as HTMLDivElement;
-    table.style.height = getScreenHeight - 64 - 55 - clientHeight.clientHeight + "px";
+    table.style.height = getScreenHeight - 64 - clientHeight.clientHeight + "px";
     const whid = this.route.snapshot.paramMap.get('whid');
     this.service.AddIndex(whid).subscribe(x => {
       this.dt = x.data;
@@ -87,7 +88,7 @@ export class InwardCreateComponent implements OnInit {
     this.form = this.formBuilder.group({
       id: Guid.newGuid(),
       voucherCode: null,
-      voucher: null,
+      voucher: this.dt.voucher,
       voucherDate: new Date().toISOString().slice(0, 16),
       wareHouseId: this.route.snapshot.paramMap.get('whid'),
       deliver: null,
@@ -99,7 +100,7 @@ export class InwardCreateComponent implements OnInit {
       reference: null,
       createdDate: new Date().toISOString().slice(0, 16),
       createdBy: null,
-      modifiedDate: null,
+      modifiedDate: new Date().toISOString().slice(0, 16),
       modifiedBy: null,
       deliverPhone: null,
       deliverAddress: null,
@@ -112,7 +113,7 @@ export class InwardCreateComponent implements OnInit {
   }
 
   getCreate() {
-   
+
 
   }
   getNameItem(id: string) {
@@ -190,24 +191,37 @@ export class InwardCreateComponent implements OnInit {
 
   onSubmit() {
     console.log(this.form.value)
-    // var test = new UnitValidator();
-    // var msg = test.validate(this.form.value);
-    // var check = JSON.stringify(msg) == '{}';
-    // if (check == true)
-    //   this.service.Add(this.form.value).subscribe(x => {
-    //     if (x.success)
-    //       this.dialogRef.close(x.success)
-    //     else
-    //       this.notifier.notify('error', x.errors["msg"][0]);
-    //   }
-    //   );
-    // else {
-    //   var message = '';
-    //   for (const [key, value] of Object.entries(msg)) {
-    //     message = message + " " + value;
-    //   }
-    //   this.notifier.notify('error', message);
-    // }
+    this.form.value["voucher"] = this.dt.voucher;
+    var test = new InwardValidator();
+    var msg = test.validate(this.form.value);
+    var check = JSON.stringify(msg) == '{}';
+    console.log(msg);
+    if (check == true) {
+      var checkDetails = this.listDetails.length > 0;
+      if (checkDetails == true) {
+        this.form.value["inwardDetails"] = this.listDetails;
+        this.service.Add(this.form.value).subscribe(x => {
+          if (x.success)
+            this.notifier.notify('success', 'Thêm thành công');
+          else
+            this.notifier.notify('error', x.errors["msg"][0]);
+        }
+        );
+      }
+      else {
+        this.notifier.notify('error', 'Vui lòng nhập chi tiết phiếu nhập');
+      }
+
+
+    }
+
+    else {
+      var message = '';
+      for (const [key, value] of Object.entries(msg)) {
+        message = message + " " + value;
+      }
+      this.notifier.notify('error', message);
+    }
 
   }
 }
