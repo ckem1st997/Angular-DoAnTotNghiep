@@ -1,6 +1,7 @@
 import { BaseModel } from "./BaseModel";
 import { BaseSelectDTO } from "./BaseSelectDTO";
 import { InwardDTO } from "./InwardDTO";
+import { SerialWareHouseDTO } from "./SerialWareHouseDTO";
 import { UnitDTO } from "./UnitDTO";
 import { WareHouseItemDTO } from "./WareHouseItemDTO";
 
@@ -26,6 +27,7 @@ export interface InwardDetailDTO extends BaseModel {
     accountMore: string;
     accountYes: string;
     status: string;
+    serialWareHouses: SerialWareHouseDTO[];
     inward: InwardDTO|null;
     item: WareHouseItemDTO|null;
     unit: UnitDTO|null;

@@ -19,6 +19,7 @@ export class InwarDetailsEditComponent implements OnInit {
   form!: FormGroup;
   dt!: InwardDetailDTO;
   options!: FormGroup;
+  serialWareHousesShow: any[] = [];
   constructor(
     public dialogRef: MatDialogRef<InwarDetailsEditComponent>,
     @Inject(MAT_DIALOG_DATA) public data: InwardDetailDTO,
@@ -28,9 +29,9 @@ export class InwarDetailsEditComponent implements OnInit {
   ) { this.notifier = notifierService; }
   ngOnInit() {
     this.dt = this.data;
-
+    this.serialWareHousesShow = this.data.serialWareHouses;
     this.form = this.formBuilder.group({
-      id:this.dt.id,
+      id: this.dt.id,
       inwardId: this.dt.inwardId,
       itemId: this.dt.itemId,
       unitId: this.dt.unitId,
@@ -38,7 +39,7 @@ export class InwarDetailsEditComponent implements OnInit {
       uiprice: this.dt.uiprice,
       amount: this.dt.amount,
       quantity: this.dt.quantity,
-      price:this.dt.price,
+      price: this.dt.price,
       departmentId: this.dt.departmentId,
       departmentName: null,
       employeeId: this.dt.employeeId,
@@ -50,8 +51,9 @@ export class InwarDetailsEditComponent implements OnInit {
       customerId: this.dt.customerId,
       customerName: null,
       accountMore: this.dt.accountMore,
-      accountYes:this.dt.accountYes,
+      accountYes: this.dt.accountYes,
       status: this.dt.status,
+      serialWareHouses: this.dt.serialWareHouses
     });
   }
   get f() { return this.form.controls; }
@@ -72,7 +74,6 @@ export class InwarDetailsEditComponent implements OnInit {
 
   }
   onSubmit() {
-    console.log(this.form.value);
     var test = new InwardDetailsValidator();
     var msg = test.validate(this.form.value);
     var check = JSON.stringify(msg) == '{}';
@@ -83,14 +84,24 @@ export class InwarDetailsEditComponent implements OnInit {
       this.form.value["customerName"] = this.dt.getCustomerDTO.find(x => x.id === this.form.value["customerId"])?.name;
       this.form.value["projectName"] = this.dt.getProjectDTO.find(x => x.id === this.form.value["projectId"])?.name;
       //
-      this.form.value["unitDTO"] =  [];
-      this.form.value["wareHouseItemDTO"] =  [];
-      this.form.value["getDepartmentDTO"] =  [];
-      this.form.value["getEmployeeDTO"] =  [];
-      this.form.value["getStationDTO"] =  [];
+      this.form.value["unitDTO"] = [];
+      this.form.value["wareHouseItemDTO"] = [];
+      this.form.value["getDepartmentDTO"] = [];
+      this.form.value["getEmployeeDTO"] = [];
+      this.form.value["getStationDTO"] = [];
       this.form.value["getProjectDTO"] = [];
       this.form.value["getCustomerDTO"] = [];
-
+      //
+      var serialWareHouses = this.form.value["serialWareHouses"];
+      if (serialWareHouses !== undefined && serialWareHouses !== null)
+        serialWareHouses.forEach((element: { id: string; itemId: string; serial: string; inwardDetailId: string; isOver: boolean } | null) => {
+          if (element !== null) {
+            element.id = Guid.newGuid();
+            element.itemId = this.form.value["itemId"];
+            element.inwardDetailId = this.form.value["id"];
+            element.isOver = true;
+          }
+        });
       this.dialogRef.close(this.form.value);
 
       this.notifier.notify('success', 'Chỉnh sửa thành công !');

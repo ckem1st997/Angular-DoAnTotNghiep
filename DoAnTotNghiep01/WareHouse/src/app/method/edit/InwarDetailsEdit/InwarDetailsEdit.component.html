@@ -101,7 +101,14 @@
       </select>
 
     </div>
-    <!-- <select class="form-control" name="Serial" id="Serial" multiple="multiple" style="width: 100%"></select> -->
+    <div class="form-group row">
+      <mat-label class="form-label col-3">Serial</mat-label>
+      <tag-input [ngModel]="serialWareHousesShow" style="padding-left: 0;" theme='bootstrap' class="col" formControlName="serialWareHouses" [identifyBy]="'id'" [displayBy]="'serial'" [maxItems]='5'>
+        <!-- <tag-input-dropdown [autocompleteItems]="[{display: 'Item1', value: 0}, 'item2', 'item3']">
+        </tag-input-dropdown> -->
+
+      </tag-input>
+    </div>
 
     <div style="margin-top: 10px;float: right;">
       <button type="submit" mat-button mat-raised-button cdkFocusInitial color="primary">Save</button>

@@ -4,6 +4,7 @@ import { InwardDetail } from "./InwardDetail";
 import { Vendor } from "./Vendor";
 import { WareHouse } from "./WareHouse";
 export interface Inward extends BaseEntity {
+    voucher:string;
     voucherCode: string;
     voucherDate: string;
     wareHouseId: string;

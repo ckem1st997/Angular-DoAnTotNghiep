@@ -109,11 +109,11 @@
           <p>THÔNG TIN CHUNG</p>
           <div class="form-group mb-1 row ">
             <mat-label class="form-label col-4" style="margin-right: 10px;">Số chứng từ</mat-label>
-            <input formControlName="voucherCode" class="form-control col-7">
+            <input formControlName="voucher" class="form-control col-7" [attr.disabled]="true">
           </div>
           <div class="form-group mb-1 row">
             <mat-label class="form-label col-4" style="margin-right: 10px;">Số chứng từ thực tế</mat-label>
-            <input class="form-control col-7">
+            <input formControlName="voucherCode" class="form-control col-7">
           </div>
           <div class="form-group mb-1 row dateselect">
             <mat-label class="form-label col-4" style="margin-right: 10px;">Ngày</mat-label>
@@ -121,7 +121,11 @@
           </div>
           <div class="form-group mb-1 row">
             <mat-label class="form-label col-4" style="margin-right: 10px;">Người tạo</mat-label>
-            <input formControlName="createdBy" class="form-control col-7">
+            <select formControlName="createdBy" class="form-select col-7">
+              <option class="s-c option" *ngFor="let state of dt.getCreateBy" [ngValue]="state.id">
+                {{ state.name }}
+              </option>
+            </select>
           </div>
           <div class="form-group mb-1 row dateselect">
             <mat-label class="form-label col-4" style="margin-right: 10px;">Ngày tạo</mat-label>

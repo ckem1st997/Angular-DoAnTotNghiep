@@ -54,7 +54,9 @@ export class InwardCreateComponent implements OnInit {
     receiverDepartment: null,
     wareHouseDTO: [],
     vendorDTO: [],
-    domainEvents: []
+    domainEvents: [],
+    voucher: null,
+    getCreateBy: []
   };
   private readonly notifier!: NotifierService;
   displayedColumns: string[] = ['id', 'itemId', 'unitId', 'uiquantity', 'uiprice', 'amount', 'departmentName', 'employeeName', 'stationName', 'projectName', 'customerName', 'method'];
@@ -78,38 +80,40 @@ export class InwardCreateComponent implements OnInit {
     var clientHeight = document.getElementById('formCreate') as HTMLFormElement;
     const table = document.getElementById("formTable") as HTMLDivElement;
     table.style.height = getScreenHeight - 64 - 55 - clientHeight.clientHeight + "px";
-    this.getCreate();
-    this.form = this.formBuilder.group({
-      id: Guid.newGuid(),
-      voucherCode: null,
-      voucherDate: new Date().toISOString().slice(0, 16),
-      wareHouseId: this.route.snapshot.paramMap.get('whid'),
-      deliver: null,
-      receiver: null,
-      vendorId: null,
-      reason: null,
-      reasonDescription: null,
-      description: null,
-      reference: null,
-      createdDate: new Date().toISOString().slice(0, 16),
-      createdBy: null,
-      modifiedDate: null,
-      modifiedBy: null,
-      deliverPhone: null,
-      deliverAddress: null,
-      deliverDepartment: null,
-      receiverPhone: null,
-      receiverAddress: null,
-      receiverDepartment: null,
-      inwardDetails: null
-    });
-  }
-
-  getCreate() {
     const whid = this.route.snapshot.paramMap.get('whid');
     this.service.AddIndex(whid).subscribe(x => {
       this.dt = x.data;
+      this.form = this.formBuilder.group({
+        id: Guid.newGuid(),
+        voucherCode: null,
+        voucher: this.dt.voucher,
+        voucherDate: new Date().toISOString().slice(0, 16),
+        wareHouseId: this.route.snapshot.paramMap.get('whid'),
+        deliver: null,
+        receiver: null,
+        vendorId: null,
+        reason: null,
+        reasonDescription: null,
+        description: null,
+        reference: null,
+        createdDate: new Date().toISOString().slice(0, 16),
+        createdBy: null,
+        modifiedDate: null,
+        modifiedBy: null,
+        deliverPhone: null,
+        deliverAddress: null,
+        deliverDepartment: null,
+        receiverPhone: null,
+        receiverAddress: null,
+        receiverDepartment: null,
+        inwardDetails: null
+      });
     });
+   
+  }
+
+  getCreate() {
+   
 
   }
   getNameItem(id: string) {
@@ -161,7 +165,6 @@ export class InwardCreateComponent implements OnInit {
       if (model.getEmployeeDTO.length < 1) this.getEmployeeDTO.forEach(element => { model.getEmployeeDTO.push(element) });
       if (model.getProjectDTO.length < 1) this.getProjectDTO.forEach(element => { model.getProjectDTO.push(element) });
       if (model.getStationDTO.length < 1) this.getStationDTO.forEach(element => { model.getStationDTO.push(element) });
-      console.log(model);
       const dialogRef = this.dialog.open(InwarDetailsEditComponent, {
         width: '550px',
         data: model,

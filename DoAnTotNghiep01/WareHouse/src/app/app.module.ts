@@ -76,6 +76,7 @@ import { AngularDayjsModule } from 'angular-dayjs';
 import { InwarDetailsCreateComponent } from './method/create/InwarDetailsCreate/InwarDetailsCreate.component';
 import {MatChipsModule} from '@angular/material/chips';
 import { InwarDetailsEditComponent } from './method/edit/InwarDetailsEdit/InwarDetailsEdit.component';
+import { TagInputModule } from 'ngx-chips';
 const customNotifierOptions: NotifierOptions = {
   position: {
     horizontal: {
@@ -197,7 +198,8 @@ const customNotifierOptions: NotifierOptions = {
     MatNativeDateModule,
     DpDatePickerModule ,
     AngularDayjsModule,
-    MatChipsModule
+    MatChipsModule,
+    TagInputModule
 
   ],
   providers: [VendorService,WareHouseItemService,{ provide: MAT_DATE_LOCALE, useValue: 'vn-VN' }],
