@@ -83,33 +83,32 @@ export class InwardCreateComponent implements OnInit {
     const whid = this.route.snapshot.paramMap.get('whid');
     this.service.AddIndex(whid).subscribe(x => {
       this.dt = x.data;
-      this.form = this.formBuilder.group({
-        id: Guid.newGuid(),
-        voucherCode: null,
-        voucher: this.dt.voucher,
-        voucherDate: new Date().toISOString().slice(0, 16),
-        wareHouseId: this.route.snapshot.paramMap.get('whid'),
-        deliver: null,
-        receiver: null,
-        vendorId: null,
-        reason: null,
-        reasonDescription: null,
-        description: null,
-        reference: null,
-        createdDate: new Date().toISOString().slice(0, 16),
-        createdBy: null,
-        modifiedDate: null,
-        modifiedBy: null,
-        deliverPhone: null,
-        deliverAddress: null,
-        deliverDepartment: null,
-        receiverPhone: null,
-        receiverAddress: null,
-        receiverDepartment: null,
-        inwardDetails: null
-      });
     });
-   
+    this.form = this.formBuilder.group({
+      id: Guid.newGuid(),
+      voucherCode: null,
+      voucher: null,
+      voucherDate: new Date().toISOString().slice(0, 16),
+      wareHouseId: this.route.snapshot.paramMap.get('whid'),
+      deliver: null,
+      receiver: null,
+      vendorId: null,
+      reason: null,
+      reasonDescription: null,
+      description: null,
+      reference: null,
+      createdDate: new Date().toISOString().slice(0, 16),
+      createdBy: null,
+      modifiedDate: null,
+      modifiedBy: null,
+      deliverPhone: null,
+      deliverAddress: null,
+      deliverDepartment: null,
+      receiverPhone: null,
+      receiverAddress: null,
+      receiverDepartment: null,
+      inwardDetails: null
+    });
   }
 
   getCreate() {

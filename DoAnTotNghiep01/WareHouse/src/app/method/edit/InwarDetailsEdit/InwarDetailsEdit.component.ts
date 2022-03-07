@@ -103,7 +103,6 @@ export class InwarDetailsEditComponent implements OnInit {
           }
         });
       this.dialogRef.close(this.form.value);
-
       this.notifier.notify('success', 'Chỉnh sửa thành công !');
     }
     else {

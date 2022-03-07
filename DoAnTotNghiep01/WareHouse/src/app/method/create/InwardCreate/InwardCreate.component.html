@@ -109,7 +109,7 @@
           <p>THÔNG TIN CHUNG</p>
           <div class="form-group mb-1 row ">
             <mat-label class="form-label col-4" style="margin-right: 10px;">Số chứng từ</mat-label>
-            <input formControlName="voucher" class="form-control col-7" [attr.disabled]="true">
+            <input formControlName="voucher" [value]="this.dt.voucher" class="form-control col-7" [attr.disabled]="true">
           </div>
           <div class="form-group mb-1 row">
             <mat-label class="form-label col-4" style="margin-right: 10px;">Số chứng từ thực tế</mat-label>
@@ -132,7 +132,6 @@
             <input type="datetime-local" [readonly]="true" matInput formControlName="createdDate"
               class="form-control col-7">
           </div>
-
         </div>
 
 
