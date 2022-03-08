@@ -55,7 +55,7 @@ export class WareHouseBookComponent implements OnInit {
   pageSize = 15;
   currentPage = 0;
   pageSizeOptions: number[] = [15, 50, 100];
-  displayedColumns: string[] = ['select', 'id','type', 'voucherCode','voucherDate','wareHouseName','deliver','receiver','reason','createdBy','modifiedBy', 'method'];
+  displayedColumns: string[] = ['select', 'id', 'type', 'voucherCode', 'voucherDate', 'wareHouseName', 'deliver', 'receiver', 'reason', 'createdBy', 'modifiedBy', 'method'];
   dataSource = new MatTableDataSource<WareHouseBookDTO>();
   model: WareHouseBookSearchModel = {
     active: null,
@@ -65,7 +65,7 @@ export class WareHouseBookComponent implements OnInit {
     typeWareHouseBook: null,
     fromDate: null,
     toDate: null,
-    wareHouseId:null
+    wareHouseId: null
   };
   list: ResultMessageResponse<WareHouseBookDTO> = {
     success: false,
@@ -108,7 +108,7 @@ export class WareHouseBookComponent implements OnInit {
 
   dataSourceTreee = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
-  constructor(private route: Router,private service: WareHouseBookService, private serviceW: WarehouseService, private _liveAnnouncer: LiveAnnouncer, public dialog: MatDialog, notifierService: NotifierService) {
+  constructor(private route: Router, private service: WareHouseBookService, private serviceW: WarehouseService, private _liveAnnouncer: LiveAnnouncer, public dialog: MatDialog, notifierService: NotifierService) {
     this.notifier = notifierService;
   }
 
@@ -259,20 +259,34 @@ export class WareHouseBookComponent implements OnInit {
   }
 
 
-  createInward(){
-      var idCheck: string | null = null;
+  createInward() {
+    var idCheck: string | null = null;
     var selectDelete = document.querySelectorAll("#treeview button");
     selectDelete.forEach(element => {
       if (element.className.includes("activeButtonTreeView"))
         idCheck = element.getAttribute("id");
     });
-    if (idCheck !==null) {
-      this.route.navigate(['/create-inward', idCheck ]);
+    if (idCheck !== null) {
+      this.route.navigate(['/create-inward', idCheck]);
     }
     else
       this.notifier.notify('warning', "Bạn chưa chọn kho nào !");
   }
 
+
+  createOutward() {
+    var idCheck: string | null = null;
+    var selectDelete = document.querySelectorAll("#treeview button");
+    selectDelete.forEach(element => {
+      if (element.className.includes("activeButtonTreeView"))
+        idCheck = element.getAttribute("id");
+    });
+    if (idCheck !== null) {
+      this.route.navigate(['/create-outward', idCheck]);
+    }
+    else
+      this.notifier.notify('warning', "Bạn chưa chọn kho nào !");
+  }
   //searchQueryDialog
   searchQueryDialog(): void {
     const dialogRef = this.dialog.open(FormSearchWareHouseBookComponent, {
@@ -284,8 +298,8 @@ export class WareHouseBookComponent implements OnInit {
       var res = result;
       this.model.keySearch = res.key;
       this.model.active = res.inactive;
-      this.model.fromDate=res.end !==null?new Date(res.start).toLocaleDateString():null;
-      this.model.toDate=res.start !==null?new Date(res.end).toLocaleDateString():null;
+      this.model.fromDate = res.end !== null ? new Date(res.start).toLocaleDateString() : null;
+      this.model.toDate = res.start !== null ? new Date(res.end).toLocaleDateString() : null;
       this.GetData();
     });
   }
@@ -313,7 +327,7 @@ export class WareHouseBookComponent implements OnInit {
       element.className = element.className.replace("activeButtonTreeView", " ");
     });
     select.className += " activeButtonTreeView";
-    this.model.wareHouseId=e.key;
+    this.model.wareHouseId = e.key;
     this.GetData();
   }
 
@@ -322,7 +336,7 @@ export class WareHouseBookComponent implements OnInit {
     selectDelete.forEach(element => {
       element.className = element.className.replace("activeButtonTreeView", " ");
     });
-    this.model.wareHouseId=null;
+    this.model.wareHouseId = null;
     this.GetData();
   }
   /** The label for the checkbox on the passed row */

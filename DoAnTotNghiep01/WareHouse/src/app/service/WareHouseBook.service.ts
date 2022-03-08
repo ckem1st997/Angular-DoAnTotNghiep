@@ -10,6 +10,7 @@ import { UnitDTO } from '../model/UnitDTO';
 import { WareHouseBookSearchModel } from '../model/WareHouseBookSearchModel';
 import { WareHouseBookDTO } from './../model/WareHouseBookDTO';
 import { InwardDTO } from 'src/app/model/InwardDTO';
+import { OutwardDetailDTO } from '../model/OutwardDetailDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -68,6 +69,14 @@ export class WareHouseBookService {
   AddInwarDetailsIndex(): Observable<ResultDataResponse<InwardDetailDTO>> {
     var url = this.baseUrl + `/create-inward-details`;
     return this.http.get<ResultDataResponse<InwardDetailDTO>>(url, this.httpOptions).pipe(
+      tap(_ => console.log(`create`)),
+      catchError(this.handleError) // then handle the error
+    );
+  }
+
+  AddOutwarDetailsIndex(): Observable<ResultDataResponse<OutwardDetailDTO>> {
+    var url = this.baseUrl + `/create-outward-details`;
+    return this.http.get<ResultDataResponse<OutwardDetailDTO>>(url, this.httpOptions).pipe(
       tap(_ => console.log(`create`)),
       catchError(this.handleError) // then handle the error
     );

@@ -1,28 +1,28 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { WareHouseBookService } from './../../../service/WareHouseBook.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { NotifierService } from 'angular-notifier';
 import { Guid } from 'src/app/extension/Guid';
-import { InwardDetailDTO } from 'src/app/model/InwardDetailDTO';
-import { WareHouseBookService } from 'src/app/service/WareHouseBook.service';
-import { InwardDetailsValidator } from 'src/app/validator/InwardDetailsValidator';
+import { OutwardDetailDTO } from 'src/app/model/OutwardDetailDTO';
+import { OutwardDetailsValidator } from 'src/app/validator/OutwardDetailsValidator';
 
 @Component({
-  selector: 'app-InwarDetailsEdit',
-  templateUrl: './InwarDetailsEdit.component.html',
-  styleUrls: ['./InwarDetailsEdit.component.scss']
+  selector: 'app-OutwarDetailsEdit',
+  templateUrl: './OutwarDetailsEdit.component.html',
+  styleUrls: ['./OutwarDetailsEdit.component.scss']
 })
-export class InwarDetailsEditComponent implements OnInit {
-  title = "Chỉnh sửa vật tư phiếu nhập kho";
+export class OutwarDetailsEditComponent implements OnInit {
+  title = "Chỉnh sửa vật tư phiếu xuất kho";
   private readonly notifier!: NotifierService;
   success = false;
   form!: FormGroup;
-  dt!: InwardDetailDTO;
+  dt!: OutwardDetailDTO;
   options!: FormGroup;
   serialWareHousesShow: any[] = [];
   constructor(
-    public dialogRef: MatDialogRef<InwarDetailsEditComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: InwardDetailDTO,
+    public dialogRef: MatDialogRef<OutwarDetailsEditComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: OutwardDetailDTO,
     private formBuilder: FormBuilder,
     notifierService: NotifierService,
     private service: WareHouseBookService
@@ -32,7 +32,7 @@ export class InwarDetailsEditComponent implements OnInit {
     this.serialWareHousesShow = this.data.serialWareHouses;
     this.form = this.formBuilder.group({
       id: this.dt.id,
-      inwardId: this.dt.inwardId,
+      outwardId: this.dt.outwardId,
       itemId: this.dt.itemId,
       unitId: this.dt.unitId,
       uiquantity: this.dt.uiquantity,
@@ -74,7 +74,7 @@ export class InwarDetailsEditComponent implements OnInit {
 
   }
   onSubmit() {
-    var test = new InwardDetailsValidator();
+    var test = new OutwardDetailsValidator();
     var msg = test.validate(this.form.value);
     var check = JSON.stringify(msg) == '{}';
     if (check == true) {

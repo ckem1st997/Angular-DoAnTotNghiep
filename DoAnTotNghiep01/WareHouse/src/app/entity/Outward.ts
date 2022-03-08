@@ -5,6 +5,7 @@ import { WareHouse } from "./WareHouse";
 import { WareHouseItem } from "./WareHouseItem";
 
 export interface Outward extends BaseEntity {
+    voucher:string;
     voucherCode: string;
     voucherDate: string;
     wareHouseId: string;
@@ -19,6 +20,12 @@ export interface Outward extends BaseEntity {
     createdBy: string;
     modifiedDate: string;
     modifiedBy: string;
+    deliverPhone: string;
+    deliverAddress: string;
+    deliverDepartment: string;
+    receiverPhone: string;
+    receiverAddress: string;
+    receiverDepartment: string;
     toWareHouse: WareHouse;
     wareHouse: WareHouse;
     outwardDetails: OutwardDetail[];

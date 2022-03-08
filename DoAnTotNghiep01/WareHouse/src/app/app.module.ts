@@ -76,6 +76,9 @@ import {MatChipsModule} from '@angular/material/chips';
 import { InwarDetailsEditComponent } from './method/edit/InwarDetailsEdit/InwarDetailsEdit.component';
 import { TagInputModule } from 'ngx-chips';
 import { InwardEditComponent } from './method/edit/InwardEdit/InwardEdit.component';
+import { OutwardCreateComponent } from './method/create/OutwardCreate/OutwardCreate.component';
+import { OutwarDetailsCreateComponent } from './method/create/OutwarDetailsCreate/OutwarDetailsCreate.component';
+import { OutwarDetailsEditComponent } from './method/edit/OutwarDetailsEdit/OutwarDetailsEdit.component';
 const customNotifierOptions: NotifierOptions = {
   position: {
     horizontal: {
@@ -167,7 +170,10 @@ const customNotifierOptions: NotifierOptions = {
     InwardCreateComponent,
     InwarDetailsCreateComponent,
     InwarDetailsEditComponent,
-    InwardEditComponent
+    InwardEditComponent,
+    OutwardCreateComponent,
+    OutwarDetailsCreateComponent,
+    OutwarDetailsEditComponent
   ],
   imports: [
     BrowserModule,

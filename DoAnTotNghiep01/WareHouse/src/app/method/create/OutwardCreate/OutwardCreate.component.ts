@@ -1,29 +1,32 @@
-import { HostListener, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { Guid } from 'src/app/extension/Guid';
-import { InwardDTO } from 'src/app/model/InwardDTO';
-import { InwardService } from 'src/app/service/Inward.service';
-import { Component, ViewChild } from '@angular/core';
-import { MatTable, MatTableDataSource } from '@angular/material/table';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { MatTableDataSource, MatTable } from '@angular/material/table';
+import { ActivatedRoute } from '@angular/router';
 import { NotifierService } from 'angular-notifier';
-import { InwarDetailsCreateComponent } from '../InwarDetailsCreate/InwarDetailsCreate.component';
-import { WareHouseBookService } from 'src/app/service/WareHouseBook.service';
-import { InwardDetailDTO } from 'src/app/model/InwardDetailDTO';
-import { WareHouseItemDTO } from 'src/app/model/WareHouseItemDTO';
-import { UnitDTO } from 'src/app/model/UnitDTO';
+import { Guid } from 'src/app/extension/Guid';
 import { BaseSelectDTO } from 'src/app/model/BaseSelectDTO';
-import { InwarDetailsEditComponent } from '../../edit/InwarDetailsEdit/InwarDetailsEdit.component';
+import { OutwardDetailDTO } from 'src/app/model/OutwardDetailDTO';
+import { OutwardDTO } from 'src/app/model/OutwardDTO';
+import { UnitDTO } from 'src/app/model/UnitDTO';
+import { WareHouseItemDTO } from 'src/app/model/WareHouseItemDTO';
+import { OutwardService } from 'src/app/service/Outward.service';
+import { WareHouseBookService } from 'src/app/service/WareHouseBook.service';
 import { InwardValidator } from 'src/app/validator/InwardValidator';
+import { OutwardValidator } from 'src/app/validator/OutwardValidator';
+import { InwarDetailsEditComponent } from '../../edit/InwarDetailsEdit/InwarDetailsEdit.component';
+import { InwarDetailsCreateComponent } from '../InwarDetailsCreate/InwarDetailsCreate.component';
+import { OutwarDetailsCreateComponent } from './../OutwarDetailsCreate/OutwarDetailsCreate.component';
+import { OutwarDetailsEditComponent } from './../../edit/OutwarDetailsEdit/OutwarDetailsEdit.component';
+
 @Component({
-  selector: 'app-InwardCreate',
-  templateUrl: './InwardCreate.component.html',
-  styleUrls: ['./InwardCreate.component.scss']
+  selector: 'app-OutwardCreate',
+  templateUrl: './OutwardCreate.component.html',
+  styleUrls: ['./OutwardCreate.component.scss']
 })
-export class InwardCreateComponent implements OnInit {
+export class OutwardCreateComponent implements OnInit {
   form!: FormGroup;
-  listDetails = Array<InwardDetailDTO>();
+  listDetails = Array<OutwardDetailDTO>();
   listItem = Array<WareHouseItemDTO>();
   listUnit = Array<UnitDTO>();
   getDepartmentDTO = Array<BaseSelectDTO>();
@@ -31,8 +34,8 @@ export class InwardCreateComponent implements OnInit {
   getStationDTO = Array<BaseSelectDTO>();
   getProjectDTO = Array<BaseSelectDTO>();
   getCustomerDTO = Array<BaseSelectDTO>();
-  getAccountDTO= Array<BaseSelectDTO>()
-  dt: InwardDTO = {
+  getAccountDTO = Array<BaseSelectDTO>();
+  dt: OutwardDTO = {
     id: "",
     voucherCode: null,
     voucherDate: null,
@@ -55,18 +58,18 @@ export class InwardCreateComponent implements OnInit {
     receiverAddress: null,
     receiverDepartment: null,
     wareHouseDTO: [],
-    vendorDTO: [],
     domainEvents: [],
     voucher: null,
+    toWareHouseId:null,
     getCreateBy: []
   };
   private readonly notifier!: NotifierService;
   displayedColumns: string[] = ['id', 'itemId', 'unitId', 'uiquantity', 'uiprice', 'amount', 'departmentName', 'employeeName', 'stationName', 'projectName', 'customerName', 'method'];
-  dataSource = new MatTableDataSource<InwardDetailDTO>();
+  dataSource = new MatTableDataSource<OutwardDetailDTO>();
   @ViewChild(MatTable)
-  table!: MatTable<InwardDetailDTO>;
+  table!: MatTable<OutwardDetailDTO>;
 
-  constructor(private serviceBook: WareHouseBookService, notifierService: NotifierService, public dialog: MatDialog, private formBuilder: FormBuilder, private route: ActivatedRoute, private service: InwardService) {
+  constructor(private serviceBook: WareHouseBookService, notifierService: NotifierService, public dialog: MatDialog, private formBuilder: FormBuilder, private route: ActivatedRoute, private service: OutwardService) {
     this.notifier = notifierService;
   }
   @HostListener('window:resize', ['$event'])
@@ -108,7 +111,9 @@ export class InwardCreateComponent implements OnInit {
       receiverPhone: null,
       receiverAddress: null,
       receiverDepartment: null,
-      inwardDetails: null
+      outwardDetails: null,
+      toWareHouseId:null
+
     });
   }
 
@@ -123,7 +128,7 @@ export class InwardCreateComponent implements OnInit {
     return this.listUnit.find(x => x.id === id)?.unitName;
   }
   addData() {
-    this.serviceBook.AddInwarDetailsIndex().subscribe(x => {
+    this.serviceBook.AddOutwarDetailsIndex().subscribe(x => {
       const model = x.data;
       // lấy data từ api gán vào biến tạm
       this.listItem = x.data.wareHouseItemDTO;
@@ -134,8 +139,8 @@ export class InwardCreateComponent implements OnInit {
       this.getEmployeeDTO = x.data.getEmployeeDTO;
       this.getProjectDTO = x.data.getProjectDTO;
       this.getStationDTO = x.data.getStationDTO;
-      model.inwardId = this.form.value["id"];
-      const dialogRef = this.dialog.open(InwarDetailsCreateComponent, {
+      model.outwardId = this.form.value["id"];
+      const dialogRef = this.dialog.open(OutwarDetailsCreateComponent, {
         width: '450px',
         data: model
       });
@@ -180,7 +185,7 @@ export class InwardCreateComponent implements OnInit {
       if (model.getStationDTO.length < 1) this.getStationDTO.forEach(element => { model.getStationDTO.push(element) });
       if (model.getAccountDTO.length < 1) this.getAccountDTO.forEach(element => { model.getAccountDTO.push(element) });
 
-      const dialogRef = this.dialog.open(InwarDetailsEditComponent, {
+      const dialogRef = this.dialog.open(OutwarDetailsEditComponent, {
         width: '550px',
         data: model,
       });
@@ -188,8 +193,6 @@ export class InwardCreateComponent implements OnInit {
       dialogRef.afterClosed().subscribe(result => {
         var res = result;
         if (res) {
-          // this.listDetails = this.listDetails.filter(x => x !== this.listDetails.find(x => x.id === res.id));
-          // this.listDetails.push(res);
           this.listDetails[this.listDetails.findIndex(x => x.id === res.id)] = res;
           this.dataSource.data = this.listDetails;
           this.table.renderRows();
@@ -207,13 +210,13 @@ export class InwardCreateComponent implements OnInit {
 
   onSubmit() {
     this.form.value["voucher"] = this.dt.voucher;
-    var test = new InwardValidator();
+    var test = new OutwardValidator();
     var msg = test.validate(this.form.value);
     var check = JSON.stringify(msg) == '{}';
     if (check == true) {
       var checkDetails = this.listDetails.length > 0;
       if (checkDetails == true) {
-        this.form.value["inwardDetails"] = this.listDetails;
+        this.form.value["outwardDetails"] = this.listDetails;
         this.service.Add(this.form.value).subscribe(x => {
           if (x.success)
             this.notifier.notify('success', 'Thêm thành công');

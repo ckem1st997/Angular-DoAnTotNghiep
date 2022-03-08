@@ -15,7 +15,7 @@ import { VendorValidator } from 'src/app/validator/VendorValidator';
   styleUrls: ['./InwarDetailsCreate.component.scss']
 })
 export class InwarDetailsCreateComponent implements OnInit {
-  title = "Thêm mới vật tư";
+  title = "Thêm mới vật tư phiếu nhập kho";
   // itemsAsObjects: AutoCompleteModel[] = [];
   private readonly notifier!: NotifierService;
   success = false;
@@ -94,6 +94,7 @@ export class InwarDetailsCreateComponent implements OnInit {
       this.form.value["getStationDTO"] = [];
       this.form.value["getProjectDTO"] = [];
       this.form.value["getCustomerDTO"] = [];
+      this.form.value["getAccountDTO"] = [];
 
       var serialWareHouses = this.form.value["serialWareHouses"];
       if (serialWareHouses !== undefined && serialWareHouses !== null) 
