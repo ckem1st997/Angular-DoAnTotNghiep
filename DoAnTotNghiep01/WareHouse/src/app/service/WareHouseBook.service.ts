@@ -9,12 +9,14 @@ import { ResultMessageResponse } from '../model/ResultMessageResponse';
 import { UnitDTO } from '../model/UnitDTO';
 import { WareHouseBookSearchModel } from '../model/WareHouseBookSearchModel';
 import { WareHouseBookDTO } from './../model/WareHouseBookDTO';
+import { InwardDTO } from 'src/app/model/InwardDTO';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WareHouseBookService {
   private baseUrl = environment.baseApi + 'WareHouseBook';
+  private baseUrlInward = environment.baseApi + 'Inward';
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
@@ -56,13 +58,13 @@ export class WareHouseBookService {
   //   );
   // }
 
-  // EditIndex(id:string): Observable<ResultMessageResponse<WareHouseLimitDTO>> {
-  //   var url = this.baseUrl + `/edit?id=`+id;
-  //   return this.http.get<ResultMessageResponse<WareHouseLimitDTO>>(url, this.httpOptions).pipe(
-  //     tap(_ => console.log(`edit`)),
-  //     catchError(this.handleError) // then handle the error
-  //   );
-  // }
+  EditInwardIndex(id:string): Observable<ResultDataResponse<InwardDTO>> {
+    var url = this.baseUrlInward + `/edit?id=`+id;
+    return this.http.get<ResultDataResponse<InwardDTO>>(url, this.httpOptions).pipe(
+      tap(_ => console.log(`edit`)),
+      catchError(this.handleError) // then handle the error
+    );
+  }
   AddInwarDetailsIndex(): Observable<ResultDataResponse<InwardDetailDTO>> {
     var url = this.baseUrl + `/create-inward-details`;
     return this.http.get<ResultDataResponse<InwardDetailDTO>>(url, this.httpOptions).pipe(
