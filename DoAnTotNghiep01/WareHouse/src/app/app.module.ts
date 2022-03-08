@@ -71,8 +71,6 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule, MAT_DATE_LOCALE} from '@angular/material/core';
 import { FormSearchWareHouseBookComponent } from './method/search/formSearchWareHouseBook/formSearchWareHouseBook.component';
 import { InwardCreateComponent } from './method/create/InwardCreate/InwardCreate.component';
-import {DpDatePickerModule} from 'ng2-date-picker';
-import { AngularDayjsModule } from 'angular-dayjs';
 import { InwarDetailsCreateComponent } from './method/create/InwarDetailsCreate/InwarDetailsCreate.component';
 import {MatChipsModule} from '@angular/material/chips';
 import { InwarDetailsEditComponent } from './method/edit/InwarDetailsEdit/InwarDetailsEdit.component';
@@ -196,8 +194,6 @@ const customNotifierOptions: NotifierOptions = {
     NotifierModule.withConfig(customNotifierOptions),
     MatDatepickerModule,
     MatNativeDateModule,
-    DpDatePickerModule ,
-    AngularDayjsModule,
     MatChipsModule,
     TagInputModule
 
