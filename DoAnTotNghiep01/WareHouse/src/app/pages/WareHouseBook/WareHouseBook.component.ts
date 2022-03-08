@@ -22,6 +22,7 @@ import { WareHouseBookSearchModel } from "src/app/model/WareHouseBookSearchModel
 import { WareHouseLimitDTO } from "src/app/model/WareHouseLimitDTO";
 import { WarehouseService } from "src/app/service/warehouse.service";
 import { WareHouseBookService } from "src/app/service/WareHouseBook.service";
+import { InwardDTO } from 'src/app/model/InwardDTO';
 
 interface ExampleFlatNode {
   expandable: boolean;
@@ -167,27 +168,25 @@ export class WareHouseBookComponent implements OnInit {
     this.GetData();
   }
   openDialog(model: WareHouseLimitDTO): void {
-    // this.service.EditIndex(model.id).subscribe(x => {
+    this.service.EditInwardIndex(model.id).subscribe(x => {
 
-    //   this.modelCreate = x.data;
-    //   const dialogRef = this.dialog.open(WareHouseLimitEditComponent, {
-    //     width: '550px',
-    //     data: this.modelCreate
-    //   });
+      this.modelCreate = x.data;
+      const dialogRef = this.dialog.open(WareHouseLimitEditComponent, {
+        width: '550px',
+        data: this.modelCreate
+      });
 
-    //   dialogRef.afterClosed().subscribe(result => {
-    //     var res = result;
-    //     if (res) {
-    //       this.notifier.notify('success', 'Chỉnh sửa thành công !');
-    //       this.GetData();
-    //     }
-    //   });
+      dialogRef.afterClosed().subscribe(result => {
+        var res = result;
+        if (res) {
+          this.notifier.notify('success', 'Chỉnh sửa thành công !');
+          this.GetData();
+        }
+      });
 
-    // });
+    });
   }
-  openDialogDetals(model: WareHouseBookDTO): void {
-    var val = document.getElementById("searchInput") as HTMLInputElement;
-
+  openDialogDetals(model: InwardDTO): void {
     const dialogRef = this.dialog.open(WareHouseDetailsComponent, {
       width: '550px',
       data: model,

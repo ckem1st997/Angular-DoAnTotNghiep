@@ -75,6 +75,7 @@ import { InwarDetailsCreateComponent } from './method/create/InwarDetailsCreate/
 import {MatChipsModule} from '@angular/material/chips';
 import { InwarDetailsEditComponent } from './method/edit/InwarDetailsEdit/InwarDetailsEdit.component';
 import { TagInputModule } from 'ngx-chips';
+import { InwardEditComponent } from './method/edit/InwardEdit/InwardEdit.component';
 const customNotifierOptions: NotifierOptions = {
   position: {
     horizontal: {
@@ -165,7 +166,8 @@ const customNotifierOptions: NotifierOptions = {
     FormSearchWareHouseBookComponent,
     InwardCreateComponent,
     InwarDetailsCreateComponent,
-    InwarDetailsEditComponent
+    InwarDetailsEditComponent,
+    InwardEditComponent
   ],
   imports: [
     BrowserModule,
