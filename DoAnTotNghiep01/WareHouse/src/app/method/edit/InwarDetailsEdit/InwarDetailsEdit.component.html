@@ -86,7 +86,7 @@
     <div class="form-group row mb-1" style="position: relative;">
       <mat-label class="form-label col-3">Tài khoản nợ</mat-label>
       <select formControlName="accountMore" class="form-select col">
-        <option class="s-c option" *ngFor="let state of dt.wareHouseItemDTO" [ngValue]="state.id">
+        <option class="s-c option" *ngFor="let state of dt.getAccountDTO" [ngValue]="state.id">
           {{ state.name }}
         </option>
       </select>
@@ -95,7 +95,7 @@
     <div class="form-group row mb-1" style="position: relative;">
       <mat-label class="form-label col-3">Tài khoản có</mat-label>
       <select formControlName="accountYes" class="form-select col">
-        <option class="s-c option" *ngFor="let state of dt.wareHouseItemDTO" [ngValue]="state.id">
+        <option class="s-c option" *ngFor="let state of dt.getAccountDTO" [ngValue]="state.id">
           {{ state.name }}
         </option>
       </select>
@@ -104,9 +104,6 @@
     <div class="form-group row">
       <mat-label class="form-label col-3">Serial</mat-label>
       <tag-input [ngModel]="serialWareHousesShow" style="padding-left: 0;" theme='bootstrap' class="col" formControlName="serialWareHouses" [identifyBy]="'id'" [displayBy]="'serial'" [maxItems]='5'>
-        <!-- <tag-input-dropdown [autocompleteItems]="[{display: 'Item1', value: 0}, 'item2', 'item3']">
-        </tag-input-dropdown> -->
-
       </tag-input>
     </div>
 

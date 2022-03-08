@@ -170,7 +170,7 @@ export class WareHouseBookComponent implements OnInit {
   openDialog(model: WareHouseLimitDTO): void {
     this.service.EditInwardIndex(model.id).subscribe(x => {
 
-      this.modelCreate = x.data;
+      const modelCreate = x.data;
       const dialogRef = this.dialog.open(WareHouseLimitEditComponent, {
         width: '550px',
         data: this.modelCreate

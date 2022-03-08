@@ -38,6 +38,7 @@ export interface InwardDetailDTO extends BaseModel {
     getStationDTO: BaseSelectDTO[];
     getProjectDTO: BaseSelectDTO[];
     getCustomerDTO: BaseSelectDTO[];
+    getAccountDTO: BaseSelectDTO[];
     //BaseSelectDTO
    // serialWareHouses: SerialWareHouse[];
 }
