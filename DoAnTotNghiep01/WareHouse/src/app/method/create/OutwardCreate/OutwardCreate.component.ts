@@ -226,7 +226,7 @@ export class OutwardCreateComponent implements OnInit {
         );
       }
       else {
-        this.notifier.notify('error', 'Vui lòng nhập chi tiết phiếu nhập');
+        this.notifier.notify('error', 'Vui lòng nhập chi tiết phiếu xuất');
       }
 
 
