@@ -57,7 +57,8 @@ export class InwardEditComponent implements OnInit {
     vendorDTO: [],
     domainEvents: [],
     voucher: null,
-    getCreateBy: []
+    getCreateBy: [],
+    inwardDetails: []
   };
   private readonly notifier!: NotifierService;
   displayedColumns: string[] = ['id', 'itemId', 'unitId', 'uiquantity', 'uiprice', 'amount', 'departmentName', 'employeeName', 'stationName', 'projectName', 'customerName', 'method'];
@@ -80,16 +81,13 @@ export class InwardEditComponent implements OnInit {
   }
   ngOnInit() {
     this.onWindowResize();
-    const whid = this.route.snapshot.paramMap.get('whid');
-    this.service.AddIndex(whid).subscribe(x => {
-      this.dt = x.data;
-    });
+    this.getData();
     this.form = this.formBuilder.group({
       id: Guid.newGuid(),
       voucherCode: null,
       voucher: this.dt.voucher,
       voucherDate: new Date().toISOString().slice(0, 16),
-      wareHouseId: this.route.snapshot.paramMap.get('whid'),
+      wareHouseId: null,
       deliver: null,
       receiver: null,
       vendorId: null,
@@ -111,8 +109,44 @@ export class InwardEditComponent implements OnInit {
     });
   }
 
-  getCreate() {
+  getData() {
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id !== null)
+      this.service.EditIndex(id).subscribe(x => {
+        this.dt = x.data;
+        this.listDetails=this.dt.inwardDetails;
+        this.dataSource.data=this.dt.inwardDetails;
+        this.table.renderRows();
+        this.form.patchValue({ id: this.dt.id,
+          voucherCode: this.dt.voucherCode,
+          voucher: this.dt.voucher,
+          voucherDate: this.dt.voucherDate,
+          wareHouseId: this.dt.wareHouseId,
+          deliver: this.dt.deliver,
+          receiver: this.dt.receiver,
+          vendorId: this.dt.vendorId,
+          reason: this.dt.reason,
+          reasonDescription: this.dt.reasonDescription,
+          description: this.dt.description,
+          reference: null,
+          createdDate: this.dt.createdDate,
+          createdBy: this.dt.createdBy,
+          modifiedDate: this.dt.modifiedDate,
+          modifiedBy: this.dt.modifiedBy,
+          deliverPhone: this.dt.deliverPhone,
+          deliverAddress: this.dt.deliverAddress,
+          deliverDepartment: this.dt.deliverDepartment,
+          receiverPhone: this.dt.receiverPhone,
+          receiverAddress: this.dt.receiverAddress,
+          receiverDepartment: this.dt.receiverDepartment,
+          inwardDetails: null
+        });
+      });
 
+      this.serviceBook.AddInwarDetailsIndex().subscribe(x => {
+        this.listItem = x.data.wareHouseItemDTO;
+        this.listUnit = x.data.unitDTO;
+      });
 
   }
   getNameItem(id: string) {

@@ -26,8 +26,6 @@ export class InwardService {
     );
   }
 
-
-
   Edit(model: Inward): Observable<ResultMessageResponse<Inward>> {
     var url = this.baseUrl + `/edit`;
     return this.http.post<ResultMessageResponse<Inward>>(url, model, this.httpOptions).pipe(
@@ -36,9 +34,9 @@ export class InwardService {
     );
   }
 
-  EditIndex(id:string): Observable<ResultMessageResponse<InwardDTO>> {
+  EditIndex(id:string): Observable<ResultDataResponse<InwardDTO>> {
     var url = this.baseUrl + `/edit?id=`+id;
-    return this.http.get<ResultMessageResponse<InwardDTO>>(url, this.httpOptions).pipe(
+    return this.http.get<ResultDataResponse<InwardDTO>>(url, this.httpOptions).pipe(
       tap(_ => console.log(`edit`)),
       catchError(this.handleError) // then handle the error
     );

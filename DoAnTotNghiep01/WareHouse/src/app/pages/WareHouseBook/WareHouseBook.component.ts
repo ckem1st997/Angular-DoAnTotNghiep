@@ -23,6 +23,7 @@ import { WareHouseLimitDTO } from "src/app/model/WareHouseLimitDTO";
 import { WarehouseService } from "src/app/service/warehouse.service";
 import { WareHouseBookService } from "src/app/service/WareHouseBook.service";
 import { InwardDTO } from 'src/app/model/InwardDTO';
+import { InwarDetailsEditComponent } from "src/app/method/edit/InwarDetailsEdit/InwarDetailsEdit.component";
 
 interface ExampleFlatNode {
   expandable: boolean;
@@ -167,24 +168,12 @@ export class WareHouseBookComponent implements OnInit {
     this.model.active = this.checkedl;
     this.GetData();
   }
-  openDialog(model: WareHouseLimitDTO): void {
-    this.service.EditInwardIndex(model.id).subscribe(x => {
-
-      const modelCreate = x.data;
-      const dialogRef = this.dialog.open(WareHouseLimitEditComponent, {
-        width: '550px',
-        data: this.modelCreate
-      });
-
-      dialogRef.afterClosed().subscribe(result => {
-        var res = result;
-        if (res) {
-          this.notifier.notify('success', 'Chỉnh sửa thành công !');
-          this.GetData();
-        }
-      });
-
-    });
+  openDialog(model: InwardDTO): void {
+    if (model.id !== null) {
+      this.route.navigate(['/edit-inward', model.id]);
+    }
+    else
+      this.notifier.notify('warning', "Xin vui lòng thử lại !");
   }
   openDialogDetals(model: InwardDTO): void {
     const dialogRef = this.dialog.open(WareHouseDetailsComponent, {

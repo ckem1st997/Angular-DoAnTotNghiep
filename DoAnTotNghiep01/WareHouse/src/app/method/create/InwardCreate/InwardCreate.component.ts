@@ -58,7 +58,8 @@ export class InwardCreateComponent implements OnInit {
     vendorDTO: [],
     domainEvents: [],
     voucher: null,
-    getCreateBy: []
+    getCreateBy: [],
+    inwardDetails: []
   };
   private readonly notifier!: NotifierService;
   displayedColumns: string[] = ['id', 'itemId', 'unitId', 'uiquantity', 'uiprice', 'amount', 'departmentName', 'employeeName', 'stationName', 'projectName', 'customerName', 'method'];

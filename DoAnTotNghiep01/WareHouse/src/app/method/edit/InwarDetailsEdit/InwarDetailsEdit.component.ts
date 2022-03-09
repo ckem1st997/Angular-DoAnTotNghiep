@@ -6,7 +6,6 @@ import { Guid } from 'src/app/extension/Guid';
 import { InwardDetailDTO } from 'src/app/model/InwardDetailDTO';
 import { WareHouseBookService } from 'src/app/service/WareHouseBook.service';
 import { InwardDetailsValidator } from 'src/app/validator/InwardDetailsValidator';
-
 @Component({
   selector: 'app-InwarDetailsEdit',
   templateUrl: './InwarDetailsEdit.component.html',
