@@ -143,6 +143,7 @@ export class InwardCreateComponent implements OnInit {
 
       dialogRef.afterClosed().subscribe(result => {
         var res = result;
+        console.log(res);
         if (res) {
           this.listDetails.push(result);
           this.dataSource.data = this.listDetails;

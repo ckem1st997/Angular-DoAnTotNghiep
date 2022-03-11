@@ -79,6 +79,7 @@ import { InwardEditComponent } from './method/edit/InwardEdit/InwardEdit.compone
 import { OutwardCreateComponent } from './method/create/OutwardCreate/OutwardCreate.component';
 import { OutwarDetailsCreateComponent } from './method/create/OutwarDetailsCreate/OutwarDetailsCreate.component';
 import { OutwarDetailsEditComponent } from './method/edit/OutwarDetailsEdit/OutwarDetailsEdit.component';
+import { InwarDetailsEditByServiceComponent } from './method/edit/InwarDetailsEditByService/InwarDetailsEditByService.component';
 const customNotifierOptions: NotifierOptions = {
   position: {
     horizontal: {
@@ -173,7 +174,8 @@ const customNotifierOptions: NotifierOptions = {
     InwardEditComponent,
     OutwardCreateComponent,
     OutwarDetailsCreateComponent,
-    OutwarDetailsEditComponent
+    OutwarDetailsEditComponent,
+    InwarDetailsEditByServiceComponent
   ],
   imports: [
     BrowserModule,

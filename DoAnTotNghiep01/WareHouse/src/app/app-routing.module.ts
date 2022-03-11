@@ -25,7 +25,7 @@ const routes: Routes = [
   { path: 'vendor', component: VendorComponent },
   { path: 'warehouse', component:  WareHouseComponent },
   { path: 'unit', component:  UnitComponent },
-  { path: 'create-outward/:whid', component:  OutwardCreateComponent },
+  { path: 'create-inward/:whid', component:  InwardCreateComponent },
   { path: 'edit-inward/:id', component:  InwardEditComponent },
   { path: 'create-outward/:whid', component:  OutwardCreateComponent },
   { path: '', component: HomeComponent },

@@ -83,13 +83,13 @@ export class InwarDetailsEditComponent implements OnInit {
       this.form.value["customerName"] = this.dt.getCustomerDTO.find(x => x.id === this.form.value["customerId"])?.name;
       this.form.value["projectName"] = this.dt.getProjectDTO.find(x => x.id === this.form.value["projectId"])?.name;
       //
-      this.form.value["unitDTO"] = [];
-      this.form.value["wareHouseItemDTO"] = [];
-      this.form.value["getDepartmentDTO"] = [];
-      this.form.value["getEmployeeDTO"] = [];
-      this.form.value["getStationDTO"] = [];
-      this.form.value["getProjectDTO"] = [];
-      this.form.value["getCustomerDTO"] = [];
+      // this.form.value["unitDTO"] = [];
+      // this.form.value["wareHouseItemDTO"] = [];
+      // this.form.value["getDepartmentDTO"] = [];
+      // this.form.value["getEmployeeDTO"] = [];
+      // this.form.value["getStationDTO"] = [];
+      // this.form.value["getProjectDTO"] = [];
+      // this.form.value["getCustomerDTO"] = [];
       //
       var serialWareHouses = this.form.value["serialWareHouses"];
       if (serialWareHouses !== undefined && serialWareHouses !== null)
@@ -102,7 +102,7 @@ export class InwarDetailsEditComponent implements OnInit {
           }
         });
       this.dialogRef.close(this.form.value);
-      this.notifier.notify('success', 'Chỉnh sửa thành công !');
+    //  this.notifier.notify('success', 'Chỉnh sửa thành công !');
     }
     else {
       var message = '';

@@ -15,6 +15,7 @@ import { WareHouseBookService } from 'src/app/service/WareHouseBook.service';
 import { InwardValidator } from 'src/app/validator/InwardValidator';
 import { InwarDetailsCreateComponent } from '../../create/InwarDetailsCreate/InwarDetailsCreate.component';
 import { InwarDetailsEditComponent } from '../InwarDetailsEdit/InwarDetailsEdit.component';
+import { InwarDetailsEditByServiceComponent } from '../InwarDetailsEditByService/InwarDetailsEditByService.component';
 
 @Component({
   selector: 'app-InwardEdit',
@@ -199,32 +200,42 @@ export class InwardEditComponent implements OnInit {
 
 
   openDialogedit(id: string): void {
-
-    const model = this.listDetails.find(x => x.id === id);
-    if (model !== undefined) {
-      // gán data từ biến tạm gán vào biến model, để tránh gọi sang api lấy lại data
-      if (model.wareHouseItemDTO.length < 1) this.listItem.forEach(element => { model.wareHouseItemDTO.push(element) });
-      if (model.unitDTO.length < 1) this.listUnit.forEach(element => { model.unitDTO.push(element) });
-      if (model.getCustomerDTO.length < 1) this.getCustomerDTO.forEach(element => { model.getCustomerDTO.push(element) });
-      if (model.getDepartmentDTO.length < 1) this.getDepartmentDTO.forEach(element => { model.getDepartmentDTO.push(element) });
-      if (model.getEmployeeDTO.length < 1) this.getEmployeeDTO.forEach(element => { model.getEmployeeDTO.push(element) });
-      if (model.getProjectDTO.length < 1) this.getProjectDTO.forEach(element => { model.getProjectDTO.push(element) });
-      if (model.getStationDTO.length < 1) this.getStationDTO.forEach(element => { model.getStationDTO.push(element) });
-      const dialogRef = this.dialog.open(InwarDetailsEditComponent, {
+    this.serviceBook.EditInwarDetailsIndex(id).subscribe(x => {
+       const dialogRef = this.dialog.open(InwarDetailsEditByServiceComponent, {
         width: '550px',
-        data: model,
+        data: x.data,
       });
 
       dialogRef.afterClosed().subscribe(result => {
         var res = result;
         if (res) {
-          this.listDetails = this.listDetails.filter(x => x !== this.listDetails.find(x => x.id === res.id));
-          this.listDetails.push(res);
-          this.dataSource.data = this.listDetails;
-          this.table.renderRows();
+          this.serviceBook.EditInwarDetailsIndexByModel(result).subscribe(x => {
+            if(x.success)
+            {
+              this.listDetails = this.listDetails.filter(x => x !== this.listDetails.find(x => x.id === res.id));
+              this.listDetails.push(res);
+              this.dataSource.data = this.listDetails;
+              this.table.renderRows();
+              this.notifier.notify('success', 'Sửa thành công');
+            }
+
+          });
+
         }
       });
-    }
+      });
+    // console.log(model);
+    // if (model !== undefined) {
+    //   // gán data từ biến tạm gán vào biến model, để tránh gọi sang api lấy lại data
+    //   if (model.wareHouseItemDTO.length < 1) this.listItem.forEach(element => { model.wareHouseItemDTO.push(element) });
+    //   if (model.unitDTO.length < 1) this.listUnit.forEach(element => { model.unitDTO.push(element) });
+    //   if (model.getCustomerDTO.length < 1) this.getCustomerDTO.forEach(element => { model.getCustomerDTO.push(element) });
+    //   if (model.getDepartmentDTO.length < 1) this.getDepartmentDTO.forEach(element => { model.getDepartmentDTO.push(element) });
+    //   if (model.getEmployeeDTO.length < 1) this.getEmployeeDTO.forEach(element => { model.getEmployeeDTO.push(element) });
+    //   if (model.getProjectDTO.length < 1) this.getProjectDTO.forEach(element => { model.getProjectDTO.push(element) });
+    //   if (model.getStationDTO.length < 1) this.getStationDTO.forEach(element => { model.getStationDTO.push(element) });
+     
+    
 
   }
 

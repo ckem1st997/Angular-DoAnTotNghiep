@@ -15,7 +15,6 @@ import { WareHouseCreateComponent } from '../../create/WareHouseCreate/WareHouse
   styleUrls: ['./WareHouseItemCategoryEdit.component.scss']
 })
 export class WareHouseItemCategoryEditComponent implements OnInit {
-
   title = "Chỉnh sửa loại vật tư";
   private readonly notifier!: NotifierService;
   success = false;

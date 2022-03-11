@@ -71,7 +71,6 @@ export class OutwarDetailsEditComponent implements OnInit {
       this.dt.unitDTO = res.data;
       this.form.patchValue({ unitId: this.dt.wareHouseItemDTO?.find(x => x.id === idSelect)?.unitId ?? null });
     })
-
   }
   onSubmit() {
     var test = new OutwardDetailsValidator();
