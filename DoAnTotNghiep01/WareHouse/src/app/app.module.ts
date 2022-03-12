@@ -16,7 +16,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { AngularSplitModule } from 'angular-split';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -80,6 +80,7 @@ import { OutwardCreateComponent } from './method/create/OutwardCreate/OutwardCre
 import { OutwarDetailsCreateComponent } from './method/create/OutwarDetailsCreate/OutwarDetailsCreate.component';
 import { OutwarDetailsEditComponent } from './method/edit/OutwarDetailsEdit/OutwarDetailsEdit.component';
 import { InwarDetailsEditByServiceComponent } from './method/edit/InwarDetailsEditByService/InwarDetailsEditByService.component';
+import { ErrorIntercept } from './extension/ErrorIntercept';
 const customNotifierOptions: NotifierOptions = {
   position: {
     horizontal: {
@@ -208,7 +209,11 @@ const customNotifierOptions: NotifierOptions = {
     TagInputModule
 
   ],
-  providers: [VendorService,WareHouseItemService,{ provide: MAT_DATE_LOCALE, useValue: 'vn-VN' }],
+  providers: [VendorService,WareHouseItemService,{ provide: MAT_DATE_LOCALE, useValue: 'vn-VN' }, {
+    provide: HTTP_INTERCEPTORS,
+    useClass: ErrorIntercept,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

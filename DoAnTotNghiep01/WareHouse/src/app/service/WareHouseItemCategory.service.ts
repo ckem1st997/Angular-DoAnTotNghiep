@@ -23,7 +23,7 @@ export class WareHouseItemCategoryService {
     var url = this.baseUrl + `/get-list?`;
     return this.http.get<ResultMessageResponse<WareHouseItemCategoryDTO>>(url, this.httpOptions).pipe(
       retry(3), // retry a failed request up to 3 times
-      catchError(this.handleError) // then handle the error
+     
     );
   }
 
@@ -32,14 +32,14 @@ export class WareHouseItemCategoryService {
     var url = this.baseUrl + `/get-list?KeySearch=` + search.keySearch + `&Active=` + check + `&Skip=` + search.skip + `&Take=` + search.take + ``;
     return this.http.get<ResultMessageResponse<WareHouseItemCategoryDTO>>(url, this.httpOptions).pipe(
       retry(3), // retry a failed request up to 3 times
-      catchError(this.handleError) // then handle the error
+     
     );
   }
   getListDropDown(): Observable<ResultMessageResponse<WareHouseItemCategoryDTO>> {
     var url = this.baseUrl + `/get-drop-tree?Active=true`;
     return this.http.get<ResultMessageResponse<WareHouseItemCategoryDTO>>(url, this.httpOptions).pipe(
       retry(3), // retry a failed request up to 3 times
-      catchError(this.handleError) // then handle the error
+     
     );
   }
 
@@ -47,7 +47,7 @@ export class WareHouseItemCategoryService {
     var url = this.baseUrl + `/edit`;
     return this.http.post<ResultMessageResponse<WareHouseItemCategory>>(url, model, this.httpOptions).pipe(
       tap(_ => console.log(`edit WareHouses id=${model.id}`)),
-      catchError(this.handleError) // then handle the error
+     
     );
   }
 
@@ -55,7 +55,7 @@ export class WareHouseItemCategoryService {
     var url = this.baseUrl + `/create`;
     return this.http.post<ResultMessageResponse<WareHouseItemCategory>>(url, model, this.httpOptions).pipe(
       tap(_ => console.log(`create vendor id=${model.id}`)),
-      catchError(this.handleError) // then handle the error
+     
     );
   }
 
@@ -63,7 +63,7 @@ export class WareHouseItemCategoryService {
     var url = this.baseUrl + `/delete`;
     return this.http.post<ResultMessageResponse<WareHouseItemCategory>>(url, ids, this.httpOptions).pipe(
       tap(_ => console.log(`delete vendor id=${ids}`)),
-      catchError(this.handleError) // then handle the error
+     
     );
   }
 
@@ -72,18 +72,7 @@ export class WareHouseItemCategoryService {
     var url = this.baseUrl + `/get-tree-view?Active=true`;
     return this.http.get<ResultMessageResponse<TreeView>>(url, this.httpOptions).pipe(
       retry(3), // retry a failed request up to 3 times
-      catchError(this.handleError) 
     );
   }
-  private handleError(error: HttpErrorResponse) {
-    if (error.status === 0) {
-      // A client-side or network error occurred. Handle it accordingly.
-      console.error('An error occurred:', error.error);
-    } else {
-      console.error(
-        `Backend returned code ${error.status}, body was: `, error);
-    }
-    return throwError(
-      'Something bad happened; please try again later.');
-  }
+
 }

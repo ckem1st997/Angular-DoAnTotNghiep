@@ -46,6 +46,11 @@ export class VendorDeleteComponent implements OnInit {
           this.dialogRef.close(x.success)
         else
           this.notifier.notify('error', x?.errors["msg"][0]);
+      } ,     error => {
+        if (error.error.errors.length === undefined)
+          this.notifier.notify('error', error.error.message);
+        else
+          this.notifier.notify('error', error.error);
       }
       );
     }

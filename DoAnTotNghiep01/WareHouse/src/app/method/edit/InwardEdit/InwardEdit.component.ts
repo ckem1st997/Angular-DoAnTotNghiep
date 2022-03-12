@@ -115,10 +115,11 @@ export class InwardEditComponent implements OnInit {
     if (id !== null)
       this.service.EditIndex(id).subscribe(x => {
         this.dt = x.data;
-        this.listDetails=this.dt.inwardDetails;
-        this.dataSource.data=this.dt.inwardDetails;
+        this.listDetails = this.dt.inwardDetails;
+        this.dataSource.data = this.dt.inwardDetails;
         this.table.renderRows();
-        this.form.patchValue({ id: this.dt.id,
+        this.form.patchValue({
+          id: this.dt.id,
           voucherCode: this.dt.voucherCode,
           voucher: this.dt.voucher,
           voucherDate: this.dt.voucherDate,
@@ -144,10 +145,10 @@ export class InwardEditComponent implements OnInit {
         });
       });
 
-      this.serviceBook.AddInwarDetailsIndex().subscribe(x => {
-        this.listItem = x.data.wareHouseItemDTO;
-        this.listUnit = x.data.unitDTO;
-      });
+    this.serviceBook.AddInwarDetailsIndex().subscribe(x => {
+      this.listItem = x.data.wareHouseItemDTO;
+      this.listUnit = x.data.unitDTO;
+    });
 
   }
   getNameItem(id: string) {
@@ -201,7 +202,7 @@ export class InwardEditComponent implements OnInit {
 
   openDialogedit(id: string): void {
     this.serviceBook.EditInwarDetailsIndex(id).subscribe(x => {
-       const dialogRef = this.dialog.open(InwarDetailsEditByServiceComponent, {
+      const dialogRef = this.dialog.open(InwarDetailsEditByServiceComponent, {
         width: '550px',
         data: x.data,
       });
@@ -210,8 +211,7 @@ export class InwardEditComponent implements OnInit {
         var res = result;
         if (res) {
           this.serviceBook.EditInwarDetailsIndexByModel(result).subscribe(x => {
-            if(x.success)
-            {
+            if (x.success) {
               this.listDetails = this.listDetails.filter(x => x !== this.listDetails.find(x => x.id === res.id));
               this.listDetails.push(res);
               this.dataSource.data = this.listDetails;
@@ -219,11 +219,17 @@ export class InwardEditComponent implements OnInit {
               this.notifier.notify('success', 'Sửa thành công');
             }
 
-          });
+          } ,     error => {
+            if (error.error.errors.length === undefined)
+              this.notifier.notify('error', error.error.message);
+            else
+              this.notifier.notify('error', error.error);
+          }
+          );
 
         }
       });
-      });
+    });
     // console.log(model);
     // if (model !== undefined) {
     //   // gán data từ biến tạm gán vào biến model, để tránh gọi sang api lấy lại data
@@ -234,8 +240,8 @@ export class InwardEditComponent implements OnInit {
     //   if (model.getEmployeeDTO.length < 1) this.getEmployeeDTO.forEach(element => { model.getEmployeeDTO.push(element) });
     //   if (model.getProjectDTO.length < 1) this.getProjectDTO.forEach(element => { model.getProjectDTO.push(element) });
     //   if (model.getStationDTO.length < 1) this.getStationDTO.forEach(element => { model.getStationDTO.push(element) });
-     
-    
+
+
 
   }
 
@@ -254,12 +260,22 @@ export class InwardEditComponent implements OnInit {
       var checkDetails = this.listDetails.length > 0;
       if (checkDetails == true) {
         this.form.value["inwardDetails"] = this.listDetails;
-        this.service.Add(this.form.value).subscribe(x => {
+        this.service.Edit(this.form.value).subscribe(x => {
           if (x.success)
-            this.notifier.notify('success', 'Thêm thành công');
-          else
-            this.notifier.notify('error', x.errors["msg"][0]);
-        }
+            this.notifier.notify('success', 'Chỉnh sửa thành công');
+          else {
+            if (x.errors["msg"] !== undefined && x.errors["msg"].length !== undefined)
+              this.notifier.notify('error', x.errors["msg"][0]);
+            else
+              this.notifier.notify('error', x.message);
+          }
+        },
+        error => {
+            if (error.error.errors.length === undefined)
+              this.notifier.notify('error', error.error.message);
+            else
+              this.notifier.notify('error', error.error);
+          }
         );
       }
       else {

@@ -22,7 +22,7 @@ export class WareHouseLimitService {
     var url = this.baseUrl + `/get-list?`;
     return this.http.get<ResultMessageResponse<WareHouseLimitDTO>>(url, this.httpOptions).pipe(
       retry(3), // retry a failed request up to 3 times
-      catchError(this.handleError) // then handle the error
+     
     );
   }
 
@@ -33,14 +33,14 @@ export class WareHouseLimitService {
     var url = this.baseUrl + `/get-list?KeySearch=` + search.keySearch + `&Active=` + check + `&Skip=` + search.skip + `&Take=` + search.take + `&WareHouseId=`+wareHouseId+``;
     return this.http.get<ResultMessageResponse<WareHouseLimitDTO>>(url, this.httpOptions).pipe(
       retry(3), // retry a failed request up to 3 times
-      catchError(this.handleError) // then handle the error
+     
     );
   }
   getListDropDown(): Observable<ResultMessageResponse<WareHouseLimitDTO>> {
     var url = this.baseUrl + `/get-drop-tree?Active=true`;
     return this.http.get<ResultMessageResponse<WareHouseLimitDTO>>(url, this.httpOptions).pipe(
       retry(3), // retry a failed request up to 3 times
-      catchError(this.handleError) // then handle the error
+     
     );
   }
 
@@ -48,7 +48,6 @@ export class WareHouseLimitService {
     var url = this.baseUrl + `/edit`;
     return this.http.post<ResultMessageResponse<WareHouseLimit>>(url, model, this.httpOptions).pipe(
       tap(_ => console.log(`edit WareHouses id=${model.id}`)),
-      catchError(this.handleError) 
     );
   }
 
@@ -56,21 +55,21 @@ export class WareHouseLimitService {
     var url = this.baseUrl + `/edit?id=`+id;
     return this.http.get<ResultMessageResponse<WareHouseLimitDTO>>(url, this.httpOptions).pipe(
       tap(_ => console.log(`edit`)),
-      catchError(this.handleError) // then handle the error
+     
     );
   }
   AddIndex(id:string): Observable<ResultMessageResponse<WareHouseLimitDTO>> {
     var url = this.baseUrl + `/create?idWareHouse=`+id;
     return this.http.get<ResultMessageResponse<WareHouseLimitDTO>>(url, this.httpOptions).pipe(
       tap(_ => console.log(`create`)),
-      catchError(this.handleError) // then handle the error
+     
     );
   }
   Add(model: WareHouseLimit): Observable<ResultMessageResponse<WareHouseLimit>> {
     var url = this.baseUrl + `/create`;
     return this.http.post<ResultMessageResponse<WareHouseLimit>>(url, model, this.httpOptions).pipe(
       tap(_ => console.log(`create  id=${model.id}`)),
-      catchError(this.handleError) // then handle the error
+     
     );
   }
 
@@ -78,20 +77,8 @@ export class WareHouseLimitService {
     var url = this.baseUrl + `/delete`;
     return this.http.post<ResultMessageResponse<WareHouseLimit>>(url, ids, this.httpOptions).pipe(
       tap(_ => console.log(`delete  id=${ids}`)),
-      catchError(this.handleError) // then handle the error
+     
     );
   }
 
-  private handleError(error: HttpErrorResponse) {
-    if (error.status === 0) {
-      // A client-side or network error occurred. Handle it accordingly.
-      console.error('An error occurred:', error.error);
-    } else {
-      console.error(
-        `Backend returned code ${error.status}, body was: `, error);
-    }
-    // Return an observable with a user-facing error message.
-    return throwError(
-      'Something bad happened; please try again later.');
-  }
 }

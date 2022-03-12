@@ -222,6 +222,11 @@ export class OutwardCreateComponent implements OnInit {
             this.notifier.notify('success', 'Thêm thành công');
           else
             this.notifier.notify('error', x.errors["msg"][0]);
+        } ,     error => {
+          if (error.error.errors.length === undefined)
+            this.notifier.notify('error', error.error.message);
+          else
+            this.notifier.notify('error', error.error);
         }
         );
       }
