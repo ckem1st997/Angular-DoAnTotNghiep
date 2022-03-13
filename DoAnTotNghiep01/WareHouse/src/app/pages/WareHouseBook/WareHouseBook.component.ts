@@ -38,6 +38,8 @@ interface ExampleFlatNode {
 })
 export class WareHouseBookComponent implements OnInit {
   //
+  typeIn = "Phiếu nhập";
+  typeOut = "Phiếu xuất";
   //
   listDelete: WareHouseBookDTO[] = [];
   //select
@@ -168,46 +170,27 @@ export class WareHouseBookComponent implements OnInit {
     this.model.active = this.checkedl;
     this.GetData();
   }
-  openDialog(model: InwardDTO): void {
+  openDialog(model: WareHouseBookDTO): void {
     if (model.id !== null) {
-      this.route.navigate(['/edit-inward', model.id]);
+      if (model.type === this.typeIn)
+        this.route.navigate(['/edit-inward', model.id]);
+      else if (model.type === this.typeOut)
+        this.route.navigate(['/edit-outward', model.id]);
     }
     else
       this.notifier.notify('warning', "Xin vui lòng thử lại !");
   }
-  openDialogDetals(model: InwardDTO): void {
-    const dialogRef = this.dialog.open(WareHouseDetailsComponent, {
-      width: '550px',
-      data: model,
-    });
-  }
-  openDialogCreate(): void {
-    // var idCheck: string | null = null;
-    // var selectDelete = document.querySelectorAll("#treeview button");
-    // selectDelete.forEach(element => {
-    //   if (element.className.includes("activeButtonTreeView"))
-    //     idCheck = element.getAttribute("id");
-    // });
 
-    // if (idCheck !== null) {
-    //   this.service.AddIndex(idCheck).subscribe(x => {
-    //     this.modelCreate = x.data;
-    //     const dialogRef = this.dialog.open(WareHouseLimitCreateComponent, {
-    //       width: '550px',
-    //       data: this.modelCreate
-    //     });
-
-    //     dialogRef.afterClosed().subscribe(result => {
-    //       var res = result;
-    //       if (res) {
-    //         this.notifier.notify('success', 'Chỉnh sửa thành công !');
-    //         this.GetData();
-    //       }
-    //     });
-    //   });
-    // }
-    // else
-    //   this.notifier.notify('warning', "Bạn chưa chọn kho nào !");
+  //details
+  openDetails(model: WareHouseBookDTO): void {
+    if (model.id !== null) {
+      if (model.type === this.typeIn)
+        this.route.navigate(['/details-inward', model.id]);
+      else if (model.type === this.typeOut)
+        this.route.navigate(['/details-outward', model.id]);
+    }
+    else
+      this.notifier.notify('warning', "Xin vui lòng thử lại !");
   }
 
   openDialogDelelte(model: WareHouseBookDTO): void {

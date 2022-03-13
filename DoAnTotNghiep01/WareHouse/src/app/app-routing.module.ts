@@ -15,6 +15,7 @@ import { InwardCreateComponent } from './method/create/InwardCreate/InwardCreate
 import { NotFoundComponent } from './pages/NotFound/NotFound.component';
 import { OutwardCreateComponent } from './method/create/OutwardCreate/OutwardCreate.component';
 import { InwardEditComponent } from './method/edit/InwardEdit/InwardEdit.component';
+import { InwardDetailsComponent } from './method/details/InwardDetails/InwardDetails.component';
 
 const routes: Routes = [
   { path: 'warehouse-limit', component: WareHouseLimitComponent },
@@ -27,6 +28,7 @@ const routes: Routes = [
   { path: 'unit', component:  UnitComponent },
   { path: 'create-inward/:whid', component:  InwardCreateComponent },
   { path: 'edit-inward/:id', component:  InwardEditComponent },
+  { path: 'details-inward/:id', component:  InwardDetailsComponent },
   { path: 'create-outward/:whid', component:  OutwardCreateComponent },
   { path: '', component: HomeComponent },
   {path: '404', component: NotFoundComponent},

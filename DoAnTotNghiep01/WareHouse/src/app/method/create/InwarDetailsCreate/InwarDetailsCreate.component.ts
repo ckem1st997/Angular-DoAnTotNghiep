@@ -109,7 +109,7 @@ export class InwarDetailsCreateComponent implements OnInit {
         });
 
       this.dialogRef.close(this.form.value);
-      this.notifier.notify('success', 'Thêm thành công !');
+     // this.notifier.notify('success', 'Thêm thành công !');
     }
     else {
       var message = '';

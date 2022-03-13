@@ -81,6 +81,8 @@ import { OutwarDetailsCreateComponent } from './method/create/OutwarDetailsCreat
 import { OutwarDetailsEditComponent } from './method/edit/OutwarDetailsEdit/OutwarDetailsEdit.component';
 import { InwarDetailsEditByServiceComponent } from './method/edit/InwarDetailsEditByService/InwarDetailsEditByService.component';
 import { ErrorIntercept } from './extension/ErrorIntercept';
+import { InwardDetailsComponent } from './method/details/InwardDetails/InwardDetails.component';
+import { InwardDetailDetailsComponent } from './method/details/InwardDetailDetails/InwardDetailDetails.component';
 const customNotifierOptions: NotifierOptions = {
   position: {
     horizontal: {
@@ -176,7 +178,9 @@ const customNotifierOptions: NotifierOptions = {
     OutwardCreateComponent,
     OutwarDetailsCreateComponent,
     OutwarDetailsEditComponent,
-    InwarDetailsEditByServiceComponent
+    InwarDetailsEditByServiceComponent,
+    InwardDetailsComponent,
+    InwardDetailDetailsComponent
   ],
   imports: [
     BrowserModule,

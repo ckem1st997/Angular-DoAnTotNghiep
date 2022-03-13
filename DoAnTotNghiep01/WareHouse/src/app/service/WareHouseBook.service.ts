@@ -42,14 +42,14 @@ export class WareHouseBookService {
     var url = this.baseUrl + `/get-list?KeySearch=` + search.keySearch + `&TypeWareHouseBook=` + TypeWareHouseBook + `&Skip=` + search.skip + `&Take=` + search.take + `&FromDate=` + FromDate + `&ToDate=` + ToDate + `&WareHouseId=` + wareHouseId + ``;
     return this.http.get<ResultMessageResponse<WareHouseBookDTO>>(url, this.httpOptions).pipe(
       retry(3), // retry a failed request up to 3 times
-     
+
     );
   }
   GetUnitByIdItem(id: string): Observable<ResultMessageResponse<UnitDTO>> {
-    var url = this.baseUrl + `/get-unit-by-id?IdItem=`+id;
+    var url = this.baseUrl + `/get-unit-by-id?IdItem=` + id;
     return this.http.get<ResultMessageResponse<UnitDTO>>(url, this.httpOptions).pipe(
       tap(_ => console.log(`create`)),
-     
+
     );
   }
   // Edit(model: WareHouseLimit): Observable<ResultMessageResponse<WareHouseLimit>> {
@@ -60,34 +60,48 @@ export class WareHouseBookService {
   //   );
   // }
 
-  EditInwardIndex(id:string): Observable<ResultDataResponse<InwardDTO>> {
-    var url = this.baseUrlInward + `/edit?id=`+id;
+  EditInwardIndex(id: string): Observable<ResultDataResponse<InwardDTO>> {
+    var url = this.baseUrlInward + `/edit?id=` + id;
     return this.http.get<ResultDataResponse<InwardDTO>>(url, this.httpOptions).pipe(
       tap(_ => console.log(`edit`)),
-     
+
     );
   }
   AddInwarDetailsIndex(): Observable<ResultDataResponse<InwardDetailDTO>> {
     var url = this.baseUrl + `/create-inward-details`;
     return this.http.get<ResultDataResponse<InwardDetailDTO>>(url, this.httpOptions).pipe(
       tap(_ => console.log(`create`)),
-     
+
     );
   }
+  AddInwarDetails(model:InwardDetail): Observable<ResultDataResponse<InwardDetailDTO>> {
+    var url = this.baseUrl + `/create-inward-details`;
+    return this.http.post<ResultDataResponse<InwardDetailDTO>>(url,model, this.httpOptions).pipe(
+      tap(_ => console.log(`create`)),
 
-  EditInwarDetailsIndex(id:string): Observable<ResultDataResponse<InwardDetailDTO>> {
-    var url = this.baseUrl + `/edit-inward-details?id=`+id;
+    );
+  }
+  EditInwarDetailsIndex(id: string): Observable<ResultDataResponse<InwardDetailDTO>> {
+    var url = this.baseUrl + `/edit-inward-details?id=` + id;
     return this.http.get<ResultDataResponse<InwardDetailDTO>>(url, this.httpOptions).pipe(
       tap(_ => console.log(`create`)),
-     
+
     );
   }
 
-  EditInwarDetailsIndexByModel(model:InwardDetail): Observable<ResultDataResponse<InwardDetail>> {
-    var url = this.baseUrl + `/edit-inward-details`;
-    return this.http.post<ResultDataResponse<InwardDetail>>(url,model, this.httpOptions).pipe(
+  InwarDetails(id: string): Observable<ResultDataResponse<InwardDetailDTO>> {
+    var url = this.baseUrl + `/details-inward-details?id=` + id;
+    return this.http.get<ResultDataResponse<InwardDetailDTO>>(url, this.httpOptions).pipe(
       tap(_ => console.log(`create`)),
-     
+
+    );
+  }
+
+  EditInwarDetailsIndexByModel(model: InwardDetail): Observable<ResultDataResponse<InwardDetail>> {
+    var url = this.baseUrl + `/edit-inward-details`;
+    return this.http.post<ResultDataResponse<InwardDetail>>(url, model, this.httpOptions).pipe(
+      tap(_ => console.log(`create`)),
+
     );
   }
 
@@ -95,7 +109,7 @@ export class WareHouseBookService {
     var url = this.baseUrl + `/create-outward-details`;
     return this.http.get<ResultDataResponse<OutwardDetailDTO>>(url, this.httpOptions).pipe(
       tap(_ => console.log(`create`)),
-     
+
     );
   }
 
@@ -107,13 +121,20 @@ export class WareHouseBookService {
   //   );
   // }
 
+  DeleteInwarDetails(ids:string[]): Observable<ResultMessageResponse<WareHouseBookDTO>> {
+    var url = this.baseUrl + `/delete-details-inward`;
+    return this.http.post<ResultMessageResponse<WareHouseBookDTO>>(url, ids, this.httpOptions).pipe(
+      tap(_ => console.log(`delete  id=${ids}`)),
+
+    );
+  }
   Delete(ids: string[]): Observable<ResultMessageResponse<WareHouseLimit>> {
     var url = this.baseUrl + `/delete`;
     return this.http.post<ResultMessageResponse<WareHouseLimit>>(url, ids, this.httpOptions).pipe(
       tap(_ => console.log(`delete  id=${ids}`)),
-     
+
     );
   }
 
-  
+
 }

@@ -14,15 +14,15 @@ import { InwardService } from 'src/app/service/Inward.service';
 import { WareHouseBookService } from 'src/app/service/WareHouseBook.service';
 import { InwardValidator } from 'src/app/validator/InwardValidator';
 import { InwarDetailsCreateComponent } from '../../create/InwarDetailsCreate/InwarDetailsCreate.component';
-import { InwarDetailsEditComponent } from '../InwarDetailsEdit/InwarDetailsEdit.component';
-import { InwarDetailsEditByServiceComponent } from '../InwarDetailsEditByService/InwarDetailsEditByService.component';
+import { InwarDetailsEditByServiceComponent } from '../../edit/InwarDetailsEditByService/InwarDetailsEditByService.component';
+import { InwardDetailDetailsComponent } from '../InwardDetailDetails/InwardDetailDetails.component';
 
 @Component({
-  selector: 'app-InwardEdit',
-  templateUrl: './InwardEdit.component.html',
-  styleUrls: ['./InwardEdit.component.scss']
+  selector: 'app-InwardDetails',
+  templateUrl: './InwardDetails.component.html',
+  styleUrls: ['./InwardDetails.component.scss']
 })
-export class InwardEditComponent implements OnInit {
+export class InwardDetailsComponent implements OnInit {
   form!: FormGroup;
   listDetails = Array<InwardDetailDTO>();
   listItem = Array<WareHouseItemDTO>();
@@ -84,7 +84,7 @@ export class InwardEditComponent implements OnInit {
     this.onWindowResize();
     this.getData();
     this.form = this.formBuilder.group({
-      id: Guid.newGuid(),
+      id:null,
       voucherCode: null,
       voucher: this.dt.voucher,
       voucherDate: new Date().toISOString().slice(0, 16),
@@ -113,7 +113,7 @@ export class InwardEditComponent implements OnInit {
   getData() {
     const id = this.route.snapshot.paramMap.get('id');
     if (id !== null)
-      this.service.EditIndex(id).subscribe(x => {
+      this.service.Details(id).subscribe(x => {
         this.dt = x.data;
         this.listDetails = this.dt.inwardDetails;
         this.dataSource.data = this.dt.inwardDetails;
@@ -177,93 +177,22 @@ export class InwardEditComponent implements OnInit {
       dialogRef.afterClosed().subscribe(result => {
         var res = result;
         if (res) {
-          this.serviceBook.AddInwarDetails(res).subscribe(x => {
-            if (x.success) {
-              this.listDetails.push(result);
-              this.dataSource.data = this.listDetails;
-              this.table.renderRows();
-              this.notifier.notify('success', 'Thêm thành công');
-
-            }
-            else
-              this.notifier.notify('ward', 'Thêm thất bại');
-
-          }, error => {
-            if (error.error.errors.length === undefined)
-              this.notifier.notify('error', error.error.message);
-            else
-              this.notifier.notify('error', error.error);
-          }
-          );
-        }
-        else
-          this.notifier.notify('ward', 'Thêm thất bại');
-
-      });
-
-    });
-
-  }
-  openDialogDelelte(id: string): void {
-    const model = this.listDetails.find(x => x.id === id);
-    if (model !== undefined) {
-      var ids=new Array<string>();
-      ids.push(id);
-      this.serviceBook.DeleteInwarDetails(ids).subscribe(x => {
-        if (x.success) {
-          this.listDetails = this.listDetails.filter(x => x !== this.listDetails.find(x => x.id === id));
+          this.listDetails.push(result);
           this.dataSource.data = this.listDetails;
           this.table.renderRows();
-          this.notifier.notify('success', 'Xóa thành công');
         }
-        else
-          this.notifier.notify('error', 'Xóa thất bại');
+      });
 
-
-      }, error => {
-        if (error.error.errors.length === undefined)
-          this.notifier.notify('error', error.error.message);
-        else
-          this.notifier.notify('error', error.error);
-      }
-      );
-    }
-    else
-      this.notifier.notify('error', 'Xóa thất bại');
+    });
 
   }
 
 
-  openDialogedit(id: string): void {
-    this.serviceBook.EditInwarDetailsIndex(id).subscribe(x => {
-      const dialogRef = this.dialog.open(InwarDetailsEditByServiceComponent, {
+  openDialogDetails(model: InwardDetailDTO): void {
+      const dialogRef = this.dialog.open(InwardDetailDetailsComponent, {
         width: '550px',
-        data: x.data,
+        data:model
       });
-
-      dialogRef.afterClosed().subscribe(result => {
-        var res = result;
-        if (res) {
-          this.serviceBook.EditInwarDetailsIndexByModel(result).subscribe(x => {
-            if (x.success) {
-              this.listDetails = this.listDetails.filter(x => x !== this.listDetails.find(x => x.id === res.id));
-              this.listDetails.push(res);
-              this.dataSource.data = this.listDetails;
-              this.table.renderRows();
-              this.notifier.notify('success', 'Sửa thành công');
-            }
-
-          }, error => {
-            if (error.error.errors.length === undefined)
-              this.notifier.notify('error', error.error.message);
-            else
-              this.notifier.notify('error', error.error);
-          }
-          );
-
-        }
-      });
-    });
   }
 
 
@@ -291,7 +220,7 @@ export class InwardEditComponent implements OnInit {
               this.notifier.notify('error', x.message);
           }
         },
-          error => {
+        error => {
             if (error.error.errors.length === undefined)
               this.notifier.notify('error', error.error.message);
             else

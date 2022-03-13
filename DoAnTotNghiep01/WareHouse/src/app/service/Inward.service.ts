@@ -42,6 +42,14 @@ export class InwardService {
       tap(_ => console.log(`edit`)),
     );
   }
+
+  Details(id: string): Observable<ResultDataResponse<InwardDTO>> {
+    var url = this.baseUrl + `/details?id=` + id;
+    return this.http.get<ResultDataResponse<InwardDTO>>(url, this.httpOptions).pipe(
+      tap(_ => console.log(`edit`)),
+    );
+  }
+
   AddIndex(idwh: string | null): Observable<ResultDataResponse<InwardDTO>> {
     var url = this.baseUrl + `/create?idWareHouse=` + idwh;
     return this.http.get<ResultDataResponse<InwardDTO>>(url, this.httpOptions).pipe(
