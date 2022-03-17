@@ -48,14 +48,14 @@ th.mat-header-cell {
   float: left;
   font-size: 12px;
   line-height: 36px;
-  padding: 0 10px 0 60px;
+  padding: 0 0 0 59px;
   position: relative;
   background: var(--breadcrumb-theme-2);
   color: var(--breadcrumb-theme-1);
   transition: background 0.5s;
 }
 .breadcrumb__step:first-child {
-  padding-left: 46px;
+  padding-left: 32px;
   border-radius: 5px 0 0 5px;
 }
 .breadcrumb__step:first-child::before {

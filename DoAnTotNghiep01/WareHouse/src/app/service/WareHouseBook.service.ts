@@ -12,6 +12,7 @@ import { WareHouseBookDTO } from './../model/WareHouseBookDTO';
 import { InwardDTO } from 'src/app/model/InwardDTO';
 import { OutwardDetailDTO } from '../model/OutwardDetailDTO';
 import { InwardDetail } from '../entity/InwardDetail';
+import { OutwardDetail } from '../entity/OutwardDetail';
 
 @Injectable({
   providedIn: 'root'
@@ -81,6 +82,13 @@ export class WareHouseBookService {
 
     );
   }
+  AddOutwarDetails(model:InwardDetail): Observable<ResultDataResponse<OutwardDetailDTO>> {
+    var url = this.baseUrl + `/create-OUTward-details`;
+    return this.http.post<ResultDataResponse<OutwardDetailDTO>>(url,model, this.httpOptions).pipe(
+      tap(_ => console.log(`create`)),
+
+    );
+  }
   EditInwarDetailsIndex(id: string): Observable<ResultDataResponse<InwardDetailDTO>> {
     var url = this.baseUrl + `/edit-inward-details?id=` + id;
     return this.http.get<ResultDataResponse<InwardDetailDTO>>(url, this.httpOptions).pipe(
@@ -88,7 +96,13 @@ export class WareHouseBookService {
 
     );
   }
+  EditOutwarDetailsIndex(id: string): Observable<ResultDataResponse<OutwardDetailDTO>> {
+    var url = this.baseUrl + `/edit-outward-details?id=` + id;
+    return this.http.get<ResultDataResponse<OutwardDetailDTO>>(url, this.httpOptions).pipe(
+      tap(_ => console.log(`create`)),
 
+    );
+  }
   InwarDetails(id: string): Observable<ResultDataResponse<InwardDetailDTO>> {
     var url = this.baseUrl + `/details-inward-details?id=` + id;
     return this.http.get<ResultDataResponse<InwardDetailDTO>>(url, this.httpOptions).pipe(
@@ -96,7 +110,13 @@ export class WareHouseBookService {
 
     );
   }
+  OutwarDetails(id: string): Observable<ResultDataResponse<OutwardDetailDTO>> {
+    var url = this.baseUrl + `/details-outward-details?id=` + id;
+    return this.http.get<ResultDataResponse<OutwardDetailDTO>>(url, this.httpOptions).pipe(
+      tap(_ => console.log(`create`)),
 
+    );
+  }
   EditInwarDetailsIndexByModel(model: InwardDetail): Observable<ResultDataResponse<InwardDetail>> {
     var url = this.baseUrl + `/edit-inward-details`;
     return this.http.post<ResultDataResponse<InwardDetail>>(url, model, this.httpOptions).pipe(
@@ -104,7 +124,13 @@ export class WareHouseBookService {
 
     );
   }
+  EditOutwarDetailsIndexByModel(model: OutwardDetail): Observable<ResultDataResponse<OutwardDetail>> {
+    var url = this.baseUrl + `/edit-outward-details`;
+    return this.http.post<ResultDataResponse<OutwardDetail>>(url, model, this.httpOptions).pipe(
+      tap(_ => console.log(`create`)),
 
+    );
+  }
   AddOutwarDetailsIndex(): Observable<ResultDataResponse<OutwardDetailDTO>> {
     var url = this.baseUrl + `/create-outward-details`;
     return this.http.get<ResultDataResponse<OutwardDetailDTO>>(url, this.httpOptions).pipe(
@@ -113,16 +139,16 @@ export class WareHouseBookService {
     );
   }
 
-  // Add(model: WareHouseLimit): Observable<ResultMessageResponse<WareHouseLimit>> {
-  //   var url = this.baseUrl + `/create`;
-  //   return this.http.post<ResultMessageResponse<WareHouseLimit>>(url, model, this.httpOptions).pipe(
-  //     tap(_ => console.log(`create  id=${model.id}`)),
-  //    
-  //   );
-  // }
-
   DeleteInwarDetails(ids:string[]): Observable<ResultMessageResponse<WareHouseBookDTO>> {
     var url = this.baseUrl + `/delete-details-inward`;
+    return this.http.post<ResultMessageResponse<WareHouseBookDTO>>(url, ids, this.httpOptions).pipe(
+      tap(_ => console.log(`delete  id=${ids}`)),
+
+    );
+  }
+
+  DeleteOutwarDetails(ids:string[]): Observable<ResultMessageResponse<WareHouseBookDTO>> {
+    var url = this.baseUrl + `/delete-details-outward`;
     return this.http.post<ResultMessageResponse<WareHouseBookDTO>>(url, ids, this.httpOptions).pipe(
       tap(_ => console.log(`delete  id=${ids}`)),
 

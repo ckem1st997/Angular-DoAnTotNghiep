@@ -1,5 +1,6 @@
 import { BaseModel } from "./BaseModel";
 import { BaseSelectDTO } from "./BaseSelectDTO";
+import { OutwardDetailDTO } from "./OutwardDetailDTO";
 import { VendorDTO } from "./VendorDTO";
 import { WareHouseDTO } from "./WareHouseDTO";
 
@@ -28,4 +29,6 @@ export interface OutwardDTO extends BaseModel {
   receiverDepartment: string | null;
   wareHouseDTO: WareHouseDTO[];
   getCreateBy: BaseSelectDTO[];
+  outwardDetails: OutwardDetailDTO[];
+
 }

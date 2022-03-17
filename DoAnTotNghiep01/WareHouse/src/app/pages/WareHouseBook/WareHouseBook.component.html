@@ -1,9 +1,9 @@
 <notifier-container></notifier-container>
 <div class=" d-flex justify-content-between" style="margin-top: 10px;">
   <div class="breadcrumb">
-    <a class="breadcrumb__step breadcrumb__step--active" href="#">ECMAScript</a>
-    <a class="breadcrumb__step" href="#">HTML5</a>
-    <a class="breadcrumb__step" href="#">Node.js</a>
+    <a class="breadcrumb__step breadcrumb__step--active"routerLink="/">Trang chủ</a>
+    <a class="breadcrumb__step" routerLink="/warehouse-item">Vật tư</a>
+    <a class="breadcrumb__step" routerLink="/warehouse">Kho</a>
   </div>
   <div class="">
     <div class="">
@@ -110,12 +110,12 @@
             </ng-container>
             <ng-container matColumnDef="createdBy">
               <th style="width:129px;text-align: center;" mat-header-cell *matHeaderCellDef>Người tạo</th>
-              <td style="text-align: center;" mat-cell *matCellDef="let element"> {{element.createdBy}} </td>
+              <td style="text-align: center;" mat-cell *matCellDef="let element"> {{getName(element.createdBy)}} </td>
             </ng-container>
 
             <ng-container matColumnDef="modifiedBy">
               <th style="width:129px;text-align: center;" mat-header-cell *matHeaderCellDef>Người sửa</th>
-              <td style="text-align: center;" mat-cell *matCellDef="let element"> {{element.modifiedBy}} </td>
+              <td style="text-align: center;" mat-cell *matCellDef="let element"> {{getName(element.modifiedBy)}} </td>
             </ng-container>
             <ng-container matColumnDef="method">
               <th mat-header-cell *matHeaderCellDef> Chức năng </th>

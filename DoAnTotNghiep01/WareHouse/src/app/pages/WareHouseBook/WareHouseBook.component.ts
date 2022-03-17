@@ -24,6 +24,7 @@ import { WarehouseService } from "src/app/service/warehouse.service";
 import { WareHouseBookService } from "src/app/service/WareHouseBook.service";
 import { InwardDTO } from 'src/app/model/InwardDTO';
 import { InwarDetailsEditComponent } from "src/app/method/edit/InwarDetailsEdit/InwarDetailsEdit.component";
+import { GetDataToGprcService } from "src/app/service/GetDataToGprc.service";
 
 interface ExampleFlatNode {
   expandable: boolean;
@@ -111,7 +112,7 @@ export class WareHouseBookComponent implements OnInit {
 
   dataSourceTreee = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
-  constructor(private route: Router, private service: WareHouseBookService, private serviceW: WarehouseService, private _liveAnnouncer: LiveAnnouncer, public dialog: MatDialog, notifierService: NotifierService) {
+  constructor(private getDataToGprc: GetDataToGprcService, private route: Router, private service: WareHouseBookService, private serviceW: WarehouseService, private _liveAnnouncer: LiveAnnouncer, public dialog: MatDialog, notifierService: NotifierService) {
     this.notifier = notifierService;
   }
 
@@ -317,6 +318,15 @@ export class WareHouseBookComponent implements OnInit {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.id}`;
+  }
+
+  getName(id: string) {
+    let name ;
+     this.getDataToGprc.getListAccount().subscribe(data => {
+      if (data.data !== undefined && data !== undefined)
+        name = data.data.find(x => x.id === id)?.name
+    });
+    return name;
   }
 }
 

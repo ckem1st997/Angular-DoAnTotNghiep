@@ -12,19 +12,16 @@ import { UnitDTO } from 'src/app/model/UnitDTO';
 import { WareHouseItemDTO } from 'src/app/model/WareHouseItemDTO';
 import { OutwardService } from 'src/app/service/Outward.service';
 import { WareHouseBookService } from 'src/app/service/WareHouseBook.service';
-import { InwardValidator } from 'src/app/validator/InwardValidator';
 import { OutwardValidator } from 'src/app/validator/OutwardValidator';
-import { InwarDetailsEditComponent } from '../../edit/InwarDetailsEdit/InwarDetailsEdit.component';
-import { InwarDetailsCreateComponent } from '../InwarDetailsCreate/InwarDetailsCreate.component';
-import { OutwarDetailsCreateComponent } from './../OutwarDetailsCreate/OutwarDetailsCreate.component';
-import { OutwarDetailsEditComponent } from './../../edit/OutwarDetailsEdit/OutwarDetailsEdit.component';
+import { OutwarDetailsCreateComponent } from '../../create/OutwarDetailsCreate/OutwarDetailsCreate.component';
+import { OutwardetailsEditByServiceComponent } from '../OutwardetailsEditByService/OutwardetailsEditByService.component';
 
 @Component({
-  selector: 'app-OutwardCreate',
-  templateUrl: './OutwardCreate.component.html',
-  styleUrls: ['./OutwardCreate.component.scss']
+  selector: 'app-OutwardEdit',
+  templateUrl: './OutwardEdit.component.html',
+  styleUrls: ['./OutwardEdit.component.scss']
 })
-export class OutwardCreateComponent implements OnInit {
+export class OutwardEditComponent implements OnInit {
   form!: FormGroup;
   listDetails = Array<OutwardDetailDTO>();
   listItem = Array<WareHouseItemDTO>();
@@ -34,7 +31,6 @@ export class OutwardCreateComponent implements OnInit {
   getStationDTO = Array<BaseSelectDTO>();
   getProjectDTO = Array<BaseSelectDTO>();
   getCustomerDTO = Array<BaseSelectDTO>();
-  getAccountDTO = Array<BaseSelectDTO>();
   dt: OutwardDTO = {
     id: "",
     voucherCode: null,
@@ -60,8 +56,8 @@ export class OutwardCreateComponent implements OnInit {
     wareHouseDTO: [],
     domainEvents: [],
     voucher: null,
-    toWareHouseId: null,
     getCreateBy: [],
+    toWareHouseId: null,
     outwardDetails: []
   };
   private readonly notifier!: NotifierService;
@@ -85,16 +81,13 @@ export class OutwardCreateComponent implements OnInit {
   }
   ngOnInit() {
     this.onWindowResize();
-    const whid = this.route.snapshot.paramMap.get('whid');
-    this.service.AddIndex(whid).subscribe(x => {
-      this.dt = x.data;
-    });
+    this.getData();
     this.form = this.formBuilder.group({
       id: Guid.newGuid(),
       voucherCode: null,
-      voucher: this.dt.voucher,
+      voucher: null,
       voucherDate: new Date().toISOString().slice(0, 16),
-      wareHouseId: this.route.snapshot.paramMap.get('whid'),
+      wareHouseId: null,
       deliver: null,
       receiver: null,
       vendorId: null,
@@ -112,14 +105,51 @@ export class OutwardCreateComponent implements OnInit {
       receiverPhone: null,
       receiverAddress: null,
       receiverDepartment: null,
-      outwardDetails: null,
-      toWareHouseId:null
-
+      OutwardDetails: null,
+      toWareHouseId: null,
     });
   }
 
-  getCreate() {
+  getData() {
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id !== null)
+      this.service.EditIndex(id).subscribe(x => {
+        this.dt = x.data;
+        this.listDetails = this.dt.outwardDetails;
+        this.dataSource.data = this.dt.outwardDetails;
+        this.table.renderRows();
+        this.form.patchValue({
+          id: this.dt.id,
+          voucherCode: this.dt.voucherCode,
+          voucher: this.dt.voucher,
+          voucherDate: this.dt.voucherDate,
+          wareHouseId: this.dt.wareHouseId,
+          toWareHouseId: this.dt.toWareHouseId,
+          deliver: this.dt.deliver,
+          receiver: this.dt.receiver,
+          vendorId: this.dt.vendorId,
+          reason: this.dt.reason,
+          reasonDescription: this.dt.reasonDescription,
+          description: this.dt.description,
+          reference: null,
+          createdDate: this.dt.createdDate,
+          createdBy: this.dt.createdBy,
+          modifiedDate: this.dt.modifiedDate,
+          modifiedBy: this.dt.modifiedBy,
+          deliverPhone: this.dt.deliverPhone,
+          deliverAddress: this.dt.deliverAddress,
+          deliverDepartment: this.dt.deliverDepartment,
+          receiverPhone: this.dt.receiverPhone,
+          receiverAddress: this.dt.receiverAddress,
+          receiverDepartment: this.dt.receiverDepartment,
+          OutwardDetails: null
+        });
+      });
 
+    this.serviceBook.AddOutwarDetailsIndex().subscribe(x => {
+      this.listItem = x.data.wareHouseItemDTO;
+      this.listUnit = x.data.unitDTO;
+    });
 
   }
   getNameItem(id: string) {
@@ -135,7 +165,6 @@ export class OutwardCreateComponent implements OnInit {
       this.listItem = x.data.wareHouseItemDTO;
       this.listUnit = x.data.unitDTO;
       this.getCustomerDTO = x.data.getCustomerDTO;
-      this.getAccountDTO=x.data.getAccountDTO;
       this.getDepartmentDTO = x.data.getDepartmentDTO;
       this.getEmployeeDTO = x.data.getEmployeeDTO;
       this.getProjectDTO = x.data.getProjectDTO;
@@ -149,10 +178,28 @@ export class OutwardCreateComponent implements OnInit {
       dialogRef.afterClosed().subscribe(result => {
         var res = result;
         if (res) {
-          this.listDetails.push(result);
-          this.dataSource.data = this.listDetails;
-          this.table.renderRows();
+          this.serviceBook.AddOutwarDetails(res).subscribe(x => {
+            if (x.success) {
+              this.listDetails.push(result);
+              this.dataSource.data = this.listDetails;
+              this.table.renderRows();
+              this.notifier.notify('success', 'Thêm thành công');
+
+            }
+            else
+              this.notifier.notify('ward', 'Thêm thất bại');
+
+          }, error => {
+            if (error.error.errors.length === undefined)
+              this.notifier.notify('error', error.error.message);
+            else
+              this.notifier.notify('error', error.error);
+          }
+          );
         }
+        else
+          this.notifier.notify('ward', 'Thêm thất bại');
+
       });
 
     });
@@ -161,10 +208,26 @@ export class OutwardCreateComponent implements OnInit {
   openDialogDelelte(id: string): void {
     const model = this.listDetails.find(x => x.id === id);
     if (model !== undefined) {
-      this.listDetails = this.listDetails.filter(x => x !== this.listDetails.find(x => x.id === id));
-      this.dataSource.data = this.listDetails;
-      this.table.renderRows();
-      this.notifier.notify('success', 'Xóa thành công');
+      var ids=new Array<string>();
+      ids.push(id);
+      this.serviceBook.DeleteOutwarDetails(ids).subscribe(x => {
+        if (x.success) {
+          this.listDetails = this.listDetails.filter(x => x !== this.listDetails.find(x => x.id === id));
+          this.dataSource.data = this.listDetails;
+          this.table.renderRows();
+          this.notifier.notify('success', 'Xóa thành công');
+        }
+        else
+          this.notifier.notify('error', 'Xóa thất bại');
+
+
+      }, error => {
+        if (error.error.errors.length === undefined)
+          this.notifier.notify('error', error.error.message);
+        else
+          this.notifier.notify('error', error.error);
+      }
+      );
     }
     else
       this.notifier.notify('error', 'Xóa thất bại');
@@ -173,34 +236,35 @@ export class OutwardCreateComponent implements OnInit {
 
 
   openDialogedit(id: string): void {
-
-    const model = this.listDetails.find(x => x.id === id);
-    if (model !== undefined) {
-      // gán data từ biến tạm gán vào biến model, để tránh gọi sang api lấy lại data
-      if (model.wareHouseItemDTO.length < 1) this.listItem.forEach(element => { model.wareHouseItemDTO.push(element) });
-      if (model.unitDTO.length < 1) this.listUnit.forEach(element => { model.unitDTO.push(element) });
-      if (model.getCustomerDTO.length < 1) this.getCustomerDTO.forEach(element => { model.getCustomerDTO.push(element) });
-      if (model.getDepartmentDTO.length < 1) this.getDepartmentDTO.forEach(element => { model.getDepartmentDTO.push(element) });
-      if (model.getEmployeeDTO.length < 1) this.getEmployeeDTO.forEach(element => { model.getEmployeeDTO.push(element) });
-      if (model.getProjectDTO.length < 1) this.getProjectDTO.forEach(element => { model.getProjectDTO.push(element) });
-      if (model.getStationDTO.length < 1) this.getStationDTO.forEach(element => { model.getStationDTO.push(element) });
-      if (model.getAccountDTO.length < 1) this.getAccountDTO.forEach(element => { model.getAccountDTO.push(element) });
-
-      const dialogRef = this.dialog.open(OutwarDetailsEditComponent, {
+    this.serviceBook.EditOutwarDetailsIndex(id).subscribe(x => {
+      const dialogRef = this.dialog.open(OutwardetailsEditByServiceComponent, {
         width: '550px',
-        data: model,
+        data: x.data,
       });
 
       dialogRef.afterClosed().subscribe(result => {
         var res = result;
         if (res) {
-          this.listDetails[this.listDetails.findIndex(x => x.id === res.id)] = res;
-          this.dataSource.data = this.listDetails;
-          this.table.renderRows();
+          this.serviceBook.EditOutwarDetailsIndexByModel(result).subscribe(x => {
+            if (x.success) {
+              this.listDetails = this.listDetails.filter(x => x !== this.listDetails.find(x => x.id === res.id));
+              this.listDetails.push(res);
+              this.dataSource.data = this.listDetails;
+              this.table.renderRows();
+              this.notifier.notify('success', 'Sửa thành công');
+            }
+
+          }, error => {
+            if (error.error.errors.length === undefined)
+              this.notifier.notify('error', error.error.message);
+            else
+              this.notifier.notify('error', error.error);
+          }
+          );
+
         }
       });
-    }
-
+    });
   }
 
 
@@ -217,22 +281,27 @@ export class OutwardCreateComponent implements OnInit {
     if (check == true) {
       var checkDetails = this.listDetails.length > 0;
       if (checkDetails == true) {
-        this.form.value["outwardDetails"] = this.listDetails;
-        this.service.Add(this.form.value).subscribe(x => {
+        this.form.value["OutwardDetails"] = this.listDetails;
+        this.service.Edit(this.form.value).subscribe(x => {
           if (x.success)
-            this.notifier.notify('success', 'Thêm thành công');
-          else
-            this.notifier.notify('error', x.errors["msg"][0]);
-        } ,     error => {
-          if (error.error.errors.length === undefined)
-            this.notifier.notify('error', error.error.message);
-          else
-            this.notifier.notify('error', error.error);
-        }
+            this.notifier.notify('success', 'Chỉnh sửa thành công');
+          else {
+            if (x.errors["msg"] !== undefined && x.errors["msg"].length !== undefined)
+              this.notifier.notify('error', x.errors["msg"][0]);
+            else
+              this.notifier.notify('error', x.message);
+          }
+        },
+          error => {
+            if (error.error.errors.length === undefined)
+              this.notifier.notify('error', error.error.message);
+            else
+              this.notifier.notify('error', error.error);
+          }
         );
       }
       else {
-        this.notifier.notify('error', 'Vui lòng nhập chi tiết phiếu xuất');
+        this.notifier.notify('error', 'Vui lòng nhập chi tiết phiếu nhập');
       }
 
 

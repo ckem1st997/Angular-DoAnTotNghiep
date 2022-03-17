@@ -96,17 +96,15 @@ export class OutwarDetailsCreateComponent implements OnInit {
       this.form.value["getAccountDTO"] = [];
       var serialWareHouses = this.form.value["serialWareHouses"];
       if (serialWareHouses !== undefined && serialWareHouses !== null) 
-        serialWareHouses.forEach((element: { id: string; itemId: string; serial: string; inwardDetailId: string; isOver: boolean } | null) => {
+        serialWareHouses.forEach((element: { id: string; itemId: string; serial: string; outwardDetailId: string; isOver: boolean } | null) => {
           if (element !== null) {
             element.id = Guid.newGuid();
             element.itemId = this.form.value["itemId"];
-            element.inwardDetailId = this.form.value["id"];
+            element.outwardDetailId = this.form.value["id"];
             element.isOver = true;
           }
         });
       this.dialogRef.close(this.form.value);
-
-      this.notifier.notify('success', 'Thêm thành công !');
     }
     else {
       var message = '';

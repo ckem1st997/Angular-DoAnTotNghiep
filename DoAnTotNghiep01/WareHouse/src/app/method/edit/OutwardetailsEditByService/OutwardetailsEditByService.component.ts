@@ -1,18 +1,17 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { WareHouseBookService } from './../../../service/WareHouseBook.service';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NotifierService } from 'angular-notifier';
-import { Guid } from 'src/app/extension/Guid';
 import { OutwardDetailDTO } from 'src/app/model/OutwardDetailDTO';
+import { WareHouseBookService } from 'src/app/service/WareHouseBook.service';
 import { OutwardDetailsValidator } from 'src/app/validator/OutwardDetailsValidator';
 
 @Component({
-  selector: 'app-OutwarDetailsEdit',
-  templateUrl: './OutwarDetailsEdit.component.html',
-  styleUrls: ['./OutwarDetailsEdit.component.scss']
+  selector: 'app-OutwardetailsEditByService',
+  templateUrl: './OutwardetailsEditByService.component.html',
+  styleUrls: ['./OutwardetailsEditByService.component.scss']
 })
-export class OutwarDetailsEditComponent implements OnInit {
+export class OutwardetailsEditByServiceComponent implements OnInit {
   title = "Chỉnh sửa vật tư phiếu xuất kho";
   private readonly notifier!: NotifierService;
   success = false;
@@ -21,7 +20,7 @@ export class OutwarDetailsEditComponent implements OnInit {
   options!: FormGroup;
   serialWareHousesShow: any[] = [];
   constructor(
-    public dialogRef: MatDialogRef<OutwarDetailsEditComponent>,
+    public dialogRef: MatDialogRef<OutwardetailsEditByServiceComponent>,
     @Inject(MAT_DIALOG_DATA) public data: OutwardDetailDTO,
     private formBuilder: FormBuilder,
     notifierService: NotifierService,
@@ -71,6 +70,7 @@ export class OutwarDetailsEditComponent implements OnInit {
       this.dt.unitDTO = res.data;
       this.form.patchValue({ unitId: this.dt.wareHouseItemDTO?.find(x => x.id === idSelect)?.unitId ?? null });
     })
+
   }
   onSubmit() {
     var test = new OutwardDetailsValidator();
@@ -82,27 +82,19 @@ export class OutwarDetailsEditComponent implements OnInit {
       this.form.value["stationName"] = this.dt.getStationDTO.find(x => x.id === this.form.value["stationId"])?.name;
       this.form.value["customerName"] = this.dt.getCustomerDTO.find(x => x.id === this.form.value["customerId"])?.name;
       this.form.value["projectName"] = this.dt.getProjectDTO.find(x => x.id === this.form.value["projectId"])?.name;
-      //
-      this.form.value["unitDTO"] = [];
-      this.form.value["wareHouseItemDTO"] = [];
-      this.form.value["getDepartmentDTO"] = [];
-      this.form.value["getEmployeeDTO"] = [];
-      this.form.value["getStationDTO"] = [];
-      this.form.value["getProjectDTO"] = [];
-      this.form.value["getCustomerDTO"] = [];
-      //
+
       var serialWareHouses = this.form.value["serialWareHouses"];
       if (serialWareHouses !== undefined && serialWareHouses !== null)
         serialWareHouses.forEach((element: { id: string; itemId: string; serial: string; outwardDetailId: string; isOver: boolean } | null) => {
-          if (element !== null) {
-            element.id = Guid.newGuid();
+          if (element !== null && element.id !== undefined && element.id !== null) {
+         //   element.id = Guid.newGuid();
             element.itemId = this.form.value["itemId"];
             element.outwardDetailId = this.form.value["id"];
             element.isOver = true;
           }
         });
       this.dialogRef.close(this.form.value);
-      this.notifier.notify('success', 'Chỉnh sửa thành công !');
+     // this.notifier.notify('success', 'Chỉnh sửa thành công !');
     }
     else {
       var message = '';

@@ -83,6 +83,10 @@ import { InwarDetailsEditByServiceComponent } from './method/edit/InwarDetailsEd
 import { ErrorIntercept } from './extension/ErrorIntercept';
 import { InwardDetailsComponent } from './method/details/InwardDetails/InwardDetails.component';
 import { InwardDetailDetailsComponent } from './method/details/InwardDetailDetails/InwardDetailDetails.component';
+import { OutwardDetailDetailsComponent } from './method/details/OutwardDetailDetails/OutwardDetailDetails.component';
+import { OutwardDetailsComponent } from './method/details/OutwardDetails/OutwardDetails.component';
+import { OutwardetailsEditByServiceComponent } from './method/edit/OutwardetailsEditByService/OutwardetailsEditByService.component';
+import { OutwardEditComponent } from './method/edit/OutwardEdit/OutwardEdit.component';
 const customNotifierOptions: NotifierOptions = {
   position: {
     horizontal: {
@@ -180,7 +184,11 @@ const customNotifierOptions: NotifierOptions = {
     OutwarDetailsEditComponent,
     InwarDetailsEditByServiceComponent,
     InwardDetailsComponent,
-    InwardDetailDetailsComponent
+    InwardDetailDetailsComponent,
+    OutwardDetailDetailsComponent,
+    OutwardDetailsComponent,
+    OutwardetailsEditByServiceComponent,
+    OutwardEditComponent
   ],
   imports: [
     BrowserModule,

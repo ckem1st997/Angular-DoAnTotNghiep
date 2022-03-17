@@ -36,9 +36,15 @@ export class OutwardService {
     );
   }
 
-  EditIndex(id:string): Observable<ResultMessageResponse<OutwardDTO>> {
+  Details(id: string): Observable<ResultDataResponse<OutwardDTO>> {
+    var url = this.baseUrl + `/details?id=` + id;
+    return this.http.get<ResultDataResponse<OutwardDTO>>(url, this.httpOptions).pipe(
+      tap(_ => console.log(`edit`)),
+    );
+  }
+  EditIndex(id:string): Observable<ResultDataResponse<OutwardDTO>> {
     var url = this.baseUrl + `/edit?id=`+id;
-    return this.http.get<ResultMessageResponse<OutwardDTO>>(url, this.httpOptions).pipe(
+    return this.http.get<ResultDataResponse<OutwardDTO>>(url, this.httpOptions).pipe(
       tap(_ => console.log(`edit`)),
      
     );

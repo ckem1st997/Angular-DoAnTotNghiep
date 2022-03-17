@@ -1,27 +1,24 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { NotifierService } from 'angular-notifier';
-import { InwardDetailDTO } from 'src/app/model/InwardDetailDTO';
+import { OutwardDetailDTO } from 'src/app/model/OutwardDetailDTO';
 import { WareHouseBookService } from 'src/app/service/WareHouseBook.service';
-import { InwardDetailsValidator } from 'src/app/validator/InwardDetailsValidator';
-import { InwarDetailsEditComponent } from '../../edit/InwarDetailsEdit/InwarDetailsEdit.component';
 
 @Component({
-  selector: 'app-InwardDetailDetails',
-  templateUrl: './InwardDetailDetails.component.html',
-  styleUrls: ['./InwardDetailDetails.component.scss']
+  selector: 'app-OutwardDetailDetails',
+  templateUrl: './OutwardDetailDetails.component.html',
+  styleUrls: ['./OutwardDetailDetails.component.scss']
 })
-export class InwardDetailDetailsComponent implements OnInit {
-  title = "Thông tin vật tư phiếu nhập kho";
+export class OutwardDetailDetailsComponent implements OnInit {
+  title = "Thông tin vật tư phiếu xuất kho";
   success = false;
   form!: FormGroup;
-  dt!: InwardDetailDTO;
+  dt!: OutwardDetailDTO;
   options!: FormGroup;
   serialWareHousesShow: any[] = [];
   constructor(
-    public dialogRef: MatDialogRef<InwardDetailDetailsComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: InwardDetailDTO,
+    public dialogRef: MatDialogRef<OutwardDetailDetailsComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: OutwardDetailDTO,
     private formBuilder: FormBuilder,
     private service: WareHouseBookService
   ) {  }
@@ -30,7 +27,7 @@ export class InwardDetailDetailsComponent implements OnInit {
     this.getData();
     this.form = this.formBuilder.group({
       id: this.dt.id,
-      inwardId: this.dt.inwardId,
+      inwardId: this.dt.outwardId,
       itemId: this.dt.itemId,
       unitId: this.dt.unitId,
       uiquantity: this.dt.uiquantity,
@@ -58,12 +55,12 @@ export class InwardDetailDetailsComponent implements OnInit {
   getData() {
     const id = this.dt.id
     if (id !== null)
-      this.service.InwarDetails(id).subscribe(x => {
+      this.service.OutwarDetails(id).subscribe(x => {
         this.dt = x.data;
         this.serialWareHousesShow = this.data.serialWareHouses;
         this.form.patchValue({
           id: this.dt.id,
-          inwardId: this.dt.inwardId,
+          inwardId: this.dt.outwardId,
           itemId: this.dt.itemId,
           unitId: this.dt.unitId,
           uiquantity: this.dt.uiquantity,
