@@ -51,7 +51,6 @@ export class WareHouseItemDeleteComponent implements OnInit {
       );
     }
     else this.notifier.notify('error', 'Có lỗi xảy ra, xin vui lòng thử lại !');
-
   }
 }
 

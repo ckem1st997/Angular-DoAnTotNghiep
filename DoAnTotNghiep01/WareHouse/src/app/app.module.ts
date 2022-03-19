@@ -87,6 +87,8 @@ import { OutwardDetailDetailsComponent } from './method/details/OutwardDetailDet
 import { OutwardDetailsComponent } from './method/details/OutwardDetails/OutwardDetails.component';
 import { OutwardetailsEditByServiceComponent } from './method/edit/OutwardetailsEditByService/OutwardetailsEditByService.component';
 import { OutwardEditComponent } from './method/edit/OutwardEdit/OutwardEdit.component';
+import { WareHouseBookDeleteComponent } from './method/delete/WareHouseBookDelete/WareHouseBookDelete.component';
+import { WareHouseBookDeleteAllComponent } from './method/delete/WareHouseBookDeleteAll/WareHouseBookDeleteAll.component';
 const customNotifierOptions: NotifierOptions = {
   position: {
     horizontal: {
@@ -188,7 +190,9 @@ const customNotifierOptions: NotifierOptions = {
     OutwardDetailDetailsComponent,
     OutwardDetailsComponent,
     OutwardetailsEditByServiceComponent,
-    OutwardEditComponent
+    OutwardEditComponent,
+    WareHouseBookDeleteComponent,
+    WareHouseBookDeleteAllComponent
   ],
   imports: [
     BrowserModule,

@@ -13,6 +13,7 @@ import { InwardDTO } from 'src/app/model/InwardDTO';
 import { OutwardDetailDTO } from '../model/OutwardDetailDTO';
 import { InwardDetail } from '../entity/InwardDetail';
 import { OutwardDetail } from '../entity/OutwardDetail';
+import { DeleteWareHouseBook } from '../model/DeleteWareHouseBook';
 
 @Injectable({
   providedIn: 'root'
@@ -154,7 +155,7 @@ export class WareHouseBookService {
 
     );
   }
-  Delete(ids: string[]): Observable<ResultMessageResponse<WareHouseLimit>> {
+  Delete(ids:DeleteWareHouseBook): Observable<ResultMessageResponse<WareHouseLimit>> {
     var url = this.baseUrl + `/delete`;
     return this.http.post<ResultMessageResponse<WareHouseLimit>>(url, ids, this.httpOptions).pipe(
       tap(_ => console.log(`delete  id=${ids}`)),
@@ -164,3 +165,4 @@ export class WareHouseBookService {
 
 
 }
+

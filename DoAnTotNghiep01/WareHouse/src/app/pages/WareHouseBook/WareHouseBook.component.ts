@@ -25,6 +25,9 @@ import { WareHouseBookService } from "src/app/service/WareHouseBook.service";
 import { InwardDTO } from 'src/app/model/InwardDTO';
 import { InwarDetailsEditComponent } from "src/app/method/edit/InwarDetailsEdit/InwarDetailsEdit.component";
 import { GetDataToGprcService } from "src/app/service/GetDataToGprc.service";
+import { BaseSelectDTO } from "src/app/model/BaseSelectDTO";
+import { WareHouseBookDeleteComponent } from "src/app/method/delete/WareHouseBookDelete/WareHouseBookDelete.component";
+import { WareHouseBookDeleteAllComponent } from "src/app/method/delete/WareHouseBookDeleteAll/WareHouseBookDeleteAll.component";
 
 interface ExampleFlatNode {
   expandable: boolean;
@@ -38,6 +41,7 @@ interface ExampleFlatNode {
   styleUrls: ['./WareHouseBook.component.scss']
 })
 export class WareHouseBookComponent implements OnInit {
+  listACccount: BaseSelectDTO[] = [];
   //
   typeIn = "Phiếu nhập";
   typeOut = "Phiếu xuất";
@@ -149,6 +153,9 @@ export class WareHouseBookComponent implements OnInit {
     });
     this.listDelete = [];
     this.selection.clear();
+    this.getDataToGprc.getListAccount().subscribe(data => {
+      this.listACccount = data.data;
+    });
   }
   announceSortChange(sortState: Sort) {
     if (sortState.direction) {
@@ -195,10 +202,9 @@ export class WareHouseBookComponent implements OnInit {
   }
 
   openDialogDelelte(model: WareHouseBookDTO): void {
-    this.listDelete.push(model);
-    const dialogRef = this.dialog.open(WareHouseLimitDeleteComponent, {
+    const dialogRef = this.dialog.open(WareHouseBookDeleteComponent, {
       width: '550px',
-      data: this.listDelete
+      data: model
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -213,13 +219,14 @@ export class WareHouseBookComponent implements OnInit {
     var model = this.selection.selected;
     if (model.length > 0) {
       this.listDelete = model;
-      const dialogRef = this.dialog.open(WareHouseLimitDeleteComponent, {
+      const dialogRef = this.dialog.open(WareHouseBookDeleteAllComponent, {
         width: '550px',
         data: this.listDelete,
       });
 
       dialogRef.afterClosed().subscribe(result => {
         var res = result;
+        console.log(res);
         if (res) {
           this.notifier.notify('success', 'Xoá thành công !');
           this.GetData();
@@ -321,12 +328,9 @@ export class WareHouseBookComponent implements OnInit {
   }
 
   getName(id: string) {
-    let name ;
-     this.getDataToGprc.getListAccount().subscribe(data => {
-      if (data.data !== undefined && data !== undefined)
-        name = data.data.find(x => x.id === id)?.name
-    });
-    return name;
+    if (this.listACccount.length > 0)
+      return this.listACccount.find(x => x.id === id)?.name;
+    return "";
   }
 }
 
