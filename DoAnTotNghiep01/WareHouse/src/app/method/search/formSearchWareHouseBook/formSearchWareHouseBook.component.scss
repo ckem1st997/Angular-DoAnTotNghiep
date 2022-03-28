@@ -765,7 +765,7 @@
   * {
     box-sizing: border-box;
   }
-  
+
   .s010 {
   height: 100%;
     display: -ms-flexbox;
@@ -775,7 +775,8 @@
     -ms-flex-align: center;
         align-items: center;
     background: #d9eff5;
-    padding: 15px;
+    padding: 10px;
+    padding-bottom: 0px !important;
     font-family: 'Lato', sans-serif;
   }
   
@@ -800,9 +801,9 @@
     width: 100%;
     padding: 10px 32px 10px 70px;
     font-size: 18px;
-    height: 70px;
+    height: 43px;
     color: #fff;
-    background: linear-gradient(to right, #2c6dd5 0%, #2c6dd5 28%, #ff4b5a 91%, #ff4b5a 100%);
+    background:linear-gradient(to right, #2c6dd5 0%, #2c6dd5 28%, #3a81dd 91%, #07a8d4 100%);
     font-family: 'Lato', sans-serif;
   }
   
@@ -833,7 +834,7 @@
     min-width: 100px;
     height: 40px;
     padding: 0 15px;
-    background: linear-gradient(to right, #2c6dd5 0%, #2c6dd5 28%, #ff4b5a 91%, #ff4b5a 100%);
+    background: linear-gradient(to right, #2c6dd5 0%, #2c6dd5 28%, #3a81dd 91%, #07a8d4 100%);
     white-space: nowrap;
     border-radius: 20px;
     font-size: 14px;
@@ -895,7 +896,7 @@
   .s010 form .inner-form .basic-search {
     box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.15);
     overflow: hidden;
-    border-radius: 34px;
+    border-radius: 8px;
     margin-bottom: 5px;
   }
   
@@ -927,9 +928,9 @@
   
   .s010 form .inner-form .advance-search {
     background: #fff;
-    padding: 40px;
+    padding: 10px;
     box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.15);
-    border-radius: 10px;
+    border-radius: 5px;
     padding-bottom: 1px;
      padding-top: 15px;
   }
