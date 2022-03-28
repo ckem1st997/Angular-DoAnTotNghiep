@@ -11,12 +11,13 @@ import { Router } from '@angular/router';
 import { NotifierService } from 'angular-notifier';
 import { WareHouseBookDeleteComponent } from 'src/app/method/delete/WareHouseBookDelete/WareHouseBookDelete.component';
 import { WareHouseBookDeleteAllComponent } from 'src/app/method/delete/WareHouseBookDeleteAll/WareHouseBookDeleteAll.component';
+import { FormSearchReportTotalComponent } from 'src/app/method/search/FormSearchReportTotal/FormSearchReportTotal.component';
 import { FormSearchWareHouseBookComponent } from 'src/app/method/search/formSearchWareHouseBook/formSearchWareHouseBook.component';
 import { BaseSelectDTO } from 'src/app/model/BaseSelectDTO';
+import { ReportValueTotalDT0 } from 'src/app/model/ReportValueTotalDT0';
 import { ResultMessageResponse } from 'src/app/model/ResultMessageResponse';
 import { TreeView } from 'src/app/model/TreeView';
-import { WareHouseBookDTO } from 'src/app/model/WareHouseBookDTO';
-import { WareHouseBookSearchModel } from 'src/app/model/WareHouseBookSearchModel';
+import { ReportTotalSearchModel } from 'src/app/model/ReportTotalSearchModel';
 import { GetDataToGprcService } from 'src/app/service/GetDataToGprc.service';
 import { ReportService } from 'src/app/service/Report.service';
 import { WarehouseService } from 'src/app/service/warehouse.service';
@@ -38,18 +39,11 @@ interface ExampleFlatNode {
   styleUrls: ['./ReportTotal.component.scss']
 })
 export class ReportTotalComponent implements OnInit {
-  listACccount: BaseSelectDTO[] = [];
-  //
-  typeIn = "Phiếu nhập";
-  typeOut = "Phiếu xuất";
-  //
-  listDelete: WareHouseBookDTO[] = [];
   //select
-  selection = new SelectionModel<WareHouseBookDTO>(true, []);
+  selection = new SelectionModel<ReportValueTotalDT0>(true, []);
   //noti
   private readonly notifier!: NotifierService;
   //tree-view
-  modelCreate: WareHouseBookDTO[] = [];
   checkSizeWindows: boolean = true;
   public getScreenWidth: any;
   public getScreenHeight: any;
@@ -60,19 +54,19 @@ export class ReportTotalComponent implements OnInit {
   pageSize = 15;
   currentPage = 0;
   pageSizeOptions: number[] = [15, 50, 100];
-  displayedColumns: string[] = ['select', 'id', 'type', 'voucherCode', 'voucherDate', 'wareHouseName', 'deliver', 'receiver', 'reason', 'createdBy', 'modifiedBy', 'method'];
-  dataSource = new MatTableDataSource<WareHouseBookDTO>();
-  model: WareHouseBookSearchModel = {
+  displayedColumns: string[] = ['id', 'wareHouseItemName', 'wareHouseItemCode', 'unitName', 'beginning', 'import', 'export', 'balance',];
+  dataSource = new MatTableDataSource<ReportValueTotalDT0>();
+  model: ReportTotalSearchModel = {
     active: null,
     keySearch: '',
     skip: this.currentPage * this.pageSize,
     take: this.pageSize,
-    typeWareHouseBook: null,
-    fromDate: null,
-    toDate: null,
-    wareHouseId: null
+    wareHouseId: '',
+    itemId: null,
+    start: null,
+    end: null
   };
-  list: ResultMessageResponse<WareHouseBookDTO> = {
+  list: ResultMessageResponse<ReportValueTotalDT0> = {
     success: false,
     code: '',
     httpStatusCode: 0,
@@ -124,12 +118,9 @@ export class ReportTotalComponent implements OnInit {
     this.dataSource.sort = this.sort;
   }
   ngOnInit() {
-    this.GetData();
     this.getScreenWidth = window.innerWidth;
     this.getScreenHeight = window.innerHeight;
-    this.selection.clear();
     this.service.getTreeView().subscribe(x => this.dataSourceTreee.data = x.data);
-
   }
   @HostListener('window:resize', ['$event'])
 
@@ -142,17 +133,36 @@ export class ReportTotalComponent implements OnInit {
       this.checkSizeWindows = true;
   }
   GetData() {
-    // this.service.getList(this.model).subscribe(list => {
-    //   this.dataSource.data = list.data; setTimeout(() => {
-    //     this.paginator.pageIndex = this.currentPage;
-    //     this.paginator.length = list.totalCount;
-    //   });
-    // });
-    // this.listDelete = [];
-    // this.selection.clear();
-    // this.getDataToGprc.getListAccount().subscribe(data => {
-    //   this.listACccount = data.data;
-    // });
+    if (this.model.wareHouseId && this.model.start && this.model.end)
+      this.service.getList(this.model.wareHouseId, this.model.itemId == null ? '' : this.model.itemId, this.model.start, this.model.end, 0, 15).subscribe(list => {
+        if (list.data && !list.message) {
+          this.dataSource.data = list.data;
+          setTimeout(() => {
+            this.paginator.pageIndex = this.currentPage;
+            this.paginator.length = list.totalCount;
+          });
+        }
+        else {
+          this.notifier.notify('error', list.message);
+
+          if (list.errors)
+            this.notifier.notify('error', list.errors['msg'][0]);
+          else
+            this.notifier.notify('error', list.message);
+
+        }
+
+
+      }, error => {
+        if (error.error.errors.length === undefined)
+          this.notifier.notify('error', error.error.message);
+        else
+          this.notifier.notify('error', error.error);
+      });
+    else
+      this.notifier.notify('error', 'Bạn chưa chọn ngày !');
+
+
   }
   announceSortChange(sortState: Sort) {
     if (sortState.direction) {
@@ -169,132 +179,28 @@ export class ReportTotalComponent implements OnInit {
     this.model.take = event.pageSize;
     this.GetData();
   }
-  searchQuery() {
-    var val = document.getElementById("searchInput") as HTMLInputElement;
-    this.model.keySearch = val.value;
-    this.model.active = this.checkedl;
-    this.GetData();
-  }
-  openDialog(model: WareHouseBookDTO): void {
-    if (model.id !== null) {
-      if (model.type === this.typeIn)
-        this.route.navigate(['/edit-inward', model.id]);
-      else if (model.type === this.typeOut)
-        this.route.navigate(['/edit-outward', model.id]);
-    }
-    else
-      this.notifier.notify('warning', "Xin vui lòng thử lại !");
-  }
-
-  //details
-  openDetails(model: WareHouseBookDTO): void {
-    if (model.id !== null) {
-      if (model.type === this.typeIn)
-        this.route.navigate(['/details-inward', model.id]);
-      else if (model.type === this.typeOut)
-        this.route.navigate(['/details-outward', model.id]);
-    }
-    else
-      this.notifier.notify('warning', "Xin vui lòng thử lại !");
-  }
-
-  openDialogDelelte(model: WareHouseBookDTO): void {
-    const dialogRef = this.dialog.open(WareHouseBookDeleteComponent, {
-      width: '550px',
-      data: model
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      var res = result;
-      if (res) {
-        this.notifier.notify('success', 'Xoá thành công !');
-        this.GetData();
-      }
-    });
-  }
-  openDialogDeleteAll(): void {
-    var model = this.selection.selected;
-    if (model.length > 0) {
-      this.listDelete = model;
-      const dialogRef = this.dialog.open(WareHouseBookDeleteAllComponent, {
-        width: '550px',
-        data: this.listDelete,
-      });
-
-      dialogRef.afterClosed().subscribe(result => {
-        var res = result;
-        console.log(res);
-        if (res) {
-          this.notifier.notify('success', 'Xoá thành công !');
-          this.GetData();
-        }
-      });
-    }
-    else
-      this.notifier.notify('warning', "Bạn chưa chọn phiếu nào !");
-
-  }
-
-
-  createInward() {
-    var idCheck: string | null = null;
-    var selectDelete = document.querySelectorAll("#treeview button");
-    selectDelete.forEach(element => {
-      if (element.className.includes("activeButtonTreeView"))
-        idCheck = element.getAttribute("id");
-    });
-    if (idCheck !== null) {
-      this.route.navigate(['/create-inward', idCheck]);
-    }
-    else
-      this.notifier.notify('warning', "Bạn chưa chọn kho nào !");
-  }
-
-
-  createOutward() {
-    var idCheck: string | null = null;
-    var selectDelete = document.querySelectorAll("#treeview button");
-    selectDelete.forEach(element => {
-      if (element.className.includes("activeButtonTreeView"))
-        idCheck = element.getAttribute("id");
-    });
-    if (idCheck !== null) {
-      this.route.navigate(['/create-outward', idCheck]);
-    }
-    else
-      this.notifier.notify('warning', "Bạn chưa chọn kho nào !");
-  }
   //searchQueryDialog
   searchQueryDialog(): void {
-    const dialogRef = this.dialog.open(FormSearchWareHouseBookComponent, {
+    const dialogRef = this.dialog.open(FormSearchReportTotalComponent, {
       width: '550px',
       height: '350px',
+      data: this.model
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      var res = result;
-      this.model.keySearch = res.key;
-      this.model.active = res.inactive;
-      this.model.fromDate = res.end !== null ? new Date(res.start).toLocaleDateString() : null;
-      this.model.toDate = res.start !== null ? new Date(res.end).toLocaleDateString() : null;
-      this.GetData();
+      console.log(result);
+      if (result && result.wareHouseId && result.start && result.end) {
+        var res = result;
+        this.model.wareHouseId = res.wareHouseId;
+        this.model.itemId = res.itemId;
+        this.model.start = res.end !== null ? new Date(res.start).toLocaleDateString() : '';
+        this.model.end = res.start !== null ? new Date(res.end).toLocaleDateString() : '';
+        this.GetData();
+      }
+      else
+        this.notifier.notify('error', 'Có lỗi với dữ liệu tìm kiếm, xin vui lòng thử lại !');
+
     });
-  }
-  /** Whether the number of selected elements matches the total number of rows. */
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
-    return numSelected === numRows;
-  }
-
-  /** Selects all rows if they are not all selected; otherwise clear selection. */
-  masterToggle() {
-    if (this.isAllSelected()) {
-      this.selection.clear();
-      return;
-    }
-
-    this.selection.select(...this.dataSource.data);
   }
 
   GetActive(e: any) {
@@ -307,28 +213,6 @@ export class ReportTotalComponent implements OnInit {
     this.model.wareHouseId = e.key;
     this.route.navigate([e.key]);
     this.GetData();
-  }
-
-  GetAll() {
-    var selectDelete = document.querySelectorAll("#treeview button");
-    selectDelete.forEach(element => {
-      element.className = element.className.replace("activeButtonTreeView", " ");
-    });
-    this.model.wareHouseId = null;
-    this.GetData();
-  }
-  /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: WareHouseBookDTO): string {
-    if (!row) {
-      return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
-    }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.id}`;
-  }
-
-  getName(id: string) {
-    if (this.listACccount.length > 0)
-      return this.listACccount.find(x => x.id === id)?.name;
-    return "";
   }
 }
 

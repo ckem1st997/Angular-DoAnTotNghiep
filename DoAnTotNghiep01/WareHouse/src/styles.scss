@@ -97,3 +97,8 @@ select{
   .mat-dialog-container{
     padding: 10px !important;
   }
+  .control-label .required, .form-group .required {
+    color: #e02222;
+    font-size: 12px;
+    padding-left: 2px;
+}

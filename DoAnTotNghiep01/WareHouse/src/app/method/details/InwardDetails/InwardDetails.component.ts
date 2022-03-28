@@ -143,6 +143,7 @@ export class InwardDetailsComponent implements OnInit {
           receiverDepartment: this.dt.receiverDepartment,
           inwardDetails: null
         });
+        
       },     error => {
         if (error.error.errors.length === undefined)
           this.notifier.notify('error', error.error.message);

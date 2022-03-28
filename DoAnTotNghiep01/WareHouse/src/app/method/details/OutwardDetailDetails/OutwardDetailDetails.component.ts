@@ -9,6 +9,7 @@ import { WareHouseBookService } from 'src/app/service/WareHouseBook.service';
   templateUrl: './OutwardDetailDetails.component.html',
   styleUrls: ['./OutwardDetailDetails.component.scss']
 })
+
 export class OutwardDetailDetailsComponent implements OnInit {
   title = "Thông tin vật tư phiếu xuất kho";
   success = false;

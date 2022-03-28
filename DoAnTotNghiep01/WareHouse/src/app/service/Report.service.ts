@@ -2,6 +2,7 @@ import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, retry } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { ReportValueTotalDT0 } from '../model/ReportValueTotalDT0';
 import { ResultMessageResponse } from '../model/ResultMessageResponse';
 import { TreeView } from '../model/TreeView';
 
@@ -16,14 +17,13 @@ export class ReportService {
   constructor(private http: HttpClient) { }
 
 
-  // getList(search: WareHouseSearchModel): Observable<ResultMessageResponse<WareHouseDTO>> {
-  //   var check = search.active == null ? '' : search.active;
-  //   var url = this.baseUrl + `WareHouses/get-list?KeySearch=` + search.keySearch + `&Active=` + check + `&Skip=` + search.skip + `&Take=` + search.take + ``;
-  //   return this.http.get<ResultMessageResponse<WareHouseDTO>>(url, this.httpOptions).pipe(
-  //     retry(3), // retry a failed request up to 3 times
+  getList(wareHouseId:string|null,itemId:string|null,start:string|null,end:string|null,skip:number,take:number): Observable<ResultMessageResponse<ReportValueTotalDT0>> {
+    var url = this.baseUrl + `/get-report-total?WareHouseItemId=`+itemId+`&WareHouseId=`+wareHouseId+`&FromDate=`+start+`&ToDate=`+end+`&Skip=`+skip+`&Take=`+take+``;
+    return this.http.get<ResultMessageResponse<ReportValueTotalDT0>>(url, this.httpOptions).pipe(
+      retry(3), // retry a failed request up to 3 times
      
-  //   );
-  // }
+    );
+  }
   
   getTreeView(): Observable<ResultMessageResponse<TreeView>> {
 

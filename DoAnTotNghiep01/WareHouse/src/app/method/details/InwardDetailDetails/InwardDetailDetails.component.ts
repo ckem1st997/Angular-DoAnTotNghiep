@@ -25,6 +25,7 @@ export class InwardDetailDetailsComponent implements OnInit {
     private formBuilder: FormBuilder,
     private service: WareHouseBookService
   ) {  }
+  
   ngOnInit() {
     this.dt = this.data;
     this.getData();
