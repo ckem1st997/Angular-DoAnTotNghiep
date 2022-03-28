@@ -19,6 +19,7 @@ import { InwardDetailsComponent } from './method/details/InwardDetails/InwardDet
 import { OutwardDetailsComponent } from './method/details/OutwardDetails/OutwardDetails.component';
 import { OutwardEditComponent } from './method/edit/OutwardEdit/OutwardEdit.component';
 import { ReportTotalComponent } from './pages/ReportTotal/ReportTotal.component';
+import { ReportDetalisComponent } from './pages/ReportDetalis/ReportDetalis.component';
 
 const routes: Routes = [
   { path: 'warehouse-limit', component: WareHouseLimitComponent },
@@ -36,6 +37,7 @@ const routes: Routes = [
   { path: 'details-outward/:id', component:  OutwardDetailsComponent },
   { path: 'create-outward/:whid', component:  OutwardCreateComponent },
   { path: 'report-total', component:  ReportTotalComponent },
+  { path: 'report-details', component:  ReportDetalisComponent },
   { path: '', component: HomeComponent },
   {path: '404', component: NotFoundComponent},
   {path: '**', redirectTo: '/404'}

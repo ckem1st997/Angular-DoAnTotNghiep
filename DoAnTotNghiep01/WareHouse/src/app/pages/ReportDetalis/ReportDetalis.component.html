@@ -42,7 +42,7 @@
     <as-split-area [size]="85">
       <div style="border-bottom: 1px solid lightgray;
             padding-left: 10px;">
-        <b style="font-size: 18px; color: #0277BD">Báo cáo tổng hợp</b>
+        <b style="font-size: 18px; color: #0277BD">Báo cáo thẻ kho</b>
       </div>
       <div id="viewcheck" [hidden]="!checkSizeWindows">
 
@@ -55,37 +55,66 @@
                 {{element.id}}
               </td>
             </ng-container>
-            <ng-container matColumnDef="wareHouseItemName">
-              <th style="width:110px;text-align: center;" mat-header-cell *matHeaderCellDef>Vật tư</th>
-              <td style="text-align: center;" mat-cell *matCellDef="let element"> {{element.wareHouseItemName}} </td>
+            <ng-container matColumnDef="voucherDate">
+              <th style="width:110px;text-align: center;" mat-header-cell *matHeaderCellDef>Ngày</th>
+              <td style="text-align: center;" mat-cell *matCellDef="let element"> {{GetDate(element.voucherDate)}} </td>
             </ng-container>
-            <ng-container matColumnDef="wareHouseItemCode">
+            <ng-container matColumnDef="code">
               <th style="width:110px;text-align: center;" mat-header-cell *matHeaderCellDef>Mã vật tư </th>
-              <td style="text-align: center;" mat-cell *matCellDef="let element"> {{element.wareHouseItemCode}} </td>
+              <td style="text-align: center;" mat-cell *matCellDef="let element"> {{element.code}} </td>
+            </ng-container>
+            <ng-container matColumnDef="name">
+              <th style="width:110px;text-align: center;" mat-header-cell *matHeaderCellDef>Tên vật tư </th>
+              <td style="text-align: center;" mat-cell *matCellDef="let element"> {{element.name}} </td>
+            </ng-container>
+            <ng-container matColumnDef="voucherCode">
+              <th style="width:110px;text-align: center;" mat-header-cell *matHeaderCellDef>Số chứng từ </th>
+              <td style="text-align: center;" mat-cell *matCellDef="let element"> {{element.voucherCode}} </td>
+            </ng-container>
+            <ng-container matColumnDef="unitName">
+              <th style="width:110px;text-align: center;" mat-header-cell *matHeaderCellDef>Đơn vị tính </th>
+              <td style="text-align: center;" mat-cell *matCellDef="let element"> {{element.unitName}} </td>
             </ng-container>
 
-            <ng-container matColumnDef="unitName">
-              <th style="width:110px;text-align: center;" mat-header-cell *matHeaderCellDef>Đơn vị tính</th>
-              <td style="text-align: center;" mat-cell *matCellDef="let element">
-                {{element.unitName}} </td>
-            </ng-container>
 
             <ng-container matColumnDef="beginning">
-              <th style="width:139px;text-align: center;" mat-header-cell *matHeaderCellDef>Tồn đầu kì</th>
+              <th style="width:100px;text-align: center;" mat-header-cell *matHeaderCellDef>Tồn đầu kì</th>
               <td style="text-align: center;" mat-cell *matCellDef="let element"> {{element.beginning}} </td>
             </ng-container>
 
             <ng-container matColumnDef="import">
-              <th style="width:129px;text-align: center;" mat-header-cell *matHeaderCellDef>Tổng nhập</th>
+              <th style="width:100px;text-align: center;" mat-header-cell *matHeaderCellDef>Tổng nhập</th>
               <td style="text-align: center;" mat-cell *matCellDef="let element"> {{element.import}} </td>
             </ng-container>
             <ng-container matColumnDef="export">
-              <th style="width:129px;text-align: center;" mat-header-cell *matHeaderCellDef>Tổng xuất</th>
+              <th style="width:100px;text-align: center;" mat-header-cell *matHeaderCellDef>Tổng xuất</th>
               <td style="text-align: center;" mat-cell *matCellDef="let element"> {{element.export}} </td>
             </ng-container>
             <ng-container matColumnDef="balance">
-              <th style="width:279px;text-align: center;" mat-header-cell *matHeaderCellDef>Tồn cuối kì</th>
+              <th style="width:100px;text-align: center;" mat-header-cell *matHeaderCellDef>Tồn cuối kì</th>
               <td style="text-align: center;" mat-cell *matCellDef="let element"> {{element.balance}} </td>
+            </ng-container>
+            <ng-container matColumnDef="reason">
+              <th style="width:150px;text-align: center;" mat-header-cell *matHeaderCellDef>Lí do </th>
+              <td style="text-align: center;" mat-cell *matCellDef="let element"> {{element.reason}} </td>
+            </ng-container>
+            <ng-container matColumnDef="employeeName">
+              <th style="width:150px;text-align: center;" mat-header-cell *matHeaderCellDef>Nhân viên </th>
+              <td style="text-align: center;" mat-cell *matCellDef="let element"> {{element.employeeName}} </td>
+            </ng-container>
+            <ng-container matColumnDef="departmentName">
+              <th style="width:150px;text-align: center;" mat-header-cell *matHeaderCellDef>Bộ phận</th>
+              <td style="text-align: center;" mat-cell *matCellDef="let element">
+                {{element.departmentName}} </td>
+            </ng-container>
+            <ng-container matColumnDef="projectName">
+              <th style="width:150px;text-align: center;" mat-header-cell *matHeaderCellDef>Dự án </th>
+              <td style="text-align: center;" mat-cell *matCellDef="let element"> {{element.projectName}} </td>
+            </ng-container>
+            <ng-container matColumnDef="description">
+              <th style="width:150px;text-align: center;" mat-header-cell *matHeaderCellDef>Mô tả</th>
+              <td style="text-align: center;" mat-cell *matCellDef="let element">
+                {{element.description}} </td>
             </ng-container>
             <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>

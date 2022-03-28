@@ -91,6 +91,8 @@ import { WareHouseBookDeleteComponent } from './method/delete/WareHouseBookDelet
 import { WareHouseBookDeleteAllComponent } from './method/delete/WareHouseBookDeleteAll/WareHouseBookDeleteAll.component';
 import { ReportTotalComponent } from './pages/ReportTotal/ReportTotal.component';
 import { FormSearchReportTotalComponent } from './method/search/FormSearchReportTotal/FormSearchReportTotal.component';
+import { ReportDetalisComponent } from './pages/ReportDetalis/ReportDetalis.component';
+import { FormSearchReportDetailsComponent } from './method/search/FormSearchReportDetails/FormSearchReportDetails.component';
 const customNotifierOptions: NotifierOptions = {
   position: {
     horizontal: {
@@ -105,7 +107,7 @@ const customNotifierOptions: NotifierOptions = {
   },
   theme: 'material',
   behaviour: {
-    autoHide: 1000,
+    autoHide: 1500,
     onClick: 'hide',
     onMouseover: 'pauseAutoHide',
     showDismissButton: true,
@@ -196,7 +198,9 @@ const customNotifierOptions: NotifierOptions = {
     WareHouseBookDeleteComponent,
     WareHouseBookDeleteAllComponent,
     ReportTotalComponent,
-    FormSearchReportTotalComponent
+    FormSearchReportTotalComponent,
+    ReportDetalisComponent,
+    FormSearchReportDetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -229,7 +233,7 @@ const customNotifierOptions: NotifierOptions = {
     TagInputModule
 
   ],
-  providers: [VendorService,WareHouseItemService,{ provide: MAT_DATE_LOCALE, useValue: 'vn-VN' }, {
+  providers: [VendorService,WareHouseItemService,{ provide: MAT_DATE_LOCALE, useValue: 'en-GB' }, {
     provide: HTTP_INTERCEPTORS,
     useClass: ErrorIntercept,
     multi: true

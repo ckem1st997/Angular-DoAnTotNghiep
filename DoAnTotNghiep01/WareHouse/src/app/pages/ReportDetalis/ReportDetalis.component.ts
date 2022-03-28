@@ -9,19 +9,14 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatTreeFlattener, MatTreeFlatDataSource } from '@angular/material/tree';
 import { Router } from '@angular/router';
 import { NotifierService } from 'angular-notifier';
-import { WareHouseBookDeleteComponent } from 'src/app/method/delete/WareHouseBookDelete/WareHouseBookDelete.component';
-import { WareHouseBookDeleteAllComponent } from 'src/app/method/delete/WareHouseBookDeleteAll/WareHouseBookDeleteAll.component';
 import { FormSearchReportTotalComponent } from 'src/app/method/search/FormSearchReportTotal/FormSearchReportTotal.component';
-import { FormSearchWareHouseBookComponent } from 'src/app/method/search/formSearchWareHouseBook/formSearchWareHouseBook.component';
-import { BaseSelectDTO } from 'src/app/model/BaseSelectDTO';
-import { ReportValueTotalDT0 } from 'src/app/model/ReportValueTotalDT0';
+import { ReportTotalSearchModel } from 'src/app/model/ReportTotalSearchModel';
+import { ReportDetailsDTO } from 'src/app/model/ReportDetailsDTO';
 import { ResultMessageResponse } from 'src/app/model/ResultMessageResponse';
 import { TreeView } from 'src/app/model/TreeView';
-import { ReportTotalSearchModel } from 'src/app/model/ReportTotalSearchModel';
 import { GetDataToGprcService } from 'src/app/service/GetDataToGprc.service';
 import { ReportService } from 'src/app/service/Report.service';
-import { WarehouseService } from 'src/app/service/warehouse.service';
-import { WareHouseBookService } from 'src/app/service/WareHouseBook.service';
+import { FormSearchReportDetailsComponent } from 'src/app/method/search/FormSearchReportDetails/FormSearchReportDetails.component';
 
 
 
@@ -34,13 +29,13 @@ interface ExampleFlatNode {
 }
 
 @Component({
-  selector: 'app-ReportTotal',
-  templateUrl: './ReportTotal.component.html',
-  styleUrls: ['./ReportTotal.component.scss']
+  selector: 'app-ReportDetalis',
+  templateUrl: './ReportDetalis.component.html',
+  styleUrls: ['./ReportDetalis.component.scss']
 })
-export class ReportTotalComponent implements OnInit {
+export class ReportDetalisComponent implements OnInit {
   //select
-  selection = new SelectionModel<ReportValueTotalDT0>(true, []);
+  selection = new SelectionModel<ReportDetailsDTO>(true, []);
   //noti
   private readonly notifier!: NotifierService;
   //tree-view
@@ -54,8 +49,8 @@ export class ReportTotalComponent implements OnInit {
   pageSize = 15;
   currentPage = 0;
   pageSizeOptions: number[] = [15, 50, 100];
-  displayedColumns: string[] = ['id', 'wareHouseItemName', 'wareHouseItemCode', 'unitName', 'beginning', 'import', 'export', 'balance',];
-  dataSource = new MatTableDataSource<ReportValueTotalDT0>();
+  displayedColumns: string[] = ['id', 'voucherDate', 'code', 'name', 'voucherCode', 'unitName', 'beginning', 'import', 'export', 'balance', 'reason', 'employeeName', 'departmentName', 'projectName', 'description'];
+  dataSource = new MatTableDataSource<ReportDetailsDTO>();
   model: ReportTotalSearchModel = {
     active: null,
     keySearch: '',
@@ -66,7 +61,7 @@ export class ReportTotalComponent implements OnInit {
     start: null,
     end: null
   };
-  list: ResultMessageResponse<ReportValueTotalDT0> = {
+  list: ResultMessageResponse<ReportDetailsDTO> = {
     success: false,
     code: '',
     httpStatusCode: 0,
@@ -134,7 +129,7 @@ export class ReportTotalComponent implements OnInit {
   }
   GetData() {
     if (this.model.wareHouseId && this.model.start && this.model.end)
-      this.service.getList(this.model.wareHouseId, this.model.itemId == null ? '' : this.model.itemId, this.model.start, this.model.end, 0, 15).subscribe(list => {
+      this.service.getListDetails(this.model.keySearch, this.model.wareHouseId, this.model.itemId == null ? '' : this.model.itemId, this.model.start, this.model.end, 0, 15).subscribe(list => {
         if (list.data && !list.message) {
           this.dataSource.data = list.data;
           setTimeout(() => {
@@ -181,15 +176,16 @@ export class ReportTotalComponent implements OnInit {
   }
   //searchQueryDialog
   searchQueryDialog(): void {
-    const dialogRef = this.dialog.open(FormSearchReportTotalComponent, {
+    const dialogRef = this.dialog.open(FormSearchReportDetailsComponent, {
       width: '550px',
       height: '350px',
       data: this.model
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result && result.wareHouseId && result.start && result.end) {
+      if (result && result.wareHouseId && result.start && result.end && result.itemId) {
         var res = result;
+        this.model.keySearch = res.keySearch;
         this.model.wareHouseId = res.wareHouseId;
         this.model.itemId = res.itemId;
         this.model.start = res.end !== null ? new Date(res.start).toLocaleDateString() : '';
@@ -212,7 +208,12 @@ export class ReportTotalComponent implements OnInit {
     this.model.wareHouseId = e.key;
     this.route.navigate([e.key]);
   }
+
+  GetDate(e: Date) {
+    return e.toString().replace('T','-');
+  }
 }
+
 
 
 
