@@ -93,6 +93,8 @@ import { ReportTotalComponent } from './pages/ReportTotal/ReportTotal.component'
 import { FormSearchReportTotalComponent } from './method/search/FormSearchReportTotal/FormSearchReportTotal.component';
 import { ReportDetalisComponent } from './pages/ReportDetalis/ReportDetalis.component';
 import { FormSearchReportDetailsComponent } from './method/search/FormSearchReportDetails/FormSearchReportDetails.component';
+import {MatSelectModule} from '@angular/material/select';
+import { NgxEchartsModule } from 'ngx-echarts';
 const customNotifierOptions: NotifierOptions = {
   position: {
     horizontal: {
@@ -230,7 +232,11 @@ const customNotifierOptions: NotifierOptions = {
     MatDatepickerModule,
     MatNativeDateModule,
     MatChipsModule,
-    TagInputModule
+    TagInputModule,
+    NgxEchartsModule.forRoot({
+      echarts: () => import('echarts')
+    }),
+    MatSelectModule
 
   ],
   providers: [VendorService,WareHouseItemService,{ provide: MAT_DATE_LOCALE, useValue: 'en-GB' }, {
