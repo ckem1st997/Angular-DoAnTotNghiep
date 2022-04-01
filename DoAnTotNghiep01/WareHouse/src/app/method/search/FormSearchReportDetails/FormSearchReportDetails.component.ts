@@ -59,8 +59,8 @@ export class FormSearchReportDetailsComponent implements OnInit {
     this.form = this.formBuilder.group({
       wareHouseId: this.data.wareHouseId,
       itemId: this.data.itemId,
-      start: new FormControl(new Date( year , month , day)),
-      end: new FormControl(new Date(year, month+1, day)),
+      start: new FormControl(new Date( year , month-1 , day)),
+      end: new FormControl(new Date(year, month, day)),
       keySearch:this.data.keySearch
     });
     this.getDropDown();

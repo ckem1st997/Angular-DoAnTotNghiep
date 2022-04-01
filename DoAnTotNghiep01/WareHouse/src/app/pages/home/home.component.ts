@@ -224,4 +224,11 @@ export class HomeComponent implements OnInit {
   onChartInit(ec: any) {
     console.log('onChartInit', ec);
   }
+
+//   function daysInMonth (month, year) {
+//     return new Date(year, month, 0).getDate();
+// }
+
+// // July
+// daysInMonth(7,2009);
 }
