@@ -44,34 +44,42 @@
           </div>
         </div>
       </div>
-      <div class=" row" style="height:62%;margin-top: 15px;">
+      <div class=" row" style="height:62%;margin-top: 25px;">
         <div class="col-6">
-          <div>
+          <!-- <div>
             <mat-form-field appearance="fill">
               <mat-label>Lọc</mat-label>
-              <mat-select [(ngModel)]="selectedValue" name="food">
+              <mat-select  [(ngModel)]="selectedValue" name="food">
                 <mat-option *ngFor="let food of foods" [value]="food.value">
                   {{food.viewValue}}
                 </mat-option>
               </mat-select>
             </mat-form-field>
-          </div>
+          </div> -->
           <div echarts [options]="optioneChartCoulumn" class="demo-chart" [loading]="true" ></div>
 
         </div>
         <div class="col-6">
           <div>
-            <mat-form-field appearance="fill">
-              <mat-label>Lọc</mat-label>
-              <mat-select [(ngModel)]="selectedValue" name="food">
-                <mat-option *ngFor="let food of foods" [value]="food.value">
+           
+            <!-- <mat-form-field appearance="fill">
+              <mat-label>Tháng</mat-label>
+              <mat-select (selectionChange)="changeChartPhieu2($event)" [(ngModel)]="checkChart2" name="food">
+                <mat-option *ngFor="let food of foods2" [value]="food.value">
                   {{food.viewValue}}
                 </mat-option>
               </mat-select>
-            </mat-form-field>
+            </mat-form-field> -->
           </div>
-          <div echarts [options]="optioneChartCoulumn" class="demo-chart" [loading]="true" ></div>
-
+          <div echarts [options]="optioneChart2" class="demo-chart" [loading]="true" ></div>
+          <mat-form-field appearance="fill">
+            <mat-label>Lọc</mat-label>
+            <mat-select (selectionChange)="changeChartPhieu($event)" [(ngModel)]="checkChart" name="food">
+              <mat-option *ngFor="let food of foods" [value]="food.value">
+                {{food.viewValue}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
       </div>
       <div class=" container-fluid" style="height:25%;    overflow: auto;">
@@ -145,7 +153,7 @@
 
         <div class="widget-chart-content  " *ngFor="let state of listIn.data"  style="margin-top: 20px;">
           <div class="widget-subheading nameTop">{{state.name}}</div>
-          <div class="row" style="margin-top: 3px;font-weight: 500;">
+          <div class="row" style="margin-top: 5px;font-weight: 500;">
             <div class="col-6">Xuất hiện:<span class="countTopIn">{{state.count}}</span></div>
             <div class="col-6">Số lượng:<span class="quantityTopIn">{{state.sumQuantity}}</span></div>
             <!-- <div class="widget-numbers text-success">Tổng tiền:600000</div> -->
@@ -159,7 +167,7 @@
         </div>
         <div class="widget-chart-content  "  *ngFor="let state of listOut.data"  style="margin-top: 20px;">
           <div class="widget-subheading nameTop">{{state.name}}</div>
-          <div class="row" style="margin-top: 3px;font-weight: 500;">
+          <div class="row" style="margin-top: 5px;font-weight: 500;">
             <div class="col-6">Xuất hiện:<span class="countTopOut">{{state.count}}</span></div>
             <div class="col-6">Số lượng:<span class="quantityTopOut">{{state.sumQuantity}}</span></div>
             <!-- <div class="widget-numbers text-success">Tổng tiền:600000</div> -->

@@ -14,11 +14,15 @@ import { DashBoardChartInAndOutCountDTO } from 'src/app/model/DashBoardChartInAn
 import { SelectTopWareHouseDTO } from 'src/app/model/SelectTopWareHouseDTO';
 
 
-interface Food {
-  value: string;
+interface ChartPhieu {
+  value: boolean;
   viewValue: string;
 }
 
+interface ChartPhieu2 {
+  value: number;
+  viewValue: string;
+}
 interface DataChart {
   value: string;
   name: string;
@@ -32,6 +36,8 @@ interface DataChart {
 })
 export class HomeComponent implements OnInit {
   //
+  checkChart: boolean = false;
+  checkChart2:number=0;
   dataChart: DataChart[] = [];
   dataChart2: DataChart[] = [];
   getDashBoardWareHouse: ResultMessageResponse<SelectTopWareHouseDTO> = {
@@ -148,10 +154,24 @@ export class HomeComponent implements OnInit {
   selectedValue: string | undefined;
   selectedCar: string | undefined;
 
-  foods: Food[] = [
-    { value: 'steak-0', viewValue: 'Steak' },
-    { value: 'pizza-1', viewValue: 'Pizza' },
-    { value: 'tacos-2', viewValue: 'Tacos' },
+  foods: ChartPhieu[] = [
+    { value: true, viewValue: 'Phiếu nhập' },
+    { value: false, viewValue: 'Phiếu xuất' }
+  ];
+  
+  foods2: ChartPhieu2[] = [
+    { value: 1, viewValue: 'Tháng 1' },
+    { value: 2, viewValue: 'Tháng 2' },
+    { value: 3, viewValue: 'Tháng 3' },
+    { value: 4, viewValue: 'Tháng 4' },
+    { value: 5, viewValue: 'Tháng 5' },
+    { value: 6, viewValue: 'Tháng 6' },
+    { value: 7, viewValue: 'Tháng 7' },
+    { value: 8, viewValue: 'Tháng 8' },
+    { value: 9, viewValue: 'Tháng 9' },
+    { value: 10, viewValue: 'Tháng 10' },
+    { value: 11, viewValue: 'Tháng 11' },
+    { value: 12, viewValue: 'Tháng 12' }
   ];
   constructor(private dashboard: DashBoardService, private warehouseBook: WareHouseBookService) {
 
@@ -176,6 +196,7 @@ export class HomeComponent implements OnInit {
     this.getOut();
     this.getIndex();
     this.getHistory();
+    this.getChartToYear(2021);
     this.getChartToWarehouse();
   }
 
@@ -215,53 +236,148 @@ export class HomeComponent implements OnInit {
     return d.toString().replace('T', '-');
   }
 
-  // getChartToYear(d: number) {
-  //   if (d === undefined || d < 1900)
-  //   d = new Date().getFullYear();
-  //   this.dashboard.getChartByYear(2022).subscribe(
-  //     (data) => {
-  //       if (data.data !== undefined && data.data !== null) {
-  //         for (let index = 0; index < data.data.length; index++) {
-  //           const element = data.data[index];
-  //           this.dataChart.push({
-  //             name: element.name.replace('Kho', ''),
-  //             value: element.sumBalance
-  //           });
-  //         }
-  //       }
-  //       this.optioneChartCoulumn = {
-  //         title: {
-  //           text: 'Biểu đồ tồn kho',
-  //           subtext: 'Năm 2022',
-  //           left: 'center'
-  //         },
-  //         tooltip: {
-  //           trigger: 'item'
-  //         },
-  //         legend: {
-  //           orient: 'vertical',
-  //           left: 'left'
-  //         },
-  //         series: [
-  //           {
-  //             name: 'Access From',
-  //             type: 'pie',
-  //             radius: '50%',
-  //             data: this.dataChart,
-  //             emphasis: {
-  //               itemStyle: {
-  //                 shadowBlur: 10,
-  //                 shadowOffsetX: 0,
-  //                 shadowColor: 'rgba(0, 0, 0, 0.5)'
-  //               }
-  //             }
-  //           }
-  //         ]
-  //       };
+  changeChartPhieu(e:any){
+    this.getChartToYear(2021);
+  }
+  changeChartPhieu2(e:any){
+    this.getChartToMouth();
 
-  //     }
-  //   );
-  // }
+  }
+  getChartToMouth() {
+  var  d = new Date().getFullYear();
+    this.dataChart2=[];
+    if(this.checkChart2>0)
+    this.dashboard.getChartByMouth(d+'-'+this.checkChart2+'-1',d+'-'+this.checkChart2+'-'+this.daysInMonth(this.checkChart2,d)).subscribe(
+      (data) => {
+        if(this.checkChart)
+        {
+          if (data.data.inward !== undefined && data.data.inward !== null) {
+            for (let index = 0; index < data.data.inward.length; index++) {
+              const element = data.data.inward[index];
+              this.dataChart2.push({
+                name: element.name,
+                value: element.count.toString()
+              });
+            }
+          }
+        }
+        else
+        {
+          if (data.data.outward !== undefined && data.data.outward !== null) {
+            for (let index = 0; index < data.data.outward.length; index++) {
+              const element = data.data.outward[index];
+              this.dataChart2.push({
+                name: element.name,
+                value: element.count.toString()
+              });
+            }
+          }
+        }
+
+        this.optioneChart2 = {
+          title: {
+            text: 'Biểu đồ phiếu',
+            subtext: 'Năm '+d+'',
+            left: 'center',
+            type: 'pie',
+            selectedMode: 'single',
+            radius: ['40%', '70%'],
+          },
+          tooltip: {
+            trigger: 'item'
+          },
+          legend: {
+            orient: 'vertical',
+            left: 'left'
+          },
+          series: [
+            {
+              name: 'Số lượng phiếu',
+              type: 'pie',
+              radius: '50%',
+              data: this.dataChart2,
+              emphasis: {
+                itemStyle: {
+                  shadowBlur: 10,
+                  shadowOffsetX: 0,
+                  shadowColor: 'rgba(0, 0, 0, 0.5)'
+                }
+              }
+            }
+          ]
+        };
+
+      }
+    );
+  }
+
+  getChartToYear(d: number) {
+    // if (d === undefined || d < 1900)
+    // d = new Date().getFullYear();
+    this.dataChart2=[];
+    this.dashboard.getChartByYear(2022).subscribe(
+      (data) => {
+        if(this.checkChart)
+        {
+          if (data.data.inward !== undefined && data.data.inward !== null) {
+            for (let index = 0; index < data.data.inward.length; index++) {
+              const element = data.data.inward[index];
+              this.dataChart2.push({
+                name: element.name,
+                value: element.count.toString()
+              });
+            }
+          }
+        }
+        else
+        {
+          if (data.data.outward !== undefined && data.data.outward !== null) {
+            for (let index = 0; index < data.data.outward.length; index++) {
+              const element = data.data.outward[index];
+              this.dataChart2.push({
+                name: element.name,
+                value: element.count.toString()
+              });
+            }
+          }
+        }
+
+        this.optioneChart2 = {
+          title: {
+            text: 'Biểu đồ phiếu',
+            subtext: 'Năm '+d+'',
+            left: 'center',
+            type: 'pie',
+            selectedMode: 'single',
+            radius: ['40%', '70%'],
+          },
+          tooltip: {
+            trigger: 'item'
+          },
+          legend: {
+            orient: 'vertical',
+            left: 'left'
+          },
+          series: [
+            {
+              name: 'Số lượng phiếu',
+              type: 'pie',
+              radius: '50%',
+              data: this.dataChart2,
+              emphasis: {
+                itemStyle: {
+                  shadowBlur: 10,
+                  shadowOffsetX: 0,
+                  shadowColor: 'rgba(0, 0, 0, 0.5)'
+                }
+              }
+            }
+          ]
+        };
+
+      }
+    );
+  }
 
   getChartToWarehouse() {
     this.dashboard.getChartByWareHouse().subscribe(
@@ -290,7 +406,7 @@ export class HomeComponent implements OnInit {
           },
           series: [
             {
-              name: 'Access From',
+              name: 'Số lượng tồn',
               type: 'pie',
               radius: '50%',
               data: this.dataChart,
@@ -312,10 +428,7 @@ export class HomeComponent implements OnInit {
     console.log('onChartInit', ec);
   }
 
-  //   function daysInMonth (month, year) {
-  //     return new Date(year, month, 0).getDate();
-  // }
-
-  // // July
-  // daysInMonth(7,2009);
+     daysInMonth (month:number, year:number) {
+      return new Date(year, month, 0).getDate();
+  }
 }

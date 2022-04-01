@@ -54,6 +54,12 @@ export class DashBoardService {
     );
   }
 
+  getChartByMouth(f:string,t:string): Observable<ResultDataResponse<DashBoardChartInAndOutCountDTO> > {
+    var url = this.baseUrl + `/get-select-chart-by-mouth?fromDate=`+f+`&toDate=`+t+``;
+    return this.http.get<ResultDataResponse<DashBoardChartInAndOutCountDTO>>(url, this.httpOptions).pipe(
+      retry(3), // retry a failed request up to 3 times
+    );
+  }
   getChartByWareHouse(): Observable<ResultMessageResponse<SelectTopWareHouseDTO>> {
     var url = this.baseUrl + `/get-select-top-warehouse-beginning-order-by?order=desc`;
     return this.http.get<ResultMessageResponse<SelectTopWareHouseDTO>>(url, this.httpOptions).pipe(
@@ -62,7 +68,7 @@ export class DashBoardService {
   }
 
   getHistory(): Observable<ResultMessageResponse<WareHouseBookDTO>> {
-    var url = environment.baseApi + `WareHouseBook/get-list?Skip=0&Take=3`;
+    var url = environment.baseApi + `WareHouseBook/get-list?Skip=0&Take=5`;
     return this.http.get<ResultMessageResponse<WareHouseBookDTO>>(url, this.httpOptions).pipe(
       retry(3), // retry a failed request up to 3 times
     );
