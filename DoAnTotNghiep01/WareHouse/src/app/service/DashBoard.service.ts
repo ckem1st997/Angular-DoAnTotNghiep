@@ -8,6 +8,7 @@ import { DashBoardSelectTopInAndOutDTO } from '../model/DashBoardSelectTopInAndO
 import { ResultDataResponse } from '../model/ResultDataResponse';
 import { ResultMessageResponse } from '../model/ResultMessageResponse';
 import { SelectTopDashBoardDTO } from '../model/SelectTopDashBoardDTO';
+import { WareHouseBookDTO } from '../model/WareHouseBookDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -40,6 +41,13 @@ export class DashBoardService {
   getTopIndex(): Observable<ResultDataResponse<SelectTopDashBoardDTO>> {
     var url = this.baseUrl + `/get-select-chart-by-index`;
     return this.http.get<ResultDataResponse<SelectTopDashBoardDTO>>(url, this.httpOptions).pipe(
+      retry(3), // retry a failed request up to 3 times
+    );
+  }
+
+  getHistory(): Observable<ResultMessageResponse<WareHouseBookDTO>> {
+    var url = environment.baseApi + `WareHouseBook/get-list?Skip=0&Take=3`;
+    return this.http.get<ResultMessageResponse<WareHouseBookDTO>>(url, this.httpOptions).pipe(
       retry(3), // retry a failed request up to 3 times
     );
   }

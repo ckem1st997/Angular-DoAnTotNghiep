@@ -7,6 +7,9 @@ import { ResultMessageResponse } from 'src/app/model/ResultMessageResponse';
 import { SelectTopDashBoardDTO } from 'src/app/model/SelectTopDashBoardDTO';
 import { DashBoardService } from 'src/app/service/DashBoard.service';
 import { UnitValidator } from 'src/app/validator/UnitValidator';
+import { WareHouse } from 'src/app/entity/WareHouse';
+import { WareHouseBookService } from 'src/app/service/WareHouseBook.service';
+import { WareHouseBookDTO } from './../../model/WareHouseBookDTO';
 
 
 interface Food {
@@ -26,6 +29,22 @@ interface Car {
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+  // lisst history
+
+  listHistory: ResultMessageResponse<WareHouseBookDTO> = {
+    success: false,
+    code: '',
+    httpStatusCode: 0,
+    title: '',
+    message: '',
+    data: [],
+    totalCount: 0,
+    isRedirect: false,
+    redirectUrl: '',
+    errors: {}
+  };;
+
+
   //list in and out
 
   listIn: ResultMessageResponse<DashBoardSelectTopInAndOutDTO> = {
@@ -111,7 +130,7 @@ export class HomeComponent implements OnInit {
     { value: 'pizza-1', viewValue: 'Pizza' },
     { value: 'tacos-2', viewValue: 'Tacos' },
   ];
-  constructor(private dashboard: DashBoardService) {
+  constructor(private dashboard: DashBoardService, private warehouseBook: WareHouseBookService) {
 
   }
   @HostListener('window:resize', ['$event'])
@@ -266,6 +285,7 @@ export class HomeComponent implements OnInit {
     this.getIn();
     this.getOut();
     this.getIndex();
+    this.getHistory();
   }
 
   getIn() {
@@ -289,6 +309,19 @@ export class HomeComponent implements OnInit {
         this.listIndex = data.data;
       }
     );
+  }
+
+
+  getHistory() {
+    this.dashboard.getHistory().subscribe(
+      (data) => {
+        this.listHistory = data;
+      }
+    );
+  }
+
+  getDateToName(d: Date) {
+    return d.toString().replace('T', '-');
   }
 
   onChartInit(ec: any) {

@@ -17,5 +17,5 @@ export interface WareHouseBookDTO extends BaseModel {
     modifiedDate: Date;
     modifiedBy?: any;
     type: string;
-    WareHouseName:string |null;
+    wareHouseName:string |null;
 }
