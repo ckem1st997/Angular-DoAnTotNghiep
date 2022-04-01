@@ -4,10 +4,12 @@ import { NotifierService } from 'angular-notifier';
 import { Observable, retry } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { BaseSelectDTO } from '../model/BaseSelectDTO';
+import { DashBoardChartInAndOutCountDTO } from '../model/DashBoardChartInAndOutCountDTO';
 import { DashBoardSelectTopInAndOutDTO } from '../model/DashBoardSelectTopInAndOutDTO';
 import { ResultDataResponse } from '../model/ResultDataResponse';
 import { ResultMessageResponse } from '../model/ResultMessageResponse';
 import { SelectTopDashBoardDTO } from '../model/SelectTopDashBoardDTO';
+import { SelectTopWareHouseDTO } from '../model/SelectTopWareHouseDTO';
 import { WareHouseBookDTO } from '../model/WareHouseBookDTO';
 
 @Injectable({
@@ -41,6 +43,20 @@ export class DashBoardService {
   getTopIndex(): Observable<ResultDataResponse<SelectTopDashBoardDTO>> {
     var url = this.baseUrl + `/get-select-chart-by-index`;
     return this.http.get<ResultDataResponse<SelectTopDashBoardDTO>>(url, this.httpOptions).pipe(
+      retry(3), // retry a failed request up to 3 times
+    );
+  }
+
+  getChartByYear(year:number): Observable<ResultDataResponse<DashBoardChartInAndOutCountDTO> > {
+    var url = this.baseUrl + `/get-select-chart-by-year?Year=`+year+``;
+    return this.http.get<ResultDataResponse<DashBoardChartInAndOutCountDTO>>(url, this.httpOptions).pipe(
+      retry(3), // retry a failed request up to 3 times
+    );
+  }
+
+  getChartByWareHouse(): Observable<ResultMessageResponse<SelectTopWareHouseDTO>> {
+    var url = this.baseUrl + `/get-select-top-warehouse-beginning-order-by?order=desc`;
+    return this.http.get<ResultMessageResponse<SelectTopWareHouseDTO>>(url, this.httpOptions).pipe(
       retry(3), // retry a failed request up to 3 times
     );
   }

@@ -46,9 +46,6 @@
       </div>
       <div class=" row" style="height:62%;margin-top: 15px;">
         <div class="col-6">
-          <div class="title-p-m" style="text-align: center;">
-            <h5 class="menu-header-title text-capitalize">Biểu đồ 11111111111111</h5>
-          </div>
           <div>
             <mat-form-field appearance="fill">
               <mat-label>Lọc</mat-label>
@@ -59,13 +56,10 @@
               </mat-select>
             </mat-form-field>
           </div>
-          <div echarts [options]="options" class="demo-chart" [loading]="true"></div>
+          <div echarts [options]="optioneChartCoulumn" class="demo-chart" [loading]="true" ></div>
 
         </div>
         <div class="col-6">
-          <div class="title-p-m" style="text-align: center;">
-            <h5 class="menu-header-title text-capitalize">Biểu đồ 11111111111111</h5>
-          </div>
           <div>
             <mat-form-field appearance="fill">
               <mat-label>Lọc</mat-label>
@@ -76,10 +70,9 @@
               </mat-select>
             </mat-form-field>
           </div>
-          <div echarts [options]="optionstwo" class="demo-chart" [loading]="true"></div>
+          <div echarts [options]="optioneChartCoulumn" class="demo-chart" [loading]="true" ></div>
 
         </div>
-
       </div>
       <div class=" container-fluid" style="height:25%;    overflow: auto;">
         <div class="main-card mb-3 card">

@@ -10,6 +10,8 @@ import { UnitValidator } from 'src/app/validator/UnitValidator';
 import { WareHouse } from 'src/app/entity/WareHouse';
 import { WareHouseBookService } from 'src/app/service/WareHouseBook.service';
 import { WareHouseBookDTO } from './../../model/WareHouseBookDTO';
+import { DashBoardChartInAndOutCountDTO } from 'src/app/model/DashBoardChartInAndOutCountDTO';
+import { SelectTopWareHouseDTO } from 'src/app/model/SelectTopWareHouseDTO';
 
 
 interface Food {
@@ -17,9 +19,9 @@ interface Food {
   viewValue: string;
 }
 
-interface Car {
+interface DataChart {
   value: string;
-  viewValue: string;
+  name: string;
 }
 
 
@@ -29,6 +31,27 @@ interface Car {
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+  //
+  dataChart: DataChart[] = [];
+  dataChart2: DataChart[] = [];
+  getDashBoardWareHouse: ResultMessageResponse<SelectTopWareHouseDTO> = {
+    success: false,
+    code: '',
+    httpStatusCode: 0,
+    title: '',
+    message: '',
+    data: [],
+    totalCount: 0,
+    isRedirect: false,
+    redirectUrl: '',
+    errors: {}
+  };
+
+  getDashBoardByYear: DashBoardChartInAndOutCountDTO = {
+    inward: null,
+    outward: null
+  }
+
   // lisst history
 
   listHistory: ResultMessageResponse<WareHouseBookDTO> = {
@@ -82,9 +105,9 @@ export class HomeComponent implements OnInit {
   };
 
   //
-  options: any;
-  optionstwo: any;
-  optionst3: any;
+  optioneChartCoulumn: any;
+  optioneChart2: any;
+
   gaugeData = [
     {
       value: 20,
@@ -149,143 +172,11 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.SetHeightDashboard();
-    this.options = {
-      tooltip: {
-        trigger: 'axis',
-        axisPointer: {
-          type: 'shadow'
-        }
-      },
-      legend: {},
-      grid: {
-        left: '3%',
-        right: '4%',
-        bottom: '3%',
-        containLabel: true
-      },
-      xAxis: [
-        {
-          type: 'category',
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-        }
-      ],
-      yAxis: [
-        {
-          type: 'value'
-        }
-      ],
-      series: [
-        {
-          name: 'Direct',
-          type: 'bar',
-          emphasis: {
-            focus: 'series'
-          },
-          data: [320, 332, 301, 334, 390, 330, 320]
-        },
-        {
-          name: 'Email',
-          type: 'bar',
-          stack: 'Ad',
-          emphasis: {
-            focus: 'series'
-          },
-          data: [120, 132, 101, 134, 90, 230, 210]
-        },
-        {
-          name: 'Union Ads',
-          type: 'bar',
-          stack: 'Ad',
-          emphasis: {
-            focus: 'series'
-          },
-          data: [220, 182, 191, 234, 290, 330, 310]
-        },
-        {
-          name: 'Video Ads',
-          type: 'bar',
-          stack: 'Ad',
-          emphasis: {
-            focus: 'series'
-          },
-          data: [150, 232, 201, 154, 190, 330, 410]
-        }
-      ]
-    };
-    this.optionstwo = {
-      angleAxis: {},
-      radiusAxis: {
-        type: 'category',
-        data: ['Mon', 'Tue', 'Wed', 'Thu'],
-        z: 10
-      },
-      polar: {},
-      series: [
-        {
-          type: 'bar',
-          data: [1, 2, 3, 4],
-          coordinateSystem: 'polar',
-          name: 'A',
-          stack: 'a',
-          emphasis: {
-            focus: 'series'
-          }
-        },
-        {
-          type: 'bar',
-          data: [2, 4, 6, 8],
-          coordinateSystem: 'polar',
-          name: 'B',
-          stack: 'a',
-          emphasis: {
-            focus: 'series'
-          }
-        },
-        {
-          type: 'bar',
-          data: [1, 2, 3, 4],
-          coordinateSystem: 'polar',
-          name: 'C',
-          stack: 'a',
-          emphasis: {
-            focus: 'series'
-          }
-        }
-      ],
-      legend: {
-        show: true,
-        data: ['A', 'B', 'C']
-      }
-    };
-
-    this.optionst3 = {
-      tooltip: {
-        formatter: '{a} <br/>{b} : {c}%'
-      },
-      series: [
-        {
-          name: 'Pressure',
-          type: 'gauge',
-          progress: {
-            show: true
-          },
-          detail: {
-            valueAnimation: true,
-            formatter: '{value}'
-          },
-          data: [
-            {
-              value: 50,
-              name: 'SCORE'
-            }
-          ]
-        }
-      ]
-    };
     this.getIn();
     this.getOut();
     this.getIndex();
     this.getHistory();
+    this.getChartToWarehouse();
   }
 
   getIn() {
@@ -324,6 +215,99 @@ export class HomeComponent implements OnInit {
     return d.toString().replace('T', '-');
   }
 
+  // getChartToYear(d: number) {
+  //   if (d === undefined || d < 1900)
+  //   d = new Date().getFullYear();
+  //   this.dashboard.getChartByYear(2022).subscribe(
+  //     (data) => {
+  //       if (data.data !== undefined && data.data !== null) {
+  //         for (let index = 0; index < data.data.length; index++) {
+  //           const element = data.data[index];
+  //           this.dataChart.push({
+  //             name: element.name.replace('Kho', ''),
+  //             value: element.sumBalance
+  //           });
+  //         }
+  //       }
+  //       this.optioneChartCoulumn = {
+  //         title: {
+  //           text: 'Biểu đồ tồn kho',
+  //           subtext: 'Năm 2022',
+  //           left: 'center'
+  //         },
+  //         tooltip: {
+  //           trigger: 'item'
+  //         },
+  //         legend: {
+  //           orient: 'vertical',
+  //           left: 'left'
+  //         },
+  //         series: [
+  //           {
+  //             name: 'Access From',
+  //             type: 'pie',
+  //             radius: '50%',
+  //             data: this.dataChart,
+  //             emphasis: {
+  //               itemStyle: {
+  //                 shadowBlur: 10,
+  //                 shadowOffsetX: 0,
+  //                 shadowColor: 'rgba(0, 0, 0, 0.5)'
+  //               }
+  //             }
+  //           }
+  //         ]
+  //       };
+
+  //     }
+  //   );
+  // }
+
+  getChartToWarehouse() {
+    this.dashboard.getChartByWareHouse().subscribe(
+      (data) => {
+        if (data.data !== undefined && data.data !== null) {
+          for (let index = 0; index < data.data.length; index++) {
+            const element = data.data[index];
+            this.dataChart.push({
+              name: element.name.replace('Kho', ''),
+              value: element.sumBalance
+            });
+          }
+        }
+        this.optioneChartCoulumn = {
+          title: {
+            text: 'Biểu đồ tồn kho',
+            subtext: 'Năm 2022',
+            left: 'center'
+          },
+          tooltip: {
+            trigger: 'item'
+          },
+          legend: {
+            orient: 'vertical',
+            left: 'left'
+          },
+          series: [
+            {
+              name: 'Access From',
+              type: 'pie',
+              radius: '50%',
+              data: this.dataChart,
+              emphasis: {
+                itemStyle: {
+                  shadowBlur: 10,
+                  shadowOffsetX: 0,
+                  shadowColor: 'rgba(0, 0, 0, 0.5)'
+                }
+              }
+            }
+          ]
+        };
+
+      }
+    );
+  }
   onChartInit(ec: any) {
     console.log('onChartInit', ec);
   }
