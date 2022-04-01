@@ -1,6 +1,6 @@
 import { HostListener, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Guid } from 'src/app/extension/Guid';
 import { InwardDTO } from 'src/app/model/InwardDTO';
 import { InwardService } from 'src/app/service/Inward.service';
@@ -67,7 +67,7 @@ export class InwardCreateComponent implements OnInit {
   @ViewChild(MatTable)
   table!: MatTable<InwardDetailDTO>;
 
-  constructor(private serviceBook: WareHouseBookService, notifierService: NotifierService, public dialog: MatDialog, private formBuilder: FormBuilder, private route: ActivatedRoute, private service: InwardService) {
+  constructor(private routerde: Router,private serviceBook: WareHouseBookService, notifierService: NotifierService, public dialog: MatDialog, private formBuilder: FormBuilder, private route: ActivatedRoute, private service: InwardService) {
     this.notifier = notifierService;
   }
   @HostListener('window:resize', ['$event'])
@@ -218,7 +218,10 @@ export class InwardCreateComponent implements OnInit {
         this.form.value["inwardDetails"] = this.listDetails;
         this.service.Add(this.form.value).subscribe(x => {
           if (x.success)
+          {
             this.notifier.notify('success', 'Thêm thành công');
+            this.routerde.navigate(['/details-inward', this.form.value["id"]]);
+          }
           else
             this.notifier.notify('error', x.errors["msg"][0]);
         }   ,     error => {

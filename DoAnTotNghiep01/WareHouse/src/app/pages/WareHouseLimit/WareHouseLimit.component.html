@@ -1,22 +1,10 @@
 <notifier-container></notifier-container>
 <div class=" d-flex justify-content-between" style="margin-top: 10px;">
-    <ul class="breadcrumbone">
-      <li>
-        <a href="#">
-          <span class="text">Test</span>
-        </a>
-      </li>
-      <li>
-        <a href="#">
-          <span class="text">Quản lý sổ kho</span>
-        </a>
-      </li>
-      <li>
-        <a routerLink="/">
-          <i class="bi bi-house"></i>
-        </a>
-      </li>
-    </ul>
+  <div class="breadcrumb">
+    <a class="breadcrumb__step breadcrumb__step--active"routerLink="/">Trang chủ</a>
+    <a class="breadcrumb__step" routerLink="/warehouse-item">Vật tư</a>
+    <a class="breadcrumb__step" routerLink="/warehouse">Kho</a>
+  </div>
     <div class="">
       <div class="">
         <button style="margin:5px;" (click)="searchQueryDialog()" mat-raised-button color="primary">

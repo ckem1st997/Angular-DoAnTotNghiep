@@ -2,7 +2,7 @@ import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource, MatTable } from '@angular/material/table';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NotifierService } from 'angular-notifier';
 import { Guid } from 'src/app/extension/Guid';
 import { BaseSelectDTO } from 'src/app/model/BaseSelectDTO';
@@ -70,7 +70,7 @@ export class OutwardCreateComponent implements OnInit {
   @ViewChild(MatTable)
   table!: MatTable<OutwardDetailDTO>;
 
-  constructor(private serviceBook: WareHouseBookService, notifierService: NotifierService, public dialog: MatDialog, private formBuilder: FormBuilder, private route: ActivatedRoute, private service: OutwardService) {
+  constructor(private routerde: Router,private serviceBook: WareHouseBookService, notifierService: NotifierService, public dialog: MatDialog, private formBuilder: FormBuilder, private route: ActivatedRoute, private service: OutwardService) {
     this.notifier = notifierService;
   }
   @HostListener('window:resize', ['$event'])
@@ -220,7 +220,10 @@ export class OutwardCreateComponent implements OnInit {
         this.form.value["outwardDetails"] = this.listDetails;
         this.service.Add(this.form.value).subscribe(x => {
           if (x.success)
+          {
             this.notifier.notify('success', 'Thêm thành công');
+            this.routerde.navigate(['/details-outward',this.form.value["id"]]);
+          }
           else
             this.notifier.notify('error', x.errors["msg"][0]);
         } ,     error => {
