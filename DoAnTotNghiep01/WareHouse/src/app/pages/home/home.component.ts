@@ -1,6 +1,11 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Unit } from 'src/app/entity/Unit';
+import { DashBoardSelectTopInAndOutDTO } from 'src/app/model/DashBoardSelectTopInAndOutDTO';
+import { ResultDataResponse } from 'src/app/model/ResultDataResponse';
+import { ResultMessageResponse } from 'src/app/model/ResultMessageResponse';
+import { SelectTopDashBoardDTO } from 'src/app/model/SelectTopDashBoardDTO';
+import { DashBoardService } from 'src/app/service/DashBoard.service';
 import { UnitValidator } from 'src/app/validator/UnitValidator';
 
 
@@ -21,6 +26,43 @@ interface Car {
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+  //list in and out
+
+  listIn: ResultMessageResponse<DashBoardSelectTopInAndOutDTO> = {
+    success: false,
+    code: '',
+    httpStatusCode: 0,
+    title: '',
+    message: '',
+    data: [],
+    totalCount: 0,
+    isRedirect: false,
+    redirectUrl: '',
+    errors: {}
+  };
+
+
+  listOut: ResultMessageResponse<DashBoardSelectTopInAndOutDTO> = {
+    success: false,
+    code: '',
+    httpStatusCode: 0,
+    title: '',
+    message: '',
+    data: [],
+    totalCount: 0,
+    isRedirect: false,
+    redirectUrl: '',
+    errors: {}
+  };
+
+  listIndex: SelectTopDashBoardDTO = {
+    itemCountMax: undefined,
+    itemCountMin: undefined,
+    wareHouseBeginningCountMax: undefined,
+    wareHouseBeginningCountMin: undefined
+  };
+
+  //
   options: any;
   optionstwo: any;
   optionst3: any;
@@ -69,7 +111,7 @@ export class HomeComponent implements OnInit {
     { value: 'pizza-1', viewValue: 'Pizza' },
     { value: 'tacos-2', viewValue: 'Tacos' },
   ];
-  constructor() {
+  constructor(private dashboard: DashBoardService) {
 
   }
   @HostListener('window:resize', ['$event'])
@@ -82,7 +124,10 @@ export class HomeComponent implements OnInit {
 
   onWindowResize(): void {
     this.SetHeightDashboard();
+
+
   }
+
   ngOnInit(): void {
     this.SetHeightDashboard();
     this.options = {
@@ -148,7 +193,7 @@ export class HomeComponent implements OnInit {
         }
       ]
     };
-    this.optionstwo  = {
+    this.optionstwo = {
       angleAxis: {},
       radiusAxis: {
         type: 'category',
@@ -193,7 +238,7 @@ export class HomeComponent implements OnInit {
         data: ['A', 'B', 'C']
       }
     };
-    
+
     this.optionst3 = {
       tooltip: {
         formatter: '{a} <br/>{b} : {c}%'
@@ -218,17 +263,42 @@ export class HomeComponent implements OnInit {
         }
       ]
     };
+    this.getIn();
+    this.getOut();
+    this.getIndex();
+  }
 
+  getIn() {
+    this.dashboard.getTopInward().subscribe(
+      (data) => {
+        this.listIn = data;
+      }
+    );
+  }
+  getOut() {
+    this.dashboard.getTopOutward().subscribe(
+      (data) => {
+        this.listOut = data;
+      }
+    );
+  }
+  getIndex() {
+
+    this.dashboard.getTopIndex().subscribe(
+      (data) => {
+        this.listIndex = data.data;
+      }
+    );
   }
 
   onChartInit(ec: any) {
     console.log('onChartInit', ec);
   }
 
-//   function daysInMonth (month, year) {
-//     return new Date(year, month, 0).getDate();
-// }
+  //   function daysInMonth (month, year) {
+  //     return new Date(year, month, 0).getDate();
+  // }
 
-// // July
-// daysInMonth(7,2009);
+  // // July
+  // daysInMonth(7,2009);
 }

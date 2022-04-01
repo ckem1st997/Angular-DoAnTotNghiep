@@ -193,101 +193,30 @@
         <div class="title-border-red title-p-m ">
           <h5 class="menu-header-title text-capitalize">Danh sách vật tư nhập kho nhiều nhất</h5>
         </div>
-        <div class="widget-chart-content  " style="margin-top: 20px;">
-          <div class="widget-subheading nameTop">[CQ011]Cáp treo ADSS 96FO</div>
+
+        <div class="widget-chart-content  " *ngFor="let state of listIn.data"  style="margin-top: 20px;">
+          <div class="widget-subheading nameTop">{{state.name}}</div>
           <div class="row" style="margin-top: 3px;font-weight: 500;">
-            <div class="col-6">Xuất hiện:<span class="countTopIn">1</span></div>
-            <div class="col-6">Số lượng:<span class="quantityTopIn">6</span></div>
+            <div class="col-6">Xuất hiện:<span class="countTopIn">{{state.count}}</span></div>
+            <div class="col-6">Số lượng:<span class="quantityTopIn">{{state.sumQuantity}}</span></div>
             <!-- <div class="widget-numbers text-success">Tổng tiền:600000</div> -->
           </div>
-
-
         </div>
-        <div class="widget-chart-content  " style="margin-top: 20px;">
-          <div class="widget-subheading nameTop">[CQ011]Cáp treo ADSS 96FO</div>
-          <div class="row" style="margin-top: 3px;font-weight: 500;">
-            <div class="col-6">Xuất hiện:<span class="countTopIn">1</span></div>
-            <div class="col-6">Số lượng:<span class="quantityTopIn">6</span></div>
-            <!-- <div class="widget-numbers text-success">Tổng tiền:600000</div> -->
-          </div>
-
-
-        </div>
-        <div class="widget-chart-content  " style="margin-top: 20px;">
-          <div class="widget-subheading nameTop">[CQ011]Cáp treo ADSS 96FO</div>
-          <div class="row" style="margin-top: 3px;font-weight: 500;">
-            <div class="col-6">Xuất hiện:<span class="countTopIn">1</span></div>
-            <div class="col-6">Số lượng:<span class="quantityTopIn">6</span></div>
-            <!-- <div class="widget-numbers text-success">Tổng tiền:600000</div> -->
-          </div>
-
-
-        </div>
-        <div class="widget-chart-content  " style="margin-top: 20px;">
-          <div class="widget-subheading nameTop">[CQ011]Cáp treo ADSS 96FO</div>
-          <div class="row" style="margin-top: 3px;font-weight: 500;">
-            <div class="col-6">Xuất hiện:<span class="countTopIn">1</span></div>
-            <div class="col-6">Số lượng:<span class="quantityTopIn">6</span></div>
-            <!-- <div class="widget-numbers text-success">Tổng tiền:600000</div> -->
-          </div>
-
-
-        </div>
-        <div class="widget-chart-content  " style="margin-top: 20px;">
-          <div class="widget-subheading nameTop">[CQ011]Cáp treo ADSS 96FO</div>
-          <div class="row" style="margin-top: 3px;font-weight: 500;">
-            <div class="col-6">Xuất hiện:<span class="countTopIn">1</span></div>
-            <div class="col-6">Số lượng:<span class="quantityTopIn">6</span></div>
-            <!-- <div class="widget-numbers text-success">Tổng tiền:600000</div> -->
-          </div>
-
-
-        </div>
+      
       </div>
       <div class="h-50">
         <div class="title-border-success title-p-m">
           <h5 class="menu-header-title text-capitalize">Danh sách vật tư xuất kho nhiều nhất</h5>
         </div>
-        <div class="widget-chart-content  " style="margin-top: 20px;">
-          <div class="widget-subheading nameTop">[CQ011]Cáp treo ADSS 96FO</div>
+        <div class="widget-chart-content  "  *ngFor="let state of listOut.data"  style="margin-top: 20px;">
+          <div class="widget-subheading nameTop">{{state.name}}</div>
           <div class="row" style="margin-top: 3px;font-weight: 500;">
-            <div class="col-6">Xuất hiện:<span class="countTopOut">1</span></div>
-            <div class="col-6">Số lượng:<span class="quantityTopOut">6</span></div>
+            <div class="col-6">Xuất hiện:<span class="countTopOut">{{state.count}}</span></div>
+            <div class="col-6">Số lượng:<span class="quantityTopOut">{{state.sumQuantity}}</span></div>
             <!-- <div class="widget-numbers text-success">Tổng tiền:600000</div> -->
           </div>
         </div>
-        <div class="widget-chart-content  " style="margin-top: 20px;">
-          <div class="widget-subheading nameTop">[CQ011]Cáp treo ADSS 96FO</div>
-          <div class="row" style="margin-top: 3px;font-weight: 500;">
-            <div class="col-6">Xuất hiện:<span class="countTopOut">1</span></div>
-            <div class="col-6">Số lượng:<span class="quantityTopOut">6</span></div>
-            <!-- <div class="widget-numbers text-success">Tổng tiền:600000</div> -->
-          </div>
-        </div>
-        <div class="widget-chart-content  " style="margin-top: 20px;">
-          <div class="widget-subheading nameTop">[CQ011]Cáp treo ADSS 96FO</div>
-          <div class="row" style="margin-top: 3px;font-weight: 500;">
-            <div class="col-6">Xuất hiện:<span class="countTopOut">1</span></div>
-            <div class="col-6">Số lượng:<span class="quantityTopOut">6</span></div>
-            <!-- <div class="widget-numbers text-success">Tổng tiền:600000</div> -->
-          </div>
-        </div>
-        <div class="widget-chart-content  " style="margin-top: 20px;">
-          <div class="widget-subheading nameTop">[CQ011]Cáp treo ADSS 96FO</div>
-          <div class="row" style="margin-top: 3px;font-weight: 500;">
-            <div class="col-6">Xuất hiện:<span class="countTopOut">1</span></div>
-            <div class="col-6">Số lượng:<span class="quantityTopOut">6</span></div>
-            <!-- <div class="widget-numbers text-success">Tổng tiền:600000</div> -->
-          </div>
-        </div>
-        <div class="widget-chart-content  " style="margin-top: 20px;">
-          <div class="widget-subheading nameTop">[CQ011]Cáp treo ADSS 96FO</div>
-          <div class="row" style="margin-top: 3px;font-weight: 500;">
-            <div class="col-6">Xuất hiện:<span class="countTopOut">1</span></div>
-            <div class="col-6">Số lượng:<span class="quantityTopOut">6</span></div>
-            <!-- <div class="widget-numbers text-success">Tổng tiền:600000</div> -->
-          </div>
-        </div>
+      
       </div>
 
     </div>
