@@ -23,7 +23,7 @@
     </div>
   </div>
 </div>
-<div style="width: 100%; height: 80%; ">
+<div style="width: 100%; height: 80%;border-top: 1px solid #b49c9c;">
   <as-split direction="horizontal">
     <as-split-area [size]="15">
       <div class="d-flex justify-content-center" style="    padding-right: 75px;">
@@ -52,7 +52,7 @@
     <as-split-area [size]="85">
       <div id="viewcheck" [hidden]="!checkSizeWindows">
 
-        <div class="" style="border-top: 1px solid #b49c9c;overflow: auto;height: 77vh;">
+        <div class="" style="overflow: auto;height: 77vh;">
           <table cdk-table matSort (matSortChange)="announceSortChange($event)" class="" mat-table
             [dataSource]="dataSource">
             <ng-container matColumnDef="select">

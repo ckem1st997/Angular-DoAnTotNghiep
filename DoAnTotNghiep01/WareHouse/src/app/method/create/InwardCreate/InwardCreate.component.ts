@@ -220,7 +220,8 @@ export class InwardCreateComponent implements OnInit {
           if (x.success)
           {
             this.notifier.notify('success', 'Thêm thành công');
-            this.routerde.navigate(['/details-inward', this.form.value["id"]]);
+             this.routerde.navigate(['/warehouse-book']);
+         //   this.routerde.navigate(['/details-inward', this.form.value["id"]]);
           }
           else
             this.notifier.notify('error', x.errors["msg"][0]);

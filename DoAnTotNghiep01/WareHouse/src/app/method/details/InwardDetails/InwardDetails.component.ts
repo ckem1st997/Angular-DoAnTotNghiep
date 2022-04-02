@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource, MatTable } from '@angular/material/table';
@@ -67,7 +67,7 @@ export class InwardDetailsComponent implements OnInit {
   @ViewChild(MatTable)
   table!: MatTable<InwardDetailDTO>;
 
-  constructor(private serviceBook: WareHouseBookService, notifierService: NotifierService, public dialog: MatDialog, private formBuilder: FormBuilder, private route: ActivatedRoute, private service: InwardService) {
+  constructor(private changeDetectorRefs: ChangeDetectorRef,private serviceBook: WareHouseBookService, notifierService: NotifierService, public dialog: MatDialog, private formBuilder: FormBuilder, private route: ActivatedRoute, private service: InwardService) {
     this.notifier = notifierService;
   }
   @HostListener('window:resize', ['$event'])
@@ -79,6 +79,10 @@ export class InwardDetailsComponent implements OnInit {
     const table = document.getElementById("formTable") as HTMLDivElement;
     table.style.height = getScreenHeight - 75 - clientHeight.clientHeight + "px";
     clientHeightForm.style.paddingTop = clientHeight.clientHeight + "px";
+  }
+
+  ngAfterViewInit() {
+
   }
   ngOnInit() {
     this.onWindowResize();
@@ -115,8 +119,9 @@ export class InwardDetailsComponent implements OnInit {
     if (id !== null)
       this.service.Details(id).subscribe(x => {
         this.dt = x.data;
-        this.listDetails = this.dt.inwardDetails;
-        this.dataSource.data = this.dt.inwardDetails;
+        this.listDetails = x.data.inwardDetails;
+        this.removeData();
+        this.dataSource.data = x.data.inwardDetails;
         this.table.renderRows();
         this.form.patchValue({
           id: this.dt.id,
@@ -143,7 +148,7 @@ export class InwardDetailsComponent implements OnInit {
           receiverDepartment: this.dt.receiverDepartment,
           inwardDetails: null
         });
-        
+        this.changeDetectorRefs.detectChanges();
       },     error => {
         if (error.error.errors.length === undefined)
           this.notifier.notify('error', error.error.message);
@@ -163,36 +168,6 @@ export class InwardDetailsComponent implements OnInit {
   getNameUnit(id: string) {
     return this.listUnit.find(x => x.id === id)?.unitName;
   }
-  addData() {
-    this.serviceBook.AddInwarDetailsIndex().subscribe(x => {
-      const model = x.data;
-      // lấy data từ api gán vào biến tạm
-      this.listItem = x.data.wareHouseItemDTO;
-      this.listUnit = x.data.unitDTO;
-      this.getCustomerDTO = x.data.getCustomerDTO;
-      this.getDepartmentDTO = x.data.getDepartmentDTO;
-      this.getEmployeeDTO = x.data.getEmployeeDTO;
-      this.getProjectDTO = x.data.getProjectDTO;
-      this.getStationDTO = x.data.getStationDTO;
-      model.inwardId = this.form.value["id"];
-      const dialogRef = this.dialog.open(InwarDetailsCreateComponent, {
-        width: '450px',
-        data: model
-      });
-
-      dialogRef.afterClosed().subscribe(result => {
-        var res = result;
-        if (res) {
-          this.listDetails.push(result);
-          this.dataSource.data = this.listDetails;
-          this.table.renderRows();
-        }
-      });
-
-    });
-
-  }
-
 
   openDialogDetails(model: InwardDetailDTO): void {
       const dialogRef = this.dialog.open(InwardDetailDetailsComponent, {
@@ -205,49 +180,5 @@ export class InwardDetailsComponent implements OnInit {
   removeData() {
     this.dataSource.data.pop();
     this.table.renderRows();
-  }
-
-  onSubmit() {
-    this.form.value["voucher"] = this.dt.voucher;
-    var test = new InwardValidator();
-    var msg = test.validate(this.form.value);
-    var check = JSON.stringify(msg) == '{}';
-    if (check == true) {
-      var checkDetails = this.listDetails.length > 0;
-      if (checkDetails == true) {
-        this.form.value["inwardDetails"] = this.listDetails;
-        this.service.Edit(this.form.value).subscribe(x => {
-          if (x.success)
-            this.notifier.notify('success', 'Chỉnh sửa thành công');
-          else {
-            if (x.errors["msg"] !== undefined && x.errors["msg"].length !== undefined)
-              this.notifier.notify('error', x.errors["msg"][0]);
-            else
-              this.notifier.notify('error', x.message);
-          }
-        },
-        error => {
-            if (error.error.errors.length === undefined)
-              this.notifier.notify('error', error.error.message);
-            else
-              this.notifier.notify('error', error.error);
-          }
-        );
-      }
-      else {
-        this.notifier.notify('error', 'Vui lòng nhập chi tiết phiếu nhập');
-      }
-
-
-    }
-
-    else {
-      var message = '';
-      for (const [key, value] of Object.entries(msg)) {
-        message = message + " " + value;
-      }
-      this.notifier.notify('error', message);
-    }
-
   }
 }

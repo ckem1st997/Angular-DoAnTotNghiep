@@ -222,7 +222,7 @@ export class OutwardCreateComponent implements OnInit {
           if (x.success)
           {
             this.notifier.notify('success', 'Thêm thành công');
-            this.routerde.navigate(['/details-outward',this.form.value["id"]]);
+            this.routerde.navigate(['/warehouse-book']);
           }
           else
             this.notifier.notify('error', x.errors["msg"][0]);

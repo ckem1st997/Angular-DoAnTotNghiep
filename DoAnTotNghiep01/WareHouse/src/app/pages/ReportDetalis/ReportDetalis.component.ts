@@ -7,7 +7,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatTreeFlattener, MatTreeFlatDataSource } from '@angular/material/tree';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NotifierService } from 'angular-notifier';
 import { FormSearchReportTotalComponent } from 'src/app/method/search/FormSearchReportTotal/FormSearchReportTotal.component';
 import { ReportTotalSearchModel } from 'src/app/model/ReportTotalSearchModel';
@@ -102,7 +102,7 @@ export class ReportDetalisComponent implements OnInit {
 
   dataSourceTreee = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
-  constructor(private getDataToGprc: GetDataToGprcService, private route: Router, private service: ReportService, private _liveAnnouncer: LiveAnnouncer, public dialog: MatDialog, notifierService: NotifierService) {
+  constructor(private routesnap: ActivatedRoute, private getDataToGprc: GetDataToGprcService, private route: Router, private service: ReportService, private _liveAnnouncer: LiveAnnouncer, public dialog: MatDialog, notifierService: NotifierService) {
     this.notifier = notifierService;
   }
 
@@ -210,7 +210,7 @@ export class ReportDetalisComponent implements OnInit {
   }
 
   GetDate(e: Date) {
-    return e.toString().replace('T','-');
+    return e.toString().replace('T', '-');
   }
 }
 

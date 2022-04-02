@@ -1,30 +1,25 @@
 <div id="formCreateDiv" style="height: 100%;position: relative;    padding-top: 362px;">
   <notifier-container></notifier-container>
-  <form disabled id="formCreate" style="position: absolute;top: 0;width: 100%;" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <form disabled id="formCreate" style="position: absolute;top: 0;width: 100%;" [formGroup]="form">
     <div class=" d-flex justify-content-between" style="border-bottom: 1px solid #ced4da;align-items: center;height: 55px;">
 
-      <ul class="breadcrumb">
-        <li class="breadcrumb__item breadcrumb__item-firstChild">
-          <span class="breadcrumb__inner">
-            <span class="breadcrumb__title">Nhập kho</span>
-          </span>
-        </li>
-        <li class="breadcrumb__item">
-          <span class="breadcrumb__inner">
-            <span class="breadcrumb__title">Thêm kho</span>
-          </span>
-        </li>
-      
-      </ul>
+      <div class="breadcrumb">
+        <a class="breadcrumb__step breadcrumb__step--active"routerLink="/">Trang chủ</a>
+        <a class="breadcrumb__step" routerLink="/warehouse-item">Vật tư</a>
+        <a class="breadcrumb__step" routerLink="/warehouse">Kho</a>
+      </div>
 
       <div class="">
         <div class="">
-          <button type="button" mat-raised-button color="primary">
+          <button type="submit" routerLink="/warehouse-book" mat-raised-button color="warn">
+            <mat-icon class="mat-18">keyboard_backspace</mat-icon>Quay lại
+          </button>
+          <button style="margin-left: 5px;margin-right: 5px;" type="button" mat-raised-button color="primary">
             <mat-icon class="mat-18">save</mat-icon>Save
           </button>
-          <button type="button" style="margin-left: 5px;" mat-raised-button color="warn">
+          <!-- <button type="button" style="margin-left: 5px;" mat-raised-button color="warn">
             <mat-icon class="mat-18">delete</mat-icon>Huỷ
-          </button>
+          </button> -->
         </div>
       </div>
     </div>

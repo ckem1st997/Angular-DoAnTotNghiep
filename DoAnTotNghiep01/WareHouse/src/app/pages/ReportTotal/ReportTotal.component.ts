@@ -164,6 +164,7 @@ export class ReportTotalComponent implements OnInit {
 
 
   }
+
   announceSortChange(sortState: Sort) {
     if (sortState.direction) {
       this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
