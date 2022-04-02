@@ -54,6 +54,14 @@ export class WareHouseBookService {
 
     );
   }
+
+  CheckQuantityIdItem(itemId: string,wareHouseId:string): Observable<ResultMessageResponse<UnitDTO>> {
+    var url = this.baseUrl + `/check-ui-quantity?WareHouseId=`+wareHouseId+`&ItemId=`+itemId+``;
+    return this.http.get<ResultMessageResponse<UnitDTO>>(url, this.httpOptions).pipe(
+      tap(_ => console.log(`create`)),
+
+    );
+  }
   // Edit(model: WareHouseLimit): Observable<ResultMessageResponse<WareHouseLimit>> {
   //   var url = this.baseUrl + `/edit`;
   //   return this.http.post<ResultMessageResponse<WareHouseLimit>>(url, model, this.httpOptions).pipe(

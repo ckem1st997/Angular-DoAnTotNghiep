@@ -70,7 +70,7 @@ export class OutwardCreateComponent implements OnInit {
   @ViewChild(MatTable)
   table!: MatTable<OutwardDetailDTO>;
 
-  constructor(private routerde: Router,private serviceBook: WareHouseBookService, notifierService: NotifierService, public dialog: MatDialog, private formBuilder: FormBuilder, private route: ActivatedRoute, private service: OutwardService) {
+  constructor(private routerde: Router, private serviceBook: WareHouseBookService, notifierService: NotifierService, public dialog: MatDialog, private formBuilder: FormBuilder, private route: ActivatedRoute, private service: OutwardService) {
     this.notifier = notifierService;
   }
   @HostListener('window:resize', ['$event'])
@@ -113,7 +113,7 @@ export class OutwardCreateComponent implements OnInit {
       receiverAddress: null,
       receiverDepartment: null,
       outwardDetails: null,
-      toWareHouseId:null
+      toWareHouseId: null
 
     });
   }
@@ -135,12 +135,13 @@ export class OutwardCreateComponent implements OnInit {
       this.listItem = x.data.wareHouseItemDTO;
       this.listUnit = x.data.unitDTO;
       this.getCustomerDTO = x.data.getCustomerDTO;
-      this.getAccountDTO=x.data.getAccountDTO;
+      this.getAccountDTO = x.data.getAccountDTO;
       this.getDepartmentDTO = x.data.getDepartmentDTO;
       this.getEmployeeDTO = x.data.getEmployeeDTO;
       this.getProjectDTO = x.data.getProjectDTO;
       this.getStationDTO = x.data.getStationDTO;
       model.outwardId = this.form.value["id"];
+      model.outward = this.form.value;
       const dialogRef = this.dialog.open(OutwarDetailsCreateComponent, {
         width: '450px',
         data: model
@@ -219,14 +220,13 @@ export class OutwardCreateComponent implements OnInit {
       if (checkDetails == true) {
         this.form.value["outwardDetails"] = this.listDetails;
         this.service.Add(this.form.value).subscribe(x => {
-          if (x.success)
-          {
+          if (x.success) {
             this.notifier.notify('success', 'Thêm thành công');
             this.routerde.navigate(['/warehouse-book']);
           }
           else
             this.notifier.notify('error', x.errors["msg"][0]);
-        } ,     error => {
+        }, error => {
           if (error.error.errors.length === undefined)
             this.notifier.notify('error', error.error.message);
           else

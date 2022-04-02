@@ -28,7 +28,7 @@ export interface OutwardDetailDTO extends BaseModel {
     accountYes: string;
     status: string;
     serialWareHouses: SerialWareHouseDTO[];
-    inward: InwardDTO|null;
+    outward: InwardDTO|null;
     item: WareHouseItemDTO|null;
     unit: UnitDTO|null;
     unitDTO: UnitDTO[];

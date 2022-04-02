@@ -8,7 +8,7 @@ export interface InwardDTO extends BaseModel {
   voucher: string | null;
   voucherCode: string | null;
   voucherDate: string | null;
-  wareHouseId?: string | null;
+  wareHouseId: string | null;
   deliver: string | null;
   receiver: string | null;
   vendorId: string | null;

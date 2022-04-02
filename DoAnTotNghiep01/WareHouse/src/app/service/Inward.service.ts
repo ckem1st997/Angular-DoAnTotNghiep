@@ -29,6 +29,14 @@ export class InwardService {
     );
   }
 
+
+  CheckItemExist(itemId: string,wareHouseId:string): Observable<ResultMessageResponse<boolean>> {
+    var url = this.baseUrl + `/check-item-exist?itemId=`+itemId+`&warehouseId=`+wareHouseId+``;
+    return this.http.get<ResultMessageResponse<boolean>>(url, this.httpOptions).pipe(
+      retry(3), // retry a failed request up to 3 times
+    );
+  }
+
   Edit(model: Inward): Observable<ResultMessageResponse<Inward>> {
     var url = this.baseUrl + `/edit`;
     return this.http.post<ResultMessageResponse<Inward>>(url, model, this.httpOptions).pipe(
