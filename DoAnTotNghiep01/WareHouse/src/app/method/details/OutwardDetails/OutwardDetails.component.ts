@@ -12,6 +12,7 @@ import { WareHouseItemDTO } from 'src/app/model/WareHouseItemDTO';
 import { OutwardService } from 'src/app/service/Outward.service';
 import { WareHouseBookService } from 'src/app/service/WareHouseBook.service';
 import { OutwardValidator } from 'src/app/validator/OutwardValidator';
+import { environment } from 'src/environments/environment';
 import { OutwardDetailDetailsComponent } from '../OutwardDetailDetails/OutwardDetailDetails.component';
 
 @Component({
@@ -20,6 +21,8 @@ import { OutwardDetailDetailsComponent } from '../OutwardDetailDetails/OutwardDe
   styleUrls: ['./OutwardDetails.component.scss']
 })
 export class OutwardDetailsComponent implements OnInit {
+  baseAPI: string = environment.baseApi;
+
   form!: FormGroup;
   listDetails = Array<OutwardDetailDTO>();
   listItem = Array<WareHouseItemDTO>();

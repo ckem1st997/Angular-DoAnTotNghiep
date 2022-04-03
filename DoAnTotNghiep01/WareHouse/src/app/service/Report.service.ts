@@ -26,6 +26,15 @@ export class ReportService {
     );
   }
   
+  getExportTotal(wareHouseId:string|null,itemId:string|null,start:string|null,end:string|null) {
+    var url = environment.baseApi + `ExportExcel/export-report-total?WareHouseItemId=`+itemId+`&WareHouseId=`+wareHouseId+`&FromDate=`+start+`&ToDate=`+end+`&Skip=0&Take=1&Excel=true`;
+    window.location.href=url;
+  }
+  getExportDetails(key:string|null,wareHouseId:string|null,itemId:string|null,start:string|null,end:string|null) {
+    var url = environment.baseApi + `ExportExcel/export-report-details?WareHouseItemId=`+itemId+`&WareHouseId=`+wareHouseId+`&FromDate=`+start+`&ToDate=`+end+`&Skip=0&Take=1&Excel=true&KeySearch=`+key+``;
+    window.location.href=url;
+  }
+
   getListDetails(key:string|null,wareHouseId:string|null,itemId:string|null,start:string|null,end:string|null,skip:number,take:number): Observable<ResultMessageResponse<ReportDetailsDTO>> {
     var url = this.baseUrl + `/get-report-details?WareHouseItemId=`+itemId+`&WareHouseId=`+wareHouseId+`&FromDate=`+start+`&ToDate=`+end+`&Skip=`+skip+`&Take=`+take+`&KeySearch=`+key+``;
     return this.http.get<ResultMessageResponse<ReportDetailsDTO>>(url, this.httpOptions).pipe(

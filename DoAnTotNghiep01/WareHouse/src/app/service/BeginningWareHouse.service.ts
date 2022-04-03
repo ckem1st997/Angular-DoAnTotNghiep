@@ -12,6 +12,7 @@ import { WareHouseSearchModel } from '../model/WareHouseSearchModel';
 @Injectable({
   providedIn: 'root'
 })
+
 export class BeginningWareHouseService {
   private baseUrl = environment.baseApi+'BeginningWareHouse';
   httpOptions = {

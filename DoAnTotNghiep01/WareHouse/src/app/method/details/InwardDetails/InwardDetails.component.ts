@@ -16,6 +16,7 @@ import { InwardValidator } from 'src/app/validator/InwardValidator';
 import { InwarDetailsCreateComponent } from '../../create/InwarDetailsCreate/InwarDetailsCreate.component';
 import { InwarDetailsEditByServiceComponent } from '../../edit/InwarDetailsEditByService/InwarDetailsEditByService.component';
 import { InwardDetailDetailsComponent } from '../InwardDetailDetails/InwardDetailDetails.component';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-InwardDetails',
@@ -23,6 +24,9 @@ import { InwardDetailDetailsComponent } from '../InwardDetailDetails/InwardDetai
   styleUrls: ['./InwardDetails.component.scss']
 })
 export class InwardDetailsComponent implements OnInit {
+  baseAPI: string = environment.baseApi;
+
+
   form!: FormGroup;
   listDetails = Array<InwardDetailDTO>();
   listItem = Array<WareHouseItemDTO>();
@@ -67,7 +71,7 @@ export class InwardDetailsComponent implements OnInit {
   @ViewChild(MatTable)
   table!: MatTable<InwardDetailDTO>;
 
-  constructor(private changeDetectorRefs: ChangeDetectorRef,private serviceBook: WareHouseBookService, notifierService: NotifierService, public dialog: MatDialog, private formBuilder: FormBuilder, private route: ActivatedRoute, private service: InwardService) {
+  constructor(private changeDetectorRefs: ChangeDetectorRef, private serviceBook: WareHouseBookService, notifierService: NotifierService, public dialog: MatDialog, private formBuilder: FormBuilder, private route: ActivatedRoute, private service: InwardService) {
     this.notifier = notifierService;
   }
   @HostListener('window:resize', ['$event'])
@@ -88,7 +92,7 @@ export class InwardDetailsComponent implements OnInit {
     this.onWindowResize();
     this.getData();
     this.form = this.formBuilder.group({
-      id:null,
+      id: null,
       voucherCode: null,
       voucher: this.dt.voucher,
       voucherDate: new Date().toISOString().slice(0, 16),
@@ -149,7 +153,7 @@ export class InwardDetailsComponent implements OnInit {
           inwardDetails: null
         });
         this.changeDetectorRefs.detectChanges();
-      },     error => {
+      }, error => {
         if (error.error.errors.length === undefined)
           this.notifier.notify('error', error.error.message);
         else
@@ -170,13 +174,23 @@ export class InwardDetailsComponent implements OnInit {
   }
 
   openDialogDetails(model: InwardDetailDTO): void {
-      const dialogRef = this.dialog.open(InwardDetailDetailsComponent, {
-        width: '550px',
-        data:model
-      });
+    const dialogRef = this.dialog.open(InwardDetailDetailsComponent, {
+      width: '550px',
+      data: model
+    });
   }
 
-
+  exportExcel() {
+    this.service.ExportExcel(this.dt.id).subscribe(x => {
+      console.log(x);
+      // var a = document.createElement("a");
+      // a.href = window.URL.createObjectURL(x);
+      // a.download = "Inward.xlsx";
+      // document.body.appendChild(a);
+      // a.click();
+      // document.body.removeChild(a);
+    });
+  }
   removeData() {
     this.dataSource.data.pop();
     this.table.renderRows();

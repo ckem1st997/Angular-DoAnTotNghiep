@@ -197,8 +197,6 @@ export class ReportTotalComponent implements OnInit {
         this.model.end = res.start !== null ? new Date(res.end).toLocaleDateString() : '';
         this.GetData();
       }
-      // else
-      //   this.notifier.notify('error', 'Có lỗi với dữ liệu tìm kiếm, xin vui lòng thử lại !');
 
     });
   }
@@ -212,6 +210,15 @@ export class ReportTotalComponent implements OnInit {
     select.className += " activeButtonTreeView";
     this.model.wareHouseId = e.key;
     this.route.navigate([e.key]);
+  }
+
+
+  ExportReport() {
+    if (this.model.wareHouseId && this.model.start && this.model.end)
+      this.service.getExportTotal(this.model.wareHouseId, this.model.itemId == null ? '' : this.model.itemId, this.model.start, this.model.end);
+    else
+      this.notifier.notify('error', 'Có lỗi với dữ liệu tìm kiếm, xin vui lòng thử lại !');
+
   }
 }
 

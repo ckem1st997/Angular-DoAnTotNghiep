@@ -28,7 +28,12 @@ export class InwardService {
       retry(3), // retry a failed request up to 3 times
     );
   }
-
+  ExportExcel(id: string){
+    var url = environment.baseApi + `ExportExcel/export-in-ward?id=`+id+``;
+    return this.http.get(url, this.httpOptions).pipe(
+      retry(3), // retry a failed request up to 3 times
+    );
+  }
 
   CheckItemExist(itemId: string,wareHouseId:string): Observable<ResultMessageResponse<boolean>> {
     var url = this.baseUrl + `/check-item-exist?itemId=`+itemId+`&warehouseId=`+wareHouseId+``;

@@ -212,6 +212,14 @@ export class ReportDetalisComponent implements OnInit {
   GetDate(e: Date) {
     return e.toString().replace('T', '-');
   }
+
+  ExportReport() {
+    if (this.model.wareHouseId && this.model.start && this.model.end)
+      this.service.getExportDetails(this.model.keySearch,this.model.wareHouseId, this.model.itemId == null ? '' : this.model.itemId, this.model.start, this.model.end);
+    else
+      this.notifier.notify('error', 'Có lỗi với dữ liệu tìm kiếm, xin vui lòng thử lại !');
+
+  }
 }
 
 

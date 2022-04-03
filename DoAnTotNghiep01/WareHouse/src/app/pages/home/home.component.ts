@@ -433,9 +433,9 @@ export class HomeComponent implements OnInit {
   openDialog(model: WareHouseBookDTO) {
     if (model.id !== null) {
       if (model.type === this.typeIn)
-        this.route.navigate(['/edit-inward', model.id]);
+        this.route.navigate(['/details-inward', model.id]);
       else if (model.type === this.typeOut)
-        this.route.navigate(['/edit-outward', model.id]);
+        this.route.navigate(['/details-outward', model.id]);
     }
     else
       this.notifier.notify('warning', "Xin vui lòng thử lại !");
