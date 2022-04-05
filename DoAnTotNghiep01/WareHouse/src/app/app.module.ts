@@ -95,6 +95,7 @@ import { ReportDetalisComponent } from './pages/ReportDetalis/ReportDetalis.comp
 import { FormSearchReportDetailsComponent } from './method/search/FormSearchReportDetails/FormSearchReportDetails.component';
 import {MatSelectModule} from '@angular/material/select';
 import { NgxEchartsModule } from 'ngx-echarts';
+import { LoginComponent } from './pages/login/login.component';
 const customNotifierOptions: NotifierOptions = {
   position: {
     horizontal: {
@@ -202,7 +203,8 @@ const customNotifierOptions: NotifierOptions = {
     ReportTotalComponent,
     FormSearchReportTotalComponent,
     ReportDetalisComponent,
-    FormSearchReportDetailsComponent
+    FormSearchReportDetailsComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

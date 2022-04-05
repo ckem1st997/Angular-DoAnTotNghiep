@@ -20,6 +20,7 @@ import { OutwardDetailsComponent } from './method/details/OutwardDetails/Outward
 import { OutwardEditComponent } from './method/edit/OutwardEdit/OutwardEdit.component';
 import { ReportTotalComponent } from './pages/ReportTotal/ReportTotal.component';
 import { ReportDetalisComponent } from './pages/ReportDetalis/ReportDetalis.component';
+import { LoginComponent } from './pages/login/login.component';
 
 const routes: Routes = [
   { path: 'warehouse-limit', component: WareHouseLimitComponent },
@@ -39,6 +40,7 @@ const routes: Routes = [
   { path: 'report-total', component:  ReportTotalComponent },
   { path: 'report-details', component:  ReportDetalisComponent },
   { path: '', component: HomeComponent },
+  { path: 'login', component: LoginComponent },
   {path: '404', component: NotFoundComponent},
   {path: '**', redirectTo: '/404'}
 ];
