@@ -41,7 +41,7 @@ export class HomeComponent implements OnInit {
   typeIn = "Phiếu nhập";
   typeOut = "Phiếu xuất";
   //
-  checkChart: boolean = false;
+  checkChart: boolean = true;
   checkChart2: number = 0;
   dataChart: DataChart[] = [];
   dataChart2: DataChart[] = [];

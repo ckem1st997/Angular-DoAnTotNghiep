@@ -21,6 +21,7 @@ import { OutwardEditComponent } from './method/edit/OutwardEdit/OutwardEdit.comp
 import { ReportTotalComponent } from './pages/ReportTotal/ReportTotal.component';
 import { ReportDetalisComponent } from './pages/ReportDetalis/ReportDetalis.component';
 import { LoginComponent } from './pages/login/login.component';
+import { RoleUserComponent } from './pages/RoleUser/RoleUser.component';
 
 const routes: Routes = [
   { path: 'warehouse-limit', component: WareHouseLimitComponent },
@@ -41,6 +42,8 @@ const routes: Routes = [
   { path: 'report-details', component:  ReportDetalisComponent },
   { path: '', component: HomeComponent },
   { path: 'login', component: LoginComponent },
+  { path: 'role', component: RoleUserComponent },
+
   {path: '404', component: NotFoundComponent},
   {path: '**', redirectTo: '/404'}
 ];

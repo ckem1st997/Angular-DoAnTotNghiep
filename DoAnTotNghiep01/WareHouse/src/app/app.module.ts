@@ -96,6 +96,7 @@ import { FormSearchReportDetailsComponent } from './method/search/FormSearchRepo
 import {MatSelectModule} from '@angular/material/select';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { LoginComponent } from './pages/login/login.component';
+import { RoleUserComponent } from './pages/RoleUser/RoleUser.component';
 const customNotifierOptions: NotifierOptions = {
   position: {
     horizontal: {
@@ -204,7 +205,8 @@ const customNotifierOptions: NotifierOptions = {
     FormSearchReportTotalComponent,
     ReportDetalisComponent,
     FormSearchReportDetailsComponent,
-    LoginComponent
+    LoginComponent,
+    RoleUserComponent
   ],
   imports: [
     BrowserModule,
@@ -246,6 +248,6 @@ const customNotifierOptions: NotifierOptions = {
     useClass: ErrorIntercept,
     multi: true
   }],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule { }
