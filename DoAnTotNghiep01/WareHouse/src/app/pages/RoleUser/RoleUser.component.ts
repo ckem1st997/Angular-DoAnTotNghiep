@@ -53,17 +53,21 @@ export class ChecklistDatabase {
     return this.dataChange.value;
   }
 
-  constructor() {
-    //  this.initialize();
+  constructor(private serviceW: WarehouseService) {
+      this.initialize();
   }
 
   initialize() {
     // Build the tree nodes from Json object. The result is a list of `TodoItemNode` with nested
     //     file node as children.
-    const data = this.buildFileTree(TREE_DATA, 0);
+    this.serviceW.getTreeView().subscribe(x => {
+      const data = this.buildFileTree(x.data, 0);
+      this.dataChange.next(data);
+    });
+  //  const data = this.buildFileTree(TREE_DATA, 0);
 
     // Notify the change.
-    this.dataChange.next(data);
+  //  this.dataChange.next(data);
   }
 
   /**
@@ -72,12 +76,10 @@ export class ChecklistDatabase {
    */
   buildFileTree(obj: { [key: string]: any }, level: number): TodoItemNode[] {
     return Object.keys(obj).reduce<TodoItemNode[]>((accumulator, key) => {
-      console.log(obj)
-
       const value = obj[key];
       const node = new TodoItemNode();
       node.name = value?.name;
-      node.key = value?.id;
+      node.key = value?.key;
       if (node)
         if (value != null) {
           if (typeof value === 'object') {
@@ -85,6 +87,7 @@ export class ChecklistDatabase {
           } 
           else if(value.name != undefined) {
             node.name = value.name;
+            node.key=value.key;
           }
         }
 
@@ -134,17 +137,9 @@ export class RoleUserComponent implements OnInit {
     );
     this.treeControl = new FlatTreeControl<TodoItemFlatNode>(this.getLevel, this.isExpandable);
     this.dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
-    this.serviceW.getTreeView().subscribe(x => {
-      const data = _database.buildFileTree(x.data, 0);
-      _database.dataChange.next(data);
-      _database.dataChange.subscribe(data => {
-        this.dataSource.data = data;
-      });
-
+    _database.dataChange.subscribe(data => {
+      this.dataSource.data = data;
     });
-    // _database.dataChange.subscribe(data => {
-    //   this.dataSource.data = data;
-    // });
 
   }
   ngOnInit() {
