@@ -22,30 +22,42 @@ import { ReportTotalComponent } from './pages/ReportTotal/ReportTotal.component'
 import { ReportDetalisComponent } from './pages/ReportDetalis/ReportDetalis.component';
 import { LoginComponent } from './pages/login/login.component';
 import { RoleUserComponent } from './pages/RoleUser/RoleUser.component';
+import { DefaultLayoutComponent } from './layout/Default-Layout/Default-Layout.component';
+import { AuthozireComponent } from './layout/Authozire/Authozire.component';
+import { AuthGuard } from './extension/AuthGuard';
+const DEFAULT_ROUTES: Routes = [
 
+  { path: 'warehouse-limit', component: WareHouseLimitComponent, data: { state: 'wh-limit' } },
+  { path: 'warehouse-book', component: WareHouseBookComponent, data: { state: 'wh-book' } },
+  { path: 'warehouse-benging', component: WareHouseBenginingComponent, data: { state: 'wh-benging' } },
+  { path: 'warehouse-item-category', component: WareHouseItemCategoryComponent, data: { state: 'wh-item-ca' } },
+  { path: 'warehouse-item', component: WareHouseItemComponent, data: { state: 'wh-item' } },
+  { path: 'vendor', component: VendorComponent, data: { state: 'vender' } },
+  { path: 'warehouse', component: WareHouseComponent, data: { state: 'warehouse' }, canActivate: [AuthGuard] },
+  { path: 'unit', component: UnitComponent, data: { state: 'unit' } , canActivate: [AuthGuard]},
+  { path: 'create-inward/:whid', component: InwardCreateComponent, data: { state: 'create-inward' } },
+  { path: 'edit-inward/:id', component: InwardEditComponent, data: { state: 'edit-inward' } },
+  { path: 'edit-outward/:id', component: OutwardEditComponent, data: { state: 'edit-outward' } },
+  { path: 'details-inward/:id', component: InwardDetailsComponent, data: { state: 'details-inward' } },
+  { path: 'details-outward/:id', component: OutwardDetailsComponent, data: { state: 'details-outward' } },
+  { path: 'create-outward/:whid', component: OutwardCreateComponent, data: { state: 'create-outward' } },
+  { path: 'report-total', component: ReportTotalComponent, data: { state: 'report-total' } },
+  { path: 'report-details', component: ReportDetalisComponent, data: { state: 'report-details' } },
+  { path: '', component: HomeComponent, data: { state: 'home' } },
+  { path: 'role', component: RoleUserComponent, data: { state: 'role' } },
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
+]
+
+export const Authozire_LAYOUT: Routes = [
+  { path: 'login', component: LoginComponent, data: { state: 'login' } },
+  { path: '404', component: NotFoundComponent, data: { state: '404' } },
+  { path: '**', redirectTo: '/404' },
+]
 const routes: Routes = [
-  { path: 'warehouse-limit', component: WareHouseLimitComponent },
-  { path: 'warehouse-book', component: WareHouseBookComponent },
-  { path: 'warehouse-benging', component: WareHouseBenginingComponent },
-  { path: 'warehouse-item-category', component: WareHouseItemCategoryComponent },
-  { path: 'warehouse-item', component: WareHouseItemComponent },
-  { path: 'vendor', component: VendorComponent },
-  { path: 'warehouse', component:  WareHouseComponent },
-  { path: 'unit', component:  UnitComponent },
-  { path: 'create-inward/:whid', component:  InwardCreateComponent },
-  { path: 'edit-inward/:id', component:  InwardEditComponent },
-  { path: 'edit-outward/:id', component:  OutwardEditComponent },
-  { path: 'details-inward/:id', component:  InwardDetailsComponent },
-  { path: 'details-outward/:id', component:  OutwardDetailsComponent },
-  { path: 'create-outward/:whid', component:  OutwardCreateComponent },
-  { path: 'report-total', component:  ReportTotalComponent },
-  { path: 'report-details', component:  ReportDetalisComponent },
-  { path: '', component: HomeComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'role', component: RoleUserComponent },
 
-  {path: '404', component: NotFoundComponent},
-  {path: '**', redirectTo: '/404'}
+  { path: '', component: DefaultLayoutComponent, children: DEFAULT_ROUTES },
+  { path: 'authozire', component: AuthozireComponent, children: Authozire_LAYOUT },
+
 ];
 
 @NgModule({

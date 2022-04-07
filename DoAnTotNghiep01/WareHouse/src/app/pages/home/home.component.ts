@@ -37,6 +37,8 @@ interface DataChart {
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+
+  //
   private readonly notifier!: NotifierService;
   typeIn = "Phiếu nhập";
   typeOut = "Phiếu xuất";
@@ -440,7 +442,10 @@ export class HomeComponent implements OnInit {
     else
       this.notifier.notify('warning', "Xin vui lòng thử lại !");
   }
-
+  ConvertStringToNumber(input: string) {
+    var numeric = Number(input);
+    return numeric;
+}
   daysInMonth(month: number, year: number) {
     return new Date(year, month, 0).getDate();
   }

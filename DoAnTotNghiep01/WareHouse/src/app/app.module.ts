@@ -97,6 +97,11 @@ import {MatSelectModule} from '@angular/material/select';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { LoginComponent } from './pages/login/login.component';
 import { RoleUserComponent } from './pages/RoleUser/RoleUser.component';
+import { CountUpModule } from 'ngx-countup';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { DefaultLayoutComponent } from './layout/Default-Layout/Default-Layout.component';
+import { AuthozireComponent } from './layout/Authozire/Authozire.component';
 const customNotifierOptions: NotifierOptions = {
   position: {
     horizontal: {
@@ -206,7 +211,9 @@ const customNotifierOptions: NotifierOptions = {
     ReportDetalisComponent,
     FormSearchReportDetailsComponent,
     LoginComponent,
-    RoleUserComponent
+    RoleUserComponent,
+    DefaultLayoutComponent,
+    AuthozireComponent
   ],
   imports: [
     BrowserModule,
@@ -237,6 +244,9 @@ const customNotifierOptions: NotifierOptions = {
     MatNativeDateModule,
     MatChipsModule,
     TagInputModule,
+    CountUpModule,
+    MatProgressSpinnerModule,
+    MatProgressBarModule,
     NgxEchartsModule.forRoot({
       echarts: () => import('echarts')
     }),

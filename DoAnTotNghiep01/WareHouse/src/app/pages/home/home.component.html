@@ -9,7 +9,7 @@
             <div class="d-flex row" style="margin-top: 20px; align-items: baseline;">
               <i style="font-size: 28px;" class="text-success col-2 bi bi-caret-up-fill"></i>
               <div style="font-size: 12.5px;font-weight: 500;" class="col-6">[{{listIndex.itemCountMax?.code}}]{{listIndex.itemCountMax?.name}}</div>
-              <div style="font-size: 19px;font-weight: 500;" class="col-4">{{listIndex.itemCountMax?.count}}</div>
+              <div style="font-size: 19px;font-weight: 500;" class="col-4" [countUp]="listIndex.itemCountMax==undefined?0:listIndex.itemCountMax.count==null?0:listIndex.itemCountMax.count">{{listIndex.itemCountMax?.count}}</div>
             </div>
           </div>
         </div>
@@ -19,7 +19,7 @@
             <div class="d-flex row" style="margin-top: 20px; align-items: baseline;">
               <i style="font-size: 28px; color:#26a0fc" class="col-2 bi bi-house-door"></i>
               <div style="font-size: 12.5px;font-weight: 500;" class="col-6">{{listIndex.wareHouseBeginningCountMax?.name}}</div>
-              <div style="font-size: 19px;font-weight: 500;" class="col-4">{{listIndex.wareHouseBeginningCountMax?.sumBalance}}</div>
+              <div style="font-size: 19px;font-weight: 500;" class="col-4"  [countUp]="listIndex.wareHouseBeginningCountMax==undefined?0:listIndex.wareHouseBeginningCountMax.sumBalance==null?0:ConvertStringToNumber(listIndex.wareHouseBeginningCountMax.sumBalance)">{{listIndex.wareHouseBeginningCountMax?.sumBalance}}</div>
             </div>
           </div>
         </div>
@@ -29,7 +29,7 @@
             <div class="d-flex row" style="margin-top: 20px; align-items: baseline;">
               <i style="font-size: 28px;color:#8340ed" class="col-2 bi bi-intersect"></i>
               <div style="font-size: 12.5px;font-weight: 500;" class="col-6">[{{listIndex.itemCountMin?.code}}]{{listIndex.itemCountMin?.name}}</div>
-              <div style="font-size: 19px;font-weight: 500;" class="col-4">{{listIndex.itemCountMin?.count}}</div>
+              <div style="font-size: 19px;font-weight: 500;" class="col-4" [countUp]="listIndex.itemCountMin==undefined?0:listIndex.itemCountMin.count==null?0:listIndex.itemCountMin.count">{{listIndex.itemCountMin?.count}}</div>
             </div>
           </div>
         </div>
@@ -39,7 +39,7 @@
             <div class="d-flex row" style="margin-top: 20px; align-items: baseline;">
               <i style="font-size: 28px;color: #e521c4;" class="col-2 bi bi-archive-fill"></i>
               <div style="font-size: 12.5px;font-weight: 500;" class="col-6">{{listIndex.wareHouseBeginningCountMin?.name}}</div>
-              <div style="font-size: 19px;font-weight: 500;" class="col-4">{{listIndex.wareHouseBeginningCountMin?.sumBalance}}</div>
+              <div style="font-size: 19px;font-weight: 500;" class="col-4" [countUp]="listIndex.wareHouseBeginningCountMin==undefined?0:listIndex.wareHouseBeginningCountMin.sumBalance==null?0:ConvertStringToNumber(listIndex.wareHouseBeginningCountMin.sumBalance)">{{listIndex.wareHouseBeginningCountMin?.sumBalance}}</div>
             </div>
           </div>
         </div>
@@ -154,8 +154,8 @@
         <div class="widget-chart-content  " *ngFor="let state of listIn.data"  style="margin-top: 20px;">
           <div class="widget-subheading nameTop">{{state.name}}</div>
           <div class="row" style="margin-top: 5px;font-weight: 500;">
-            <div class="col-6">Xuất hiện:<span class="countTopIn">{{state.count}}</span></div>
-            <div class="col-6">Số lượng:<span class="quantityTopIn">{{state.sumQuantity}}</span></div>
+            <div class="col-6">Xuất hiện:<span class="countTopIn" [countUp]="state.count==null?0:state.count">{{state.count}}</span></div>
+            <div class="col-6">Số lượng:<span class="quantityTopIn" [countUp]="state.sumQuantity==null?0:state.sumQuantity">{{state.sumQuantity}}</span></div>
             <!-- <div class="widget-numbers text-success">Tổng tiền:600000</div> -->
           </div>
         </div>
@@ -168,8 +168,8 @@
         <div class="widget-chart-content  "  *ngFor="let state of listOut.data"  style="margin-top: 20px;">
           <div class="widget-subheading nameTop">{{state.name}}</div>
           <div class="row" style="margin-top: 5px;font-weight: 500;">
-            <div class="col-6">Xuất hiện:<span class="countTopOut">{{state.count}}</span></div>
-            <div class="col-6">Số lượng:<span class="quantityTopOut">{{state.sumQuantity}}</span></div>
+            <div class="col-6">Xuất hiện:<span class="countTopOut" [countUp]="state.count==null?0:state.count">{{state.count}}</span></div>
+            <div class="col-6">Số lượng:<span class="quantityTopOut" [countUp]="state.sumQuantity==null?0:state.sumQuantity">{{state.sumQuantity}}</span></div>
             <!-- <div class="widget-numbers text-success">Tổng tiền:600000</div> -->
           </div>
         </div>
