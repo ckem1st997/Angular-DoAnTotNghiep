@@ -8,32 +8,34 @@ import { User } from '../model/User';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
-    private userSubject: BehaviorSubject<User>;
-    public user: Observable<User>;
+    // private userSubject: BehaviorSubject<User>;
+    // public user: Observable<User>;
 
     constructor(
         private router: Router,
         private http: HttpClient
     ) {
-        this.userSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('user') || '{}'));
-        this.user = this.userSubject.asObservable();
+        // this.userSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('user') || '{}'));
+        // this.user = this.userSubject.asObservable();
     }
 
     public get userValue(): User {
-        return this.userSubject.value;
+        return JSON.parse(sessionStorage.getItem('user') || '{}');
     }
     public get userCheck(): boolean {
-        return this.userSubject.value.role !== undefined && this.userSubject.value.username !== null && this.userSubject.value.token !== undefined;
+        var check=JSON.parse(sessionStorage.getItem('user') || '{}');
+        return check.username !== null && check.token !== undefined;
     }
     login(username: string, password: string, remember: boolean) {
         return this.http.post<any>(`${environment.authorizeApi}AuthorizeMaster/login`, { username, password, remember })
             .pipe(map(user => {
-                console.log(user);
-
                 if (user.success) {
+                    var save=new User();
+                    save.username=username;
+                    save.token=user.data;
                     // store user details and jwt token in local storage to keep user logged in between page refreshes
-                    localStorage.setItem('user', JSON.stringify(user));
-                    this.userSubject.next(user);
+                    sessionStorage.setItem('user', JSON.stringify(save));
+                 //   this.userSubject.next(user);
                 }
                 return user;
 
@@ -42,8 +44,8 @@ export class AuthenticationService {
 
     logout() {
         // remove user from local storage to log user out
-        localStorage.removeItem('user');
-        this.userSubject.next(new User());
-        this.router.navigate(['/login']);
+        sessionStorage.removeItem('user');
+     //   this.userSubject.next(new User());
+        this.router.navigate(['/authozire/login']);
     }
 }

@@ -31,8 +31,8 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
-      username: null,
-      password:null,
+      username: 'admin@gmail.com',
+      password:123456,
       remember: true
     });
   }
@@ -56,12 +56,12 @@ export class LoginComponent implements OnInit {
           console.log(x);
           if (!x.success) {
             this.notifierService.notify('warning', x.message);
-
           }
           else {
             // get return url from query parameters or default to home page
             const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-            this.router.navigateByUrl(returnUrl);
+            console.log(returnUrl);
+            this.router.navigate([returnUrl]);
           }
         },
         error: error => {
