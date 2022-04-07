@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NotifierService } from 'angular-notifier';
 import { first } from 'rxjs';
 import { AuthenticationService } from 'src/app/extension/Authentication.service';
+import { LoginValidator } from 'src/app/validator/LoginValidator';
 
 @Component({
   selector: 'app-login',
@@ -32,7 +33,7 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
       username: 'admin@gmail.com',
-      password:123456,
+      password: '123456',
       remember: true
     });
   }
@@ -47,27 +48,47 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.invalid) {
       return;
     }
+    var test = new LoginValidator();
+    var msg = test.validate(this.loginForm.value);
+    var check = JSON.stringify(msg) == '{}';
+    if (check == true) {
+      this.loading = true;
+      this.authenticationService.login(this.loginForm.value['username'], this.loginForm.value['password'], this.loginForm.value['remember'])
+        .pipe(first())
+        .subscribe({
+          next: (x) => {
+            console.log(x);
+            if (!x.success) {
+              this.notifierService.notify('warning', x.message);
+            }
+            else {
+              // get return url from query parameters or default to home page
+              const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+              this.notifierService.notify('success', 'Đăng nhập thành công !');
 
-    this.loading = true;
-    this.authenticationService.login(this.loginForm.value['username'], this.loginForm.value['password'], this.loginForm.value['remember'])
-      .pipe(first())
-      .subscribe({
-        next: (x) => {
-          console.log(x);
-          if (!x.success) {
-            this.notifierService.notify('warning', x.message);
+              this.router.navigate([returnUrl]);
+            }
+          },
+          error: error => {
+            this.error = error;
+            this.loading = false;
+            if (error.error.errors.length === undefined)
+              this.notifierService.notify('error', error.error.message);
+            else
+              this.notifierService.notify('error', error.error);
           }
-          else {
-            // get return url from query parameters or default to home page
-            const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-            console.log(returnUrl);
-            this.router.navigate([returnUrl]);
-          }
-        },
-        error: error => {
-          this.error = error;
-          this.loading = false;
-        }
-      });
+        });
+    }
+    else {
+      var message = '';
+      for (const [key, value] of Object.entries(msg)) {
+        message = message + " " + value;
+      }
+      this.notifierService.notify('error', message);
+    }
+
+
+
+
   }
 }
