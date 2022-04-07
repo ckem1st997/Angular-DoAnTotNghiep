@@ -22,14 +22,21 @@ export class AuthenticationService {
     public get userValue(): User {
         return this.userSubject.value;
     }
-
-    login(username: string, password: string, remember:boolean) {
-        return this.http.post<any>(`${environment.authorizeApi}AuthorizeMaster/login`, { username, password,remember })
+    public get userCheck(): boolean {
+        return this.userSubject.value.role !== undefined && this.userSubject.value.username !== null && this.userSubject.value.token !== undefined;
+    }
+    login(username: string, password: string, remember: boolean) {
+        return this.http.post<any>(`${environment.authorizeApi}AuthorizeMaster/login`, { username, password, remember })
             .pipe(map(user => {
-                // store user details and jwt token in local storage to keep user logged in between page refreshes
-                localStorage.setItem('user', JSON.stringify(user));
-                this.userSubject.next(user);
+                console.log(user);
+
+                if (user.success) {
+                    // store user details and jwt token in local storage to keep user logged in between page refreshes
+                    localStorage.setItem('user', JSON.stringify(user));
+                    this.userSubject.next(user);
+                }
                 return user;
+
             }));
     }
 
