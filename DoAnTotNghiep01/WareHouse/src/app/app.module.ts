@@ -103,6 +103,9 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { DefaultLayoutComponent } from './layout/Default-Layout/Default-Layout.component';
 import { AuthozireComponent } from './layout/Authozire/Authozire.component';
 import { PagesForbieComponent } from './pages/PagesForbie/PagesForbie.component';
+import { HeaderMasterComponent } from './layout/headerMaster/headerMaster.component';
+import { PagesOptionComponent } from './pages/PagesOption/PagesOption.component';
+import { MasterUserComponent } from './layout/MasterUser/MasterUser.component';
 const customNotifierOptions: NotifierOptions = {
   position: {
     horizontal: {
@@ -215,7 +218,10 @@ const customNotifierOptions: NotifierOptions = {
     RoleUserComponent,
     DefaultLayoutComponent,
     AuthozireComponent,
-    PagesForbieComponent
+    PagesForbieComponent,
+    HeaderMasterComponent,
+    PagesOptionComponent,
+    MasterUserComponent
   ],
   imports: [
     BrowserModule,

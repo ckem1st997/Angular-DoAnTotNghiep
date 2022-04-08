@@ -17,8 +17,8 @@
         </a>
         <a id="QuanLyDanhMucLink" class="link-icon header-a" #createPlanmenuTrigger="matMenuTrigger"
           [matMenuTriggerFor]="menu" (click)="createPlanmenuTrigger.openMenu()" (click)="changActive($event)">
-          <mat-icon class="icon-link" aria-hidden="false" aria-label="Example home icon">layers</mat-icon>
-          Quản lý kho
+          <i class="bi bi-tools icon-link"></i>
+          Phân quyền
           <mat-menu #menu="matMenu">
             <span data-active="QuanLyDanhMucLink" (click)="createPlanmenuTrigger.closeMenu()">
               <a (click)="changActive($event)" routerLink="/warehouse-book" mat-menu-item>Quản lý sổ kho</a>
@@ -29,7 +29,7 @@
           </mat-menu>
         </a>
 
-        <a id="QuanLyDanhMucLinkTwo" #createPlanmenuTriggerDanhMuc="matMenuTrigger" [matMenuTriggerFor]="menuDanhMuc"
+        <!-- <a id="QuanLyDanhMucLinkTwo" #createPlanmenuTriggerDanhMuc="matMenuTrigger" [matMenuTriggerFor]="menuDanhMuc"
           (click)="createPlanmenuTriggerDanhMuc.openMenu()" class="link-icon header-a" (click)="changActive($event)">
           <mat-icon class="icon-link" aria-hidden="false" aria-label="Example home icon">playlist_add_check</mat-icon>
           Danh mục
@@ -43,9 +43,9 @@
             </span>
 
           </mat-menu>
-        </a>
+        </a> -->
 
-        <a id="QuanLyReport" #createPlanmenuTriggerReport="matMenuTrigger" [matMenuTriggerFor]="menuReport"
+        <!-- <a id="QuanLyReport" #createPlanmenuTriggerReport="matMenuTrigger" [matMenuTriggerFor]="menuReport"
           (click)="createPlanmenuTriggerReport.openMenu()" class="link-icon header-a" (click)="changActive($event)">
           <mat-icon class="icon-link" aria-hidden="false" aria-label="Example home icon">list</mat-icon>
           Báo cáo
@@ -56,7 +56,7 @@
             </span>
 
           </mat-menu>
-        </a>
+        </a> -->
 
       </div>
       <div class="d-flex menu-left h-100">

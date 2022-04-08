@@ -26,6 +26,8 @@ import { DefaultLayoutComponent } from './layout/Default-Layout/Default-Layout.c
 import { AuthozireComponent } from './layout/Authozire/Authozire.component';
 import { AuthGuard } from './extension/AuthGuard';
 import { PagesForbieComponent } from './pages/PagesForbie/PagesForbie.component';
+import { PagesOptionComponent } from './pages/PagesOption/PagesOption.component';
+import { MasterUserComponent } from './layout/MasterUser/MasterUser.component';
 const DEFAULT_ROUTES: Routes = [
 
   { path: 'warehouse-limit', component: WareHouseLimitComponent, data: { state: 'wh-limit' }, canActivate: [AuthGuard] },
@@ -45,7 +47,7 @@ const DEFAULT_ROUTES: Routes = [
   { path: 'report-total', component: ReportTotalComponent, data: { state: 'report-total' } , canActivate: [AuthGuard]},
   { path: 'report-details', component: ReportDetalisComponent, data: { state: 'report-details' }, canActivate: [AuthGuard] },
   { path: '', component: HomeComponent, data: { state: 'home' } , canActivate: [AuthGuard]},
-  { path: 'role', component: RoleUserComponent, data: { state: 'role' }, canActivate: [AuthGuard] },
+  // { path: 'role', component: RoleUserComponent, data: { state: 'role' }, canActivate: [AuthGuard] },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
 ]
 
@@ -53,12 +55,19 @@ export const Authozire_LAYOUT: Routes = [
   { path: 'login', component: LoginComponent, data: { state: 'login' } },
 
 ]
+
+export const Master_LAYOUT: Routes = [
+  { path: 'role', component: RoleUserComponent, data: { state: 'role', canActivate: [AuthGuard] } },
+
+]
 const routes: Routes = [
 
   { path: '', component: DefaultLayoutComponent, children: DEFAULT_ROUTES, canActivate: [AuthGuard] },
   { path: 'authozire', component: AuthozireComponent, children: Authozire_LAYOUT },
+  { path: 'master', component: MasterUserComponent, children: Master_LAYOUT, canActivate: [AuthGuard] },
   { path: '404', component: NotFoundComponent, data: { state: '404' } },
-  { path: '403', component: PagesForbieComponent, data: { state: '404' } },
+  { path: '403', component: PagesForbieComponent, data: { state: '403' } },
+  { path: 'page', component: PagesOptionComponent, data: { state: 'page' }, canActivate: [AuthGuard] },
   { path: '**', redirectTo: '/404' },
 ];
 
