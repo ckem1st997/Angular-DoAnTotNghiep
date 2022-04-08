@@ -16,12 +16,12 @@
 .loading-container {
     display: flex;
     position: fixed;
-    top: 0;
+    top: 100px;
     left: 0;
     width: 100vw;
     height: 100vh;
    // background-color: rgb(106 105 105 / 70%);
-    z-index: 5;
+    z-index: -99;
   }
   
   .site-container {
@@ -40,8 +40,4 @@
       padding: 0 15px;
       overflow: auto;
     }
-  }
-  .mat-progress-spinner {
-      left: 50%;
-      top: 50%;
   }
