@@ -102,6 +102,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { DefaultLayoutComponent } from './layout/Default-Layout/Default-Layout.component';
 import { AuthozireComponent } from './layout/Authozire/Authozire.component';
+import { PagesForbieComponent } from './pages/PagesForbie/PagesForbie.component';
 const customNotifierOptions: NotifierOptions = {
   position: {
     horizontal: {
@@ -213,7 +214,8 @@ const customNotifierOptions: NotifierOptions = {
     LoginComponent,
     RoleUserComponent,
     DefaultLayoutComponent,
-    AuthozireComponent
+    AuthozireComponent,
+    PagesForbieComponent
   ],
   imports: [
     BrowserModule,

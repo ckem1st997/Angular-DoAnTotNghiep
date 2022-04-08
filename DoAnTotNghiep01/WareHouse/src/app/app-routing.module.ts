@@ -25,6 +25,7 @@ import { RoleUserComponent } from './pages/RoleUser/RoleUser.component';
 import { DefaultLayoutComponent } from './layout/Default-Layout/Default-Layout.component';
 import { AuthozireComponent } from './layout/Authozire/Authozire.component';
 import { AuthGuard } from './extension/AuthGuard';
+import { PagesForbieComponent } from './pages/PagesForbie/PagesForbie.component';
 const DEFAULT_ROUTES: Routes = [
 
   { path: 'warehouse-limit', component: WareHouseLimitComponent, data: { state: 'wh-limit' }, canActivate: [AuthGuard] },
@@ -50,14 +51,15 @@ const DEFAULT_ROUTES: Routes = [
 
 export const Authozire_LAYOUT: Routes = [
   { path: 'login', component: LoginComponent, data: { state: 'login' } },
-  { path: '404', component: NotFoundComponent, data: { state: '404' } },
-  { path: '**', redirectTo: '/404' },
+
 ]
 const routes: Routes = [
 
   { path: '', component: DefaultLayoutComponent, children: DEFAULT_ROUTES, canActivate: [AuthGuard] },
   { path: 'authozire', component: AuthozireComponent, children: Authozire_LAYOUT },
-
+  { path: '404', component: NotFoundComponent, data: { state: '404' } },
+  { path: '403', component: PagesForbieComponent, data: { state: '404' } },
+  { path: '**', redirectTo: '/404' },
 ];
 
 @NgModule({

@@ -3,12 +3,14 @@ import { Injectable } from "@angular/core";
 import { Observable, retry, catchError, throwError, map } from "rxjs";
 import { LoadingService } from "../service/Loading.service";
 import { AuthenticationService } from 'src/app/extension/Authentication.service';
+import { Router } from "@angular/router";
 /// bắt lỗi toàn client
 @Injectable()
 export class ErrorIntercept implements HttpInterceptor {
     constructor(
         private _loading: LoadingService,
-        private service: AuthenticationService
+        private service: AuthenticationService,
+        private router: Router
     ) { }
     intercept(
         request: HttpRequest<any>,
@@ -30,7 +32,11 @@ export class ErrorIntercept implements HttpInterceptor {
                     }
                     else if (error.status === 401) {
                         // A client-side or network error occurred. Handle it accordingly.
-                        console.error("UnAuthorized");
+                        this.router.navigate(['/authozire/login']);
+                    }
+                    else if (error.status === 403) {
+                        // A client-side or network error occurred. Handle it accordingly.
+                        this.router.navigate(['/403']);
                     }
                     else {
                         console.error(
