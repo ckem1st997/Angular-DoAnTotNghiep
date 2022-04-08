@@ -11,7 +11,7 @@
             title="Home" alt="Home" class="">
           <!---->
         </a>
-        <a routerLink="/" class="link-icon menu-left-link active header-a" (click)="changActive($event)">
+        <a routerLink="/master" class="link-icon menu-left-link active header-a" (click)="changActive($event)">
           <mat-icon class="icon-link" aria-hidden="false" aria-label="Example home icon">home</mat-icon>
           Trang chủ
         </a>
@@ -21,7 +21,7 @@
           Phân quyền
           <mat-menu #menu="matMenu">
             <span data-active="QuanLyDanhMucLink" (click)="createPlanmenuTrigger.closeMenu()">
-              <a (click)="changActive($event)" routerLink="/warehouse-book" mat-menu-item>Danh sách</a>
+              <a (click)="changActive($event)" routerLink="/master/role" mat-menu-item>Danh sách</a>
               <!-- <a (click)="changActive($event)" routerLink="/warehouse-limit" mat-menu-item>Định mức tồn kho</a>
               <a (click)="changActive($event)" routerLink="/warehouse-benging" mat-menu-item>Tồn kho đầu kì</a> -->
             </span>
@@ -63,10 +63,6 @@
         <a class="link-icon" target="_blank" href="https://github.com/ckem1st997/Angular-DoAnTotNghiep">
           <i class="bi bi-github icon-link"></i>
           GitHub
-        </a>
-        <a class="link-icon" routerLink="/role">
-          <i class="bi bi-github icon-link"></i>
-          Role
         </a>
         <a id="QuanLyReport" #createPlanmenuTriggerLogin="matMenuTrigger" [matMenuTriggerFor]="menuLogin"
           (click)="createPlanmenuTriggerLogin.openMenu()" class="link-icon header-a" (click)="changActive($event)">

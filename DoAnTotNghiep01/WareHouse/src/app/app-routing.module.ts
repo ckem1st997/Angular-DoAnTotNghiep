@@ -28,6 +28,7 @@ import { AuthGuard } from './extension/AuthGuard';
 import { PagesForbieComponent } from './pages/PagesForbie/PagesForbie.component';
 import { PagesOptionComponent } from './pages/PagesOption/PagesOption.component';
 import { MasterUserComponent } from './layout/MasterUser/MasterUser.component';
+import { MasterhomeComponent } from './pages/masterhome/masterhome.component';
 const DEFAULT_ROUTES: Routes = [
 
   { path: 'warehouse-limit', component: WareHouseLimitComponent, data: { state: 'wh-limit' }, canActivate: [AuthGuard] },
@@ -58,7 +59,7 @@ export const Authozire_LAYOUT: Routes = [
 
 export const Master_LAYOUT: Routes = [
   { path: 'role', component: RoleUserComponent, data: { state: 'role', canActivate: [AuthGuard] } },
-
+  { path: '', component: MasterhomeComponent, data: { state: '', canActivate: [AuthGuard] } },
 ]
 const routes: Routes = [
 

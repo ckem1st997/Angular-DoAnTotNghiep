@@ -106,6 +106,7 @@ import { PagesForbieComponent } from './pages/PagesForbie/PagesForbie.component'
 import { HeaderMasterComponent } from './layout/headerMaster/headerMaster.component';
 import { PagesOptionComponent } from './pages/PagesOption/PagesOption.component';
 import { MasterUserComponent } from './layout/MasterUser/MasterUser.component';
+import { MasterhomeComponent } from './pages/masterhome/masterhome.component';
 const customNotifierOptions: NotifierOptions = {
   position: {
     horizontal: {
@@ -221,7 +222,8 @@ const customNotifierOptions: NotifierOptions = {
     PagesForbieComponent,
     HeaderMasterComponent,
     PagesOptionComponent,
-    MasterUserComponent
+    MasterUserComponent,
+    MasterhomeComponent
   ],
   imports: [
     BrowserModule,

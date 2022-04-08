@@ -18,7 +18,7 @@ export class PagesForbieComponent implements OnInit {
   ngOnInit() {
   }
   back() {
-    this.router.navigate(['/']);
+    this.router.navigate(['/page']);
   }
   logout() {
     this.service.logout();

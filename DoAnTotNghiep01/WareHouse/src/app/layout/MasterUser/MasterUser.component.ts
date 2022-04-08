@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { delay } from 'rxjs';
+import { CheckRoleService } from 'src/app/service/CheckRole.service';
 import { LoadingService } from 'src/app/service/Loading.service';
 
 @Component({
@@ -11,11 +12,15 @@ export class MasterUserComponent implements OnInit {
   loading: boolean = false;
 
   constructor(
-    private _loading: LoadingService
+    private _loading: LoadingService,
+    private role :CheckRoleService
+
   ){ }
 
   ngOnInit() {
     this.listenToLoading();
+    this.role.CheckAuthozireMaster();
+    console.log(11111111);
   }
 
   /**
