@@ -71,19 +71,21 @@
         </path>
       </svg></a>
     <div class="flex-1"></div>
-    <div class="avatar" id="AMIS_Account" style="position: relative;"><img class="user-avatar"
-        src="https://vtqt.amis.vn/V2/Handler/EmployeeImage.ashx?EmpID=7a70d794-01bb-4502-b708-9ecb48e18438&amp;width=120&amp;height=120">
-      <div class="user-name flex-1 ellipsis">Nguyễn Khả Hợp</div><i class="icon icon-dropdown"><svg
+    <div class="avatar" id="AMIS_Account" style="position: relative;">
+      <!-- <img class="user-avatar"
+        src="https://vtqt.amis.vn/V2/Handler/EmployeeImage.ashx?EmpID=7a70d794-01bb-4502-b708-9ecb48e18438&amp;width=120&amp;height=120"> -->
+      <div class="user-name flex-1 ellipsis subapp-name">{{userName}}</div><i class="icon icon-dropdown"><svg
           xmlns="http://www.w3.org/2000/svg" width="9" height="5.21" viewBox="0 0 9 5.21">
           <path d="M.5.5l4,4,4-4" style="fill:none;stroke:#fff;stroke-linecap:round"></path>
         </svg></i>
       <ul class="misa-user-account-menu" style="width:256px"><i class="icon-align"></i>
         <li class="dropdown-item user-details">
-          <div><img class="menu-user-avatar"
-              src="https://vtqt.amis.vn/V2/Handler/EmployeeImage.ashx?EmpID=7a70d794-01bb-4502-b708-9ecb48e18438&amp;width=120&amp;height=120">
+          <div>
+            <!-- <img class="menu-user-avatar"
+              src="https://vtqt.amis.vn/V2/Handler/EmployeeImage.ashx?EmpID=7a70d794-01bb-4502-b708-9ecb48e18438&amp;width=120&amp;height=120"> -->
           </div>
           <div class="user-info">
-            <h6 class="menu-user-name">Nguyễn Khả Hợp</h6>
+            <h6 class="menu-user-name subapp-name">{{userName}}</h6>
             <p class="user-id"></p>
           </div>
         </li>
