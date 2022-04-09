@@ -19,8 +19,7 @@ export class MasterUserComponent implements OnInit {
 
   ngOnInit() {
     this.listenToLoading();
-    this.role.CheckAuthozireMaster();
-    console.log(11111111);
+    this.role.CheckAuthozireMaster().subscribe(res=>{console.log(res)});;
   }
 
   /**

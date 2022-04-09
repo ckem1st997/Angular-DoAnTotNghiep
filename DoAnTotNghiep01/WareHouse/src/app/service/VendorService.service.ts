@@ -35,7 +35,7 @@ export class VendorService {
     var check = search.active == null ? '' : search.active;
     var url = this.baseUrl + `Vendor/get-list?KeySearch=` + search.keySearch + `&Active=` + check + `&Skip=` + search.skip + `&Take=` + search.take + ``;
     return this.http.get<ResultMessageResponse<VendorDTO>>(url, this.httpOptions).pipe(
-      retry(3), // retry a failed request up to 3 times
+      retry(1), // retry a failed request up to 3 times
      
     );
   }
@@ -68,7 +68,7 @@ export class VendorService {
 
     var url = this.baseUrl + `WareHouses/get-tree-view?Active=true`;
     return this.http.get<ResultMessageResponse<TreeView>>(url, this.httpOptions).pipe(
-      retry(3), // retry a failed request up to 3 times
+      retry(1), // retry a failed request up to 3 times
      
     );
   }

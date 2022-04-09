@@ -24,12 +24,12 @@ export class CheckRoleService {
 
   CheckAuthozireMaster(){
     return this.http.get(this.baseUrlMaster, this.httpOptions).pipe(
-      retry(3), // retry a failed request up to 3 times
+      retry(1), // retry a failed request up to 3 times
     );
   }
   CheckAuthozireWareHouse(){
     return this.http.get(this.baseUrlWareHouse, this.httpOptions).pipe(
-      retry(3), // retry a failed request up to 3 times
+      retry(1), // retry a failed request up to 3 times
     );
   }
 }

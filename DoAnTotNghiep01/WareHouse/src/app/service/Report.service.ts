@@ -21,7 +21,7 @@ export class ReportService {
   getList(wareHouseId:string|null,itemId:string|null,start:string|null,end:string|null,skip:number,take:number): Observable<ResultMessageResponse<ReportValueTotalDT0>> {
     var url = this.baseUrl + `/get-report-total?WareHouseItemId=`+itemId+`&WareHouseId=`+wareHouseId+`&FromDate=`+start+`&ToDate=`+end+`&Skip=`+skip+`&Take=`+take+``;
     return this.http.get<ResultMessageResponse<ReportValueTotalDT0>>(url, this.httpOptions).pipe(
-      retry(3), // retry a failed request up to 3 times
+      retry(1), // retry a failed request up to 3 times
      
     );
   }
@@ -38,7 +38,7 @@ export class ReportService {
   getListDetails(key:string|null,wareHouseId:string|null,itemId:string|null,start:string|null,end:string|null,skip:number,take:number): Observable<ResultMessageResponse<ReportDetailsDTO>> {
     var url = this.baseUrl + `/get-report-details?WareHouseItemId=`+itemId+`&WareHouseId=`+wareHouseId+`&FromDate=`+start+`&ToDate=`+end+`&Skip=`+skip+`&Take=`+take+`&KeySearch=`+key+``;
     return this.http.get<ResultMessageResponse<ReportDetailsDTO>>(url, this.httpOptions).pipe(
-      retry(3), // retry a failed request up to 3 times
+      retry(1), // retry a failed request up to 3 times
      
     );
   }
@@ -46,7 +46,7 @@ export class ReportService {
 
     var url = this.baseUrl + `/get-report-treeview`;
     return this.http.get<ResultMessageResponse<TreeView>>(url, this.httpOptions).pipe(
-      retry(3), // retry a failed request up to 3 times
+      retry(1), // retry a failed request up to 3 times
     );
   }
 }

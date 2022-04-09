@@ -21,7 +21,7 @@ export class OutwardService {
   getById(id:string): Observable<ResultMessageResponse<OutwardDTO>> {
     var url = this.baseUrl + `/get-list?`;
     return this.http.get<ResultMessageResponse<OutwardDTO>>(url, this.httpOptions).pipe(
-      retry(3), // retry a failed request up to 3 times
+      retry(1), // retry a failed request up to 3 times
      
     );
   }

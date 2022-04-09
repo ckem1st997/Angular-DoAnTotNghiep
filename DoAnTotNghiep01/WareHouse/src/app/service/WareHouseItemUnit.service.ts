@@ -21,7 +21,7 @@ export class WareHouseItemUnitService {
   getById(id:string): Observable<ResultMessageResponse<WareHouseItemUnitDTO>> {
     var url = this.baseUrl + `/get-list?`;
     return this.http.get<ResultMessageResponse<WareHouseItemUnitDTO>>(url, this.httpOptions).pipe(
-      retry(3), // retry a failed request up to 3 times
+      retry(1), // retry a failed request up to 3 times
      
     );
   }
@@ -30,14 +30,14 @@ export class WareHouseItemUnitService {
     var check = search.active == null ? '' : search.active;
     var url = this.baseUrl + `/get-list?KeySearch=` + search.keySearch + `&Active=` + check + `&Skip=` + search.skip + `&Take=` + search.take + ``;
     return this.http.get<ResultMessageResponse<WareHouseItemUnitDTO>>(url, this.httpOptions).pipe(
-      retry(3), // retry a failed request up to 3 times
+      retry(1), // retry a failed request up to 3 times
      
     );
   }
   getListDropDown(): Observable<ResultMessageResponse<WareHouseItemUnitDTO>> {
     var url = this.baseUrl + `/get-drop-tree?Active=true`;
     return this.http.get<ResultMessageResponse<WareHouseItemUnitDTO>>(url, this.httpOptions).pipe(
-      retry(3), // retry a failed request up to 3 times
+      retry(1), // retry a failed request up to 3 times
      
     );
   }
@@ -46,7 +46,7 @@ export class WareHouseItemUnitService {
   getCheckItemUnit(): Observable<ResultMessageResponse<WareHouseItemUnitDTO>> {
     var url = this.baseUrl + `/get-drop-tree?Active=true`;
     return this.http.get<ResultMessageResponse<WareHouseItemUnitDTO>>(url, this.httpOptions).pipe(
-      retry(3), // retry a failed request up to 3 times
+      retry(1), // retry a failed request up to 3 times
      
     );
   }

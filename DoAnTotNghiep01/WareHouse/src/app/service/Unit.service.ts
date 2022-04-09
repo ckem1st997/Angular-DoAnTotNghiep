@@ -22,7 +22,7 @@ export class UnitService {
   getById(id:string): Observable<ResultMessageResponse<UnitDTO>> {
     var url = this.baseUrl + `/get-list?`;
     return this.http.get<ResultMessageResponse<UnitDTO>>(url, this.httpOptions).pipe(
-      retry(3), // retry a failed request up to 3 times
+      retry(1), // retry a failed request up to 3 times
      
     );
   }
@@ -31,14 +31,14 @@ export class UnitService {
     var check = search.active == null ? '' : search.active;
     var url = this.baseUrl + `/get-list?KeySearch=` + search.keySearch + `&Active=` + check + `&Skip=` + search.skip + `&Take=` + search.take + ``;
     return this.http.get<ResultMessageResponse<UnitDTO>>(url, this.httpOptions).pipe(
-      retry(3), // retry a failed request up to 3 times
+      retry(1), // retry a failed request up to 3 times
      
     );
   }
   getListDropDown(): Observable<ResultMessageResponse<UnitDTO>> {
     var url = this.baseUrl + `/get-drop-tree?Active=true`;
     return this.http.get<ResultMessageResponse<UnitDTO>>(url, this.httpOptions).pipe(
-      retry(3), // retry a failed request up to 3 times
+      retry(1), // retry a failed request up to 3 times
      
     );
   }

@@ -30,7 +30,7 @@ export class WareHouseBookService {
   // getById(id:string): Observable<ResultMessageResponse<WareHouseLimitDTO>> {
   //   var url = this.baseUrl + `/get-list?`;
   //   return this.http.get<ResultMessageResponse<WareHouseLimitDTO>>(url, this.httpOptions).pipe(
-  //     retry(3), // retry a failed request up to 3 times
+  //     retry(1), // retry a failed request up to 3 times
   //    
   //   );
   // }
@@ -43,7 +43,7 @@ export class WareHouseBookService {
     var wareHouseId = search.wareHouseId == null ? '' : search.wareHouseId;
     var url = this.baseUrl + `/get-list?KeySearch=` + search.keySearch + `&TypeWareHouseBook=` + TypeWareHouseBook + `&Skip=` + search.skip + `&Take=` + search.take + `&FromDate=` + FromDate + `&ToDate=` + ToDate + `&WareHouseId=` + wareHouseId + ``;
     return this.http.get<ResultMessageResponse<WareHouseBookDTO>>(url, this.httpOptions).pipe(
-      retry(3), // retry a failed request up to 3 times
+      retry(1), // retry a failed request up to 3 times
 
     );
   }

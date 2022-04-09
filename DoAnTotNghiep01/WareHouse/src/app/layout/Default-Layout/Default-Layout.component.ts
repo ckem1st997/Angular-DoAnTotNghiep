@@ -18,7 +18,7 @@ export class DefaultLayoutComponent implements OnInit {
 
   ngOnInit() {
     this.listenToLoading();
-    this.role.CheckAuthozireWareHouse();
+    this.role.CheckAuthozireWareHouse().subscribe(res=>{console.log(res)});
   }
 
   /**

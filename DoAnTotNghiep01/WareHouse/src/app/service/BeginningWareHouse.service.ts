@@ -24,7 +24,7 @@ export class BeginningWareHouseService {
   getById(id:string): Observable<ResultMessageResponse<BeginningWareHouseDTO>> {
     var url = this.baseUrl + `/get-list?`;
     return this.http.get<ResultMessageResponse<BeginningWareHouseDTO>>(url, this.httpOptions).pipe(
-      retry(3), // retry a failed request up to 3 times
+      retry(1), // retry a failed request up to 3 times
      
     );
   }
@@ -35,13 +35,13 @@ export class BeginningWareHouseService {
     var wareHouseId = search.wareHouseId == null ? '' : search.wareHouseId;
     var url = this.baseUrl + `/get-list?KeySearch=` + search.keySearch + `&Active=` + check + `&Skip=` + search.skip + `&Take=` + search.take + `&WareHouseId=`+wareHouseId+``;
     return this.http.get<ResultMessageResponse<BeginningWareHouseDTO>>(url, this.httpOptions).pipe(
-      retry(3), // retry a failed request up to 3 times
+      retry(1), // retry a failed request up to 3 times
     );
   }
   getListDropDown(): Observable<ResultMessageResponse<BeginningWareHouseDTO>> {
     var url = this.baseUrl + `/get-drop-tree?Active=true`;
     return this.http.get<ResultMessageResponse<BeginningWareHouseDTO>>(url, this.httpOptions).pipe(
-      retry(3), // retry a failed request up to 3 times
+      retry(1), // retry a failed request up to 3 times
      
     );
   }

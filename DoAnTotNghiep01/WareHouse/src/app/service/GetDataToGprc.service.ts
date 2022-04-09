@@ -25,7 +25,7 @@ export class GetDataToGprcService {
   getListAccount(): Observable<ResultMessageResponse<BaseSelectDTO>> {
     var url = this.baseUrl + `/get-list-account?`;
     return this.http.get<ResultMessageResponse<BaseSelectDTO>>(url, this.httpOptions).pipe(
-      retry(3), // retry a failed request up to 3 times
+      retry(1), // retry a failed request up to 3 times
     );
   }
 }
