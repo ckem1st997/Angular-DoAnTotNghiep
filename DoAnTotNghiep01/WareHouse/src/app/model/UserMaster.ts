@@ -1,4 +1,5 @@
 import { BaseModel } from "./BaseModel";
+import { SelectListItem } from "./SelectListItem";
 
 export interface UserMaster extends BaseModel {
     userName: string;
@@ -12,4 +13,5 @@ export interface UserMaster extends BaseModel {
     delete: boolean;
     warehouseId: string;
     listWarehouseId: string;
+    roleSelect: SelectListItem[];
 }

@@ -1,8 +1,9 @@
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { NotifierService } from 'angular-notifier';
-import { Observable, retry } from 'rxjs';
+import { Observable, retry, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { ResultDataResponse } from '../model/ResultDataResponse';
 import { ResultMessageResponse } from '../model/ResultMessageResponse';
 import { UserMaster } from '../model/UserMaster';
 
@@ -26,6 +27,13 @@ export class AuthozireService {
     return this.http.get<ResultMessageResponse<UserMaster>>(url, this.httpOptions).pipe(
       retry(1), // retry a failed request up to 3 times
      
+    );
+  }
+
+  EditIndex(iduser: string | null): Observable<ResultDataResponse<UserMaster>> {
+    var url = this.baseUrlMaster + `AuthorizeMaster/role-edit?id=` + iduser;
+    return this.http.get<ResultDataResponse<UserMaster>>(url, this.httpOptions).pipe(
+      tap(_ => console.log(`create`)),
     );
   }
 }

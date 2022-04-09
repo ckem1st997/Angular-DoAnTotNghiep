@@ -13,6 +13,7 @@ import { BehaviorSubject } from 'rxjs';
 import { UnitCreateComponent } from 'src/app/method/create/UnitCreate/UnitCreate.component';
 import { UnitDeleteComponent } from 'src/app/method/delete/UnitDelete/UnitDelete.component';
 import { UnitDetailsComponent } from 'src/app/method/details/UnitDetails/UnitDetails.component';
+import { RoleEditComponent } from 'src/app/method/edit/RoleEdit/RoleEdit.component';
 import { UnitEditComponent } from 'src/app/method/edit/UnitEdit/UnitEdit.component';
 import { FormSearchWareHouseComponent } from 'src/app/method/search/FormSearchWareHouse/FormSearchWareHouse.component';
 import { ExampleFlatNode } from 'src/app/model/ExampleFlatNode';
@@ -369,21 +370,29 @@ export class RoleUserComponent implements OnInit {
  //   this.model.active = this.checkedl;
     this.GetData();
   }
-  openDialog(model: UnitDTO): void {
-    var val = document.getElementById("searchInput") as HTMLInputElement;
-
-    const dialogRef = this.dialog.open(UnitEditComponent, {
-      width: '550px',
-      data: model,
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      var res = result;
-      if (res) {
-        this.notifier.notify('success', 'Chỉnh sửa thành công !');
-        this.GetData();
+  openDialog(model: UserMaster): void {
+    this.service.EditIndex(model.id).subscribe(x=>{
+      if(x.success)
+      {
+        const dialogRef = this.dialog.open(RoleEditComponent, {
+          width: '550px',
+          data: x.data,
+        });
+    
+        dialogRef.afterClosed().subscribe(result => {
+          var res = result;
+          if (res) {
+            this.notifier.notify('success', 'Chỉnh sửa thành công !');
+            this.GetData();
+          }
+        });
       }
+      else
+      this.notifier.notify('warn', x.message);
+    
+
     });
+
   }
   openDialogDetals(model: UnitDTO): void {
     var val = document.getElementById("searchInput") as HTMLInputElement;
