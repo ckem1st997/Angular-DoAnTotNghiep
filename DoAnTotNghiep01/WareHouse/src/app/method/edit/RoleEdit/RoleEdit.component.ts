@@ -1,12 +1,13 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NotifierService } from 'angular-notifier';
 import { UnitDTO } from 'src/app/model/UnitDTO';
 import { UserMaster } from 'src/app/model/UserMaster';
 import { UnitService } from 'src/app/service/Unit.service';
 import { UnitValidator } from 'src/app/validator/UnitValidator';
 import { UnitCreateComponent } from '../../create/UnitCreate/UnitCreate.component';
+import { SelectWareHouseComponent } from '../selectWareHouse/selectWareHouse.component';
 
 @Component({
   selector: 'app-RoleEdit',
@@ -15,7 +16,7 @@ import { UnitCreateComponent } from '../../create/UnitCreate/UnitCreate.componen
 })
 export class RoleEditComponent implements OnInit {
 
- 
+
   title = "Phân quyền";
   private readonly notifier!: NotifierService;
   success = false;
@@ -27,14 +28,15 @@ export class RoleEditComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: UserMaster,
     private formBuilder: FormBuilder,
     private service: UnitService,
-    notifierService: NotifierService
+    notifierService: NotifierService,
+    public dialog: MatDialog
   ) { this.notifier = notifierService; }
   ngOnInit() {
     this.dt = this.data;
     this.form = this.formBuilder.group({
-      id:this.data.id,
+      id: this.data.id,
       userName: this.data.userName,
-      password:'',
+      password: '',
       inActive: this.data.inActive,
       role: this.data.role,
       roleNumber: this.data.roleNumber.toString(),
@@ -51,6 +53,23 @@ export class RoleEditComponent implements OnInit {
     this.dialogRef.close(false);
   }
 
+
+  SelectWH() {
+
+    const dialogRef = this.dialog.open(SelectWareHouseComponent, {
+      width: '550px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      var res = result;
+      if (res) {
+        this.notifier.notify('success', 'Chỉnh sửa thành công !');
+      }
+    });
+
+
+  }
+
   onSubmit() {
     var test = new UnitValidator();
     var msg = test.validate(this.form.value);
@@ -61,7 +80,7 @@ export class RoleEditComponent implements OnInit {
           this.dialogRef.close(x.success)
         else
           this.notifier.notify('error', x.errors["msg"][0]);
-      } ,     error => {
+      }, error => {
         if (error.error.errors.length === undefined)
           this.notifier.notify('error', error.error.message);
         else

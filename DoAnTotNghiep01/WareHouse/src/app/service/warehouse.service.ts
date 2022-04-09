@@ -89,4 +89,11 @@ export class WarehouseService {
     );
   }
  
+  getTreeAllView(): Observable<ResultMessageResponse<TreeView>> {
+
+    var url = this.baseUrl + `WareHouses/get-tree-view?Active=true&GetAll=true`;
+    return this.http.get<ResultMessageResponse<TreeView>>(url, this.httpOptions).pipe(
+      retry(1), // retry a failed request up to 3 times
+    );
+  }
 }

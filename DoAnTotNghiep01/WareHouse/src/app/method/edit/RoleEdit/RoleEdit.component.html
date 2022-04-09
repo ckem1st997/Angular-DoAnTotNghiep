@@ -17,6 +17,13 @@
         </option>
       </select>
     </div>
+    <div class="form-group row mb-1">
+      <mat-label class="form-label col-3">Chọn kho:</mat-label>
+      <button (click)="SelectWH()" type="button" class="col-2"mat-raised-button color="success">
+        <mat-icon class="mat-18">edit</mat-icon>Chọn kho
+      </button>
+    </div>
+   
     <div class="form-group row mb-1 ">
       <mat-label class="form-label col-3 ">Đọc:</mat-label>
       <mat-checkbox style="padding-left: 0;" class="example-margin col" formControlName="read"></mat-checkbox>
