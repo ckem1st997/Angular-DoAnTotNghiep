@@ -33,16 +33,20 @@ export class SelectWareHouseComponent implements OnInit {
       x.data.forEach(element => {
         var tem = {
           disabled: false,
-          selected: false,
+          selected: this.datauser.warehouseId.includes(element.id),
           text: element.name,
           value: element.id
         };
         this.checklist.push(tem);
-        
+
       });
 
     });
     this.getCheckedItemList();
+  }
+
+  checkExist(mode: SelectListItem, x: string): boolean {
+    return x.includes(mode.value);
   }
 
   ngAfterViewInit() {
@@ -81,25 +85,25 @@ export class SelectWareHouseComponent implements OnInit {
   }
 
   getall() {
-    // console.log(this.checklistSelection.selected);
-    // var list = this.checklistSelection.selected;
-    // var res = "";
-    // for (var i = 0; i < list.length; i++) {
-    //   var item = list[i];
-    //   if (i < list.length - 1) {
-    //     res = res + item.key + ",";
-    //   }
-    //   else {
-    //     res = res + item.key;
-    //   }
-    // }
-    // if(list!==undefined && list.length>0)
-    // this.dialogRef.close(res)
-    // else
-    // {
-    //   this.notifier.notify('warn', "Bạn chưa chọn kho nào !");
-    //   this.dialogRef.close([]);
-    // }
+    var res = "";
+    var listSelect = this.checklist.filter(x => x.selected);
+    if (listSelect !== undefined)
+      for (let index = 0; index < listSelect.length; index++) {
+        const element = listSelect[index];
+        if (index < listSelect.length - 1) {
+          res = res + element.value + ",";
+        }
+        else {
+          res = res + element.value;
+        }
+
+      }
+    if (listSelect !== undefined && listSelect.length > 0)
+      this.dialogRef.close(res)
+    else {
+      this.notifier.notify('warn', "Bạn chưa chọn kho nào !");
+      this.dialogRef.close([]);
+    }
 
   }
 
