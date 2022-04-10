@@ -3,6 +3,7 @@ import  {trigger, transition, useAnimation}  from  "@angular/animations";
 import  {fromRightEasing, rotateCubeToLeft}  from  "ngx-router-animations";
 import { delay } from 'rxjs';
 import { LoadingService } from './service/Loading.service';
+import { NotifierService } from 'angular-notifier';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -19,7 +20,9 @@ export class AppComponent {
   loading: boolean = false;
 
   constructor(
-    private _loading: LoadingService
+    private _loading: LoadingService,
+    private notifierService: NotifierService
+
   ){ }
 
   ngOnInit() {

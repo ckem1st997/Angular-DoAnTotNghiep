@@ -12,7 +12,7 @@ export class ErrorIntercept implements HttpInterceptor {
         private _loading: LoadingService,
         private service: AuthenticationService,
         private router: Router,
-        private notife:NotifierService
+        private notife:NotifierService,
     ) { }
     intercept(
         request: HttpRequest<any>,
