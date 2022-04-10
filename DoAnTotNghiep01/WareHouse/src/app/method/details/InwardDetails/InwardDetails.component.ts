@@ -120,39 +120,45 @@ export class InwardDetailsComponent implements OnInit {
 
   getData() {
     const id = this.route.snapshot.paramMap.get('id');
+    this.dt.id=id==null?'':id;
     if (id !== null)
       this.service.Details(id).subscribe(x => {
-        this.dt = x.data;
-        this.listDetails = x.data.inwardDetails;
-        this.removeData();
-        this.dataSource.data = x.data.inwardDetails;
-        this.table.renderRows();
-        this.form.patchValue({
-          id: this.dt.id,
-          voucherCode: this.dt.voucherCode,
-          voucher: this.dt.voucher,
-          voucherDate: this.dt.voucherDate,
-          wareHouseId: this.dt.wareHouseId,
-          deliver: this.dt.deliver,
-          receiver: this.dt.receiver,
-          vendorId: this.dt.vendorId,
-          reason: this.dt.reason,
-          reasonDescription: this.dt.reasonDescription,
-          description: this.dt.description,
-          reference: null,
-          createdDate: this.dt.createdDate,
-          createdBy: this.dt.createdBy,
-          modifiedDate: this.dt.modifiedDate,
-          modifiedBy: this.dt.modifiedBy,
-          deliverPhone: this.dt.deliverPhone,
-          deliverAddress: this.dt.deliverAddress,
-          deliverDepartment: this.dt.deliverDepartment,
-          receiverPhone: this.dt.receiverPhone,
-          receiverAddress: this.dt.receiverAddress,
-          receiverDepartment: this.dt.receiverDepartment,
-          inwardDetails: null
-        });
-        this.changeDetectorRefs.detectChanges();
+        console.log(x);
+        if(x.success)
+        {
+          this.dt = x.data;
+          this.listDetails = x.data.inwardDetails;
+          this.removeData();
+          this.dataSource.data = x.data.inwardDetails;
+          this.table.renderRows();
+          this.form.patchValue({
+            id: this.dt.id,
+            voucherCode: this.dt.voucherCode,
+            voucher: this.dt.voucher,
+            voucherDate: this.dt.voucherDate,
+            wareHouseId: this.dt.wareHouseId,
+            deliver: this.dt.deliver,
+            receiver: this.dt.receiver,
+            vendorId: this.dt.vendorId,
+            reason: this.dt.reason,
+            reasonDescription: this.dt.reasonDescription,
+            description: this.dt.description,
+            reference: null,
+            createdDate: this.dt.createdDate,
+            createdBy: this.dt.createdBy,
+            modifiedDate: this.dt.modifiedDate,
+            modifiedBy: this.dt.modifiedBy,
+            deliverPhone: this.dt.deliverPhone,
+            deliverAddress: this.dt.deliverAddress,
+            deliverDepartment: this.dt.deliverDepartment,
+            receiverPhone: this.dt.receiverPhone,
+            receiverAddress: this.dt.receiverAddress,
+            receiverDepartment: this.dt.receiverDepartment,
+            inwardDetails: null
+          });
+          this.changeDetectorRefs.detectChanges();
+        }
+
       }, error => {
         if (error.error.errors.length === undefined)
           this.notifier.notify('error', error.error.message);
