@@ -57,18 +57,15 @@ export class LoginComponent implements OnInit {
         .pipe(first())
         .subscribe({
           next: (x) => {
-            if (!x.success) {
-              this.notifierService.notify('warning', x.message);
-            }
-            else {
-              // get return url from query parameters or default to home page
-            //  const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+            if (x.success) {
+              //  this.notifierService.notify('warning', x.message);
+              //  const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
               this.notifierService.notify('success', 'Đăng nhập thành công !');
 
-           //   this.router.navigate([returnUrl]);
+              //   this.router.navigate([returnUrl]);
               this.router.navigate(['page']);
-
             }
+
           },
           error: error => {
             this.error = error;

@@ -154,8 +154,8 @@ export class RoleUserComponent implements OnInit {
           }
         });
       }
-      else
-      this.notifier.notify('warn', x.message);
+    //  else
+     // this.notifier.notify('warn', x.message);
     
 
     });
