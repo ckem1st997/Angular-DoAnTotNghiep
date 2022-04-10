@@ -36,4 +36,11 @@ export class AuthozireService {
       tap(_ => console.log(`create`)),
     );
   }
+
+  Edit(model:UserMaster): Observable<ResultDataResponse<UserMaster>> {
+    var url = this.baseUrlMaster + `AuthorizeMaster/role-edit`;
+    return this.http.post<ResultDataResponse<UserMaster>>(url,model, this.httpOptions).pipe(
+      tap(_ => console.log(`create`)),
+    );
+  }
 }

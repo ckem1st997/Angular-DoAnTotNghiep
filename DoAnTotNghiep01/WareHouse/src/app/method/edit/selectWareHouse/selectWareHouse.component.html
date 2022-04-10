@@ -1,41 +1,42 @@
 <div style="position: relative;" class="h-100">
   <div mat-dialog-title>{{title}}</div>
-  <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
-    <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle [matTreeNodePadding]="node.level">
-      <button mat-icon-button disabled></button>
-      <mat-checkbox class="checklist-leaf-node"
-                    [checked]="checklistSelection.isSelected(node)"
-                    (change)="todoLeafItemSelectionToggle(node)" [id]="node.key">{{node.name}}</mat-checkbox>
-    </mat-tree-node>
-  
-    <mat-tree-node *matTreeNodeDef="let node; when: hasNoContent" >
-      <button mat-icon-button disabled></button>
-    </mat-tree-node>
-  
-    <mat-tree-node *matTreeNodeDef="let node; when: hasChild" [matTreeNodePadding]="node.level" >
-      <button mat-icon-button matTreeNodeToggle
-              [attr.aria-label]="'Toggle ' + node.item">
-        <mat-icon class="mat-icon-rtl-mirror">
-          {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
-        </mat-icon>
-      </button>
-      <mat-checkbox [checked]="descendantsAllSelected(node)"
-                    [indeterminate]="descendantsPartiallySelected(node)"
-                    (change)="todoItemSelectionToggle(node)" [id]="node.key">{{node.name}}</mat-checkbox>
-    </mat-tree-node>
-  </mat-tree>
-  <div>
-  
+  <div style="text-align:center">
+    <h1>
+      {{ title }}
+    </h1>
   </div>
-  <div class="w-100" style="    border-top: 1px solid rgb(170, 162, 162);position: absolute; bottom: 0;">
-    <button (click)="getall()" style="margin-left: 5px;margin-right: 5px;float: right;margin-top: 5px;" type="button" mat-raised-button color="success">
-      <mat-icon class="mat-18">save</mat-icon>Save
-    </button>
-    <button (click)="onNoClick()" style="margin-left: 5px;margin-right: 5px;float: right;margin-top: 5px;" type="button" mat-raised-button color="dark">
-      <mat-icon class="mat-18">cancel</mat-icon>Huỷ
-    </button>
+  <div class="">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="checkall">
+          <input type="checkbox" [(ngModel)]="masterSelected" name="list_name" value="m1"
+            (change)="checkUncheckAll()" />
+          <strong>Select/ Unselect All</strong>
+        </div>
+
+        <div class="listcheck">
+          <div *ngFor="let item of checklist">
+            <mat-checkbox (change)="isAllSelected()" name="list_name" value="{{ item.value }}"
+              [(ngModel)]="item.selected" style="padding-left: 0;" class="example-margin col"></mat-checkbox>
+            {{ item.text }}
+          </div>
+        </div>
+      </div>
+
+    </div>
   </div>
-  
-  
 </div>
 
+<div>
+
+</div>
+<div class="w-100" style="    border-top: 1px solid rgb(170, 162, 162);margin-bottom: 5px;">
+  <button (click)="getall()" style="margin-left: 5px;margin-right: 5px;float: right;margin-top: 5px;" type="button"
+    mat-raised-button color="success">
+    <mat-icon class="mat-18">save</mat-icon>Save
+  </button>
+  <button (click)="onNoClick()" style="margin-left: 5px;margin-right: 5px;float: right;margin-top: 5px;" type="button"
+    mat-raised-button color="dark">
+    <mat-icon class="mat-18">cancel</mat-icon>Huỷ
+  </button>
+</div>

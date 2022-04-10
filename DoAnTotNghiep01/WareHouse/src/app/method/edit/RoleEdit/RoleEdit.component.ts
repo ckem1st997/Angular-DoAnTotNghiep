@@ -4,6 +4,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { NotifierService } from 'angular-notifier';
 import { UnitDTO } from 'src/app/model/UnitDTO';
 import { UserMaster } from 'src/app/model/UserMaster';
+import { AuthozireService } from 'src/app/service/Authozire.service';
 import { UnitService } from 'src/app/service/Unit.service';
 import { UnitValidator } from 'src/app/validator/UnitValidator';
 import { UnitCreateComponent } from '../../create/UnitCreate/UnitCreate.component';
@@ -27,7 +28,7 @@ export class RoleEditComponent implements OnInit {
     public dialogRef: MatDialogRef<RoleEditComponent>,
     @Inject(MAT_DIALOG_DATA) public data: UserMaster,
     private formBuilder: FormBuilder,
-    private service: UnitService,
+    private service: AuthozireService,
     notifierService: NotifierService,
     public dialog: MatDialog
   ) { this.notifier = notifierService; }
@@ -58,44 +59,49 @@ export class RoleEditComponent implements OnInit {
 
     const dialogRef = this.dialog.open(SelectWareHouseComponent, {
       width: '550px',
-      height:'550px',
-
+      height: '550px',
+      data: this.dt
     });
 
     dialogRef.afterClosed().subscribe(result => {
       var res = result;
       if (res) {
-        this.notifier.notify('success', 'Chỉnh sửa thành công !');
+        //  this.notifier.notify('success', 'Chỉnh sửa thành công !');
+        this.form.value.listWarehouseId = res;
+        this.form.value.warehouseId = res;
       }
     });
 
 
   }
-
+  changItem(e: any) {
+    var idSelect = e.target.value.split(" ")[1];
+    this.form.value.roleNumber = idSelect;
+    this.form.value.role = this.dt.roleSelect.find(x => x.value == idSelect)?.text;
+  }
   onSubmit() {
-    var test = new UnitValidator();
-    var msg = test.validate(this.form.value);
-    var check = JSON.stringify(msg) == '{}';
-    if (check == true)
-      this.service.Edit(this.form.value).subscribe(x => {
-        if (x.success)
-          this.dialogRef.close(x.success)
-        else
-          this.notifier.notify('error', x.errors["msg"][0]);
-      }, error => {
-        if (error.error.errors.length === undefined)
-          this.notifier.notify('error', error.error.message);
-        else
-          this.notifier.notify('error', error.error);
-      }
-      );
-    else {
-      var message = '';
-      for (const [key, value] of Object.entries(msg)) {
-        message = message + " " + value;
-      }
-      this.notifier.notify('error', message);
-    }
+    var y: number = +this.form.value.roleNumber;
+    this.form.value.roleNumber = y;
+    this.service.Edit(this.form.value).subscribe(x => {
+      if (x.success)
+        this.dialogRef.close(x.success)
+      // else
+      //   this.notifier.notify('error', x.errors["msg"][0]);
+    },
+      //  error => {
+      //   if (error.error.errors.length === undefined)
+      //     this.notifier.notify('error', error.error.message);
+      //   else
+      //     this.notifier.notify('error', error.error);
+      // }
+    );
+    // else {
+    //   var message = '';
+    //   for (const [key, value] of Object.entries(msg)) {
+    //     message = message + " " + value;
+    //   }
+    //   this.notifier.notify('error', message);
+    // }
 
   }
 }

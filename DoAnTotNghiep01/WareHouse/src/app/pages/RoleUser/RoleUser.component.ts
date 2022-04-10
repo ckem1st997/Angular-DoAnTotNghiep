@@ -149,7 +149,7 @@ export class RoleUserComponent implements OnInit {
         dialogRef.afterClosed().subscribe(result => {
           var res = result;
           if (res) {
-            this.notifier.notify('success', 'Chỉnh sửa thành công !');
+            this.notifier.notify('success', 'Phân quyền thành công !');
             this.GetData();
           }
         });
