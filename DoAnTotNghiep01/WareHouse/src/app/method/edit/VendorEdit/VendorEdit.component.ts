@@ -53,14 +53,15 @@ export class VendorEditComponent implements OnInit {
       this.service.EditVendor(this.form.value).subscribe(x => {
         if (x.success)
           this.dialogRef.close(x.success)
-        else
-          this.notifier.notify('error', x.errors["msg"][0]);
-      } ,     error => {
-        if (error.error.errors.length === undefined)
-          this.notifier.notify('error', error.error.message);
-        else
-          this.notifier.notify('error', error.error);
-      }
+     //   else
+        //  this.notifier.notify('error', x.errors["msg"][0]);
+      } ,   
+      //   error => {
+      //   if (error.error.errors.length === undefined)
+      //     this.notifier.notify('error', error.error.message);
+      //   else
+      //     this.notifier.notify('error', error.error);
+      // }
       );
     else {
       var message='';

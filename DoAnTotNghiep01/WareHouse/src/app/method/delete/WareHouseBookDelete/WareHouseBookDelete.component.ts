@@ -40,27 +40,30 @@ export class WareHouseBookDeleteComponent implements OnInit {
         this.serviceIn.Delete(ids).subscribe(x => {
           if (x.success)
             this.dialogRef.close(x.success)
-          else
-            this.notifier.notify('error', x?.errors["msg"][0]);
-        }, error => {
-          if (error.error.errors.length === undefined)
-            this.notifier.notify('error', error.error.message);
-          else
-            this.notifier.notify('error', error.error);
-        }
+        //  else
+         //   this.notifier.notify('error', x?.errors["msg"][0]);
+        },
+        //  error => {
+        //   if (error.error.errors.length === undefined)
+        //     this.notifier.notify('error', error.error.message);
+        //   else
+        //     this.notifier.notify('error', error.error);
+        // }
         );
       else if (this.data.type == "Phiếu xuất")
         this.serviceOut.Delete(ids).subscribe(x => {
           if (x.success)
             this.dialogRef.close(x.success)
-          else
-            this.notifier.notify('error', x?.errors["msg"][0]);
-        }, error => {
-          if (error.error.errors.length === undefined)
-            this.notifier.notify('error', error.error.message);
-          else
-            this.notifier.notify('error', error.error);
-        });
+       //   else
+         //   this.notifier.notify('error', x?.errors["msg"][0]);
+        },
+        //  error => {
+        //   if (error.error.errors.length === undefined)
+        //     this.notifier.notify('error', error.error.message);
+        //   else
+        //     this.notifier.notify('error', error.error);
+        // }
+        );
       else this.notifier.notify('error', 'Có lỗi xảy ra, xin vui lòng thử lại !');
 
     }

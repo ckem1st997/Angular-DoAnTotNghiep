@@ -54,15 +54,16 @@ export class VendorCreateComponent implements OnInit {
         else {
           if (x.errors["msg"] != undefined)
             this.notifier.notify('error', x.errors["msg"][0]);
-          else
-            this.notifier.notify('error', x.message);
+          // else
+          //   this.notifier.notify('error', x.message);
         }
-      } ,     error => {
-        if (error.error.errors.length === undefined)
-          this.notifier.notify('error', error.error.message);
-        else
-          this.notifier.notify('error', error.error);
-      }
+      } , 
+      //     error => {
+      //   if (error.error.errors.length === undefined)
+      //     this.notifier.notify('error', error.error.message);
+      //   else
+      //     this.notifier.notify('error', error.error);
+      // }
       );
     else {
       var message = '';

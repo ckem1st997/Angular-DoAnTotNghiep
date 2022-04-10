@@ -3,6 +3,7 @@ import { FlatTreeControl } from '@angular/cdk/tree';
 import { Component, Inject, Injectable, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTreeFlattener, MatTreeFlatDataSource } from '@angular/material/tree';
+import { NotifierService } from 'angular-notifier';
 import { BehaviorSubject } from 'rxjs';
 import { ExampleFlatNode } from 'src/app/model/ExampleFlatNode';
 import { UserMaster } from 'src/app/model/UserMaster';
@@ -30,7 +31,7 @@ export class TodoItemFlatNode {
 /**
  * The Json object for to-do list data.
  */
- const TREE_DATA = {
+const TREE_DATA = {
   Groceries: {
     'Almond Meal flour': null,
     'Organic eggs': null,
@@ -51,7 +52,8 @@ export class TodoItemFlatNode {
  */
 @Injectable()
 export class ChecklistDatabase {
- 
+  num: number = 0;
+
   dataChange = new BehaviorSubject<TodoItemNode[]>([]);
 
   get data(): TodoItemNode[] {
@@ -59,7 +61,7 @@ export class ChecklistDatabase {
   }
 
   constructor(private serviceW: WarehouseService) {
-      this.initialize();
+    this.initialize();
   }
 
   initialize() {
@@ -69,10 +71,10 @@ export class ChecklistDatabase {
       const data = this.buildFileTree(x.data, 0);
       this.dataChange.next(data);
     });
-  //  const data = this.buildFileTree(TREE_DATA, 0);
+    //  const data = this.buildFileTree(TREE_DATA, 0);
 
     // Notify the change.
-  //  this.dataChange.next(data);
+    //  this.dataChange.next(data);
   }
 
   /**
@@ -89,10 +91,10 @@ export class ChecklistDatabase {
         if (value != null) {
           if (typeof value === 'object') {
             node.children = this.buildFileTree(value.children, level + 1);
-          } 
-          else if(value.name != undefined) {
+          }
+          else if (value.name != undefined) {
             node.name = value.name;
-            node.key=value.key;
+            node.key = value.key;
           }
         }
 
@@ -110,11 +112,12 @@ export class ChecklistDatabase {
   selector: 'app-selectWareHouse',
   templateUrl: './selectWareHouse.component.html',
   styleUrls: ['./selectWareHouse.component.scss'],
-    providers: [ChecklistDatabase]
+  providers: [ChecklistDatabase]
 })
 export class SelectWareHouseComponent implements OnInit {
   title = 'Danh sách kho !';
-/** Map from flat node to nested node. This helps us finding the nested node to be modified */
+  private readonly notifier!: NotifierService;
+  /** Map from flat node to nested node. This helps us finding the nested node to be modified */
   flatNodeMap = new Map<TodoItemFlatNode, TodoItemNode>();
 
   /** Map from nested node to flattened node. This helps us to keep the same object for selection */
@@ -134,9 +137,9 @@ export class SelectWareHouseComponent implements OnInit {
 
   /** The selection for checklist */
   checklistSelection = new SelectionModel<TodoItemFlatNode>(true /* multiple */);
-  constructor(private _database: ChecklistDatabase,    public dialogRef: MatDialogRef<RoleEditComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: UserMaster) { 
- this.treeFlattener = new MatTreeFlattener(
+  constructor(private _database: ChecklistDatabase, public dialogRef: MatDialogRef<RoleEditComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: UserMaster) {
+    this.treeFlattener = new MatTreeFlattener(
       this.transformer,
       this.getLevel,
       this.isExpandable,
@@ -152,7 +155,10 @@ export class SelectWareHouseComponent implements OnInit {
 
   ngOnInit() {
   }
-getLevel = (node: TodoItemFlatNode) => node.level;
+  onNoClick(): void {
+    this.dialogRef.close(false);
+  }
+  getLevel = (node: TodoItemFlatNode) => node.level;
 
   isExpandable = (node: TodoItemFlatNode) => node.expandable;
 
@@ -261,6 +267,15 @@ getLevel = (node: TodoItemFlatNode) => node.level;
   }
   getall() {
     console.log(this.checklistSelection.selected);
+    var list=this.checklistSelection.selected;
+    if(list!==undefined && list.length>0)
+    this.dialogRef.close(list)
+    else
+    {
+      this.notifier.notify('warn', "Bạn chưa chọn kho nào !");
+      this.dialogRef.close([]);
+    }
+
   }
 
 }

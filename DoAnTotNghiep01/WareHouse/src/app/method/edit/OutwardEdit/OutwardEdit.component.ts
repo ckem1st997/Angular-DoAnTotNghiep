@@ -189,12 +189,13 @@ export class OutwardEditComponent implements OnInit {
             else
               this.notifier.notify('ward', 'Thêm thất bại');
 
-          }, error => {
-            if (error.error.errors.length === undefined)
-              this.notifier.notify('error', error.error.message);
-            else
-              this.notifier.notify('error', error.error);
-          }
+          },
+          //  error => {
+          //   if (error.error.errors.length === undefined)
+          //     this.notifier.notify('error', error.error.message);
+          //   else
+          //     this.notifier.notify('error', error.error);
+          // }
           );
         }
         else
@@ -221,12 +222,13 @@ export class OutwardEditComponent implements OnInit {
           this.notifier.notify('error', 'Xóa thất bại');
 
 
-      }, error => {
-        if (error.error.errors.length === undefined)
-          this.notifier.notify('error', error.error.message);
-        else
-          this.notifier.notify('error', error.error);
-      }
+      },
+      //  error => {
+      //   if (error.error.errors.length === undefined)
+      //     this.notifier.notify('error', error.error.message);
+      //   else
+      //     this.notifier.notify('error', error.error);
+      // }
       );
     }
     else
@@ -254,12 +256,13 @@ export class OutwardEditComponent implements OnInit {
               this.notifier.notify('success', 'Sửa thành công');
             }
 
-          }, error => {
-            if (error.error.errors.length === undefined)
-              this.notifier.notify('error', error.error.message);
-            else
-              this.notifier.notify('error', error.error);
-          }
+          },
+          //  error => {
+          //   if (error.error.errors.length === undefined)
+          //     this.notifier.notify('error', error.error.message);
+          //   else
+          //     this.notifier.notify('error', error.error);
+          // }
           );
 
         }
@@ -285,19 +288,19 @@ export class OutwardEditComponent implements OnInit {
         this.service.Edit(this.form.value).subscribe(x => {
           if (x.success)
             this.notifier.notify('success', 'Chỉnh sửa thành công');
-          else {
-            if (x.errors["msg"] !== undefined && x.errors["msg"].length !== undefined)
-              this.notifier.notify('error', x.errors["msg"][0]);
-            else
-              this.notifier.notify('error', x.message);
-          }
+          // else {
+          //   if (x.errors["msg"] !== undefined && x.errors["msg"].length !== undefined)
+          //     this.notifier.notify('error', x.errors["msg"][0]);
+          //   else
+          //     this.notifier.notify('error', x.message);
+          // }
         },
-          error => {
-            if (error.error.errors.length === undefined)
-              this.notifier.notify('error', error.error.message);
-            else
-              this.notifier.notify('error', error.error);
-          }
+          // error => {
+          //   if (error.error.errors.length === undefined)
+          //     this.notifier.notify('error', error.error.message);
+          //   else
+          //     this.notifier.notify('error', error.error);
+          // }
         );
       }
       else {

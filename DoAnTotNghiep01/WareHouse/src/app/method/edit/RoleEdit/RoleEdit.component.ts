@@ -58,6 +58,8 @@ export class RoleEditComponent implements OnInit {
 
     const dialogRef = this.dialog.open(SelectWareHouseComponent, {
       width: '550px',
+      height:'550px',
+
     });
 
     dialogRef.afterClosed().subscribe(result => {

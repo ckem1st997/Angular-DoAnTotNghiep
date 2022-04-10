@@ -46,6 +46,7 @@ export class ErrorIntercept implements HttpInterceptor {
                         console.error(
                             `Backend returned code ${error.status}, body was: `, error);
                             this.notife.notify('error', "Có lỗi xảy ra, xin vui lòng thử lại sau ít phút !");
+                           
 
                     }
                     this._loading.setLoading(false, request.url);
@@ -54,6 +55,17 @@ export class ErrorIntercept implements HttpInterceptor {
                 })
             ).pipe(map<HttpEvent<any>, any>((evt: HttpEvent<any>) => {
                 if (evt instanceof HttpResponse) {
+                   // xử lí lỗi trả về từ api mà không cần xử lí trong  compent
+                    if(evt.status===200 && !evt.body.success)
+                    {
+                        if(evt.body.errors.msg !==undefined && evt.body.errors.msg.length>0)
+                        {
+                            this.notife.notify('error', evt.body.errors.msg[0]);
+                        }
+                        else
+                        this.notife.notify('error', evt.body.message);
+
+                    }
                     this._loading.setLoading(false, request.url);
                 }
                 return evt;

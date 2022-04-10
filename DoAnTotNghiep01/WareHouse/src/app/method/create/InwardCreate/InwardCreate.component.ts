@@ -31,7 +31,7 @@ export class InwardCreateComponent implements OnInit {
   getStationDTO = Array<BaseSelectDTO>();
   getProjectDTO = Array<BaseSelectDTO>();
   getCustomerDTO = Array<BaseSelectDTO>();
-  getAccountDTO= Array<BaseSelectDTO>()
+  getAccountDTO = Array<BaseSelectDTO>()
   dt: InwardDTO = {
     id: "",
     voucherCode: null,
@@ -67,7 +67,7 @@ export class InwardCreateComponent implements OnInit {
   @ViewChild(MatTable)
   table!: MatTable<InwardDetailDTO>;
 
-  constructor(private routerde: Router,private serviceBook: WareHouseBookService, notifierService: NotifierService, public dialog: MatDialog, private formBuilder: FormBuilder, private route: ActivatedRoute, private service: InwardService) {
+  constructor(private routerde: Router, private serviceBook: WareHouseBookService, notifierService: NotifierService, public dialog: MatDialog, private formBuilder: FormBuilder, private route: ActivatedRoute, private service: InwardService) {
     this.notifier = notifierService;
   }
   @HostListener('window:resize', ['$event'])
@@ -130,7 +130,7 @@ export class InwardCreateComponent implements OnInit {
       this.listItem = x.data.wareHouseItemDTO;
       this.listUnit = x.data.unitDTO;
       this.getCustomerDTO = x.data.getCustomerDTO;
-      this.getAccountDTO=x.data.getAccountDTO;
+      this.getAccountDTO = x.data.getAccountDTO;
       this.getDepartmentDTO = x.data.getDepartmentDTO;
       this.getEmployeeDTO = x.data.getEmployeeDTO;
       this.getProjectDTO = x.data.getProjectDTO;
@@ -217,20 +217,21 @@ export class InwardCreateComponent implements OnInit {
       if (checkDetails == true) {
         this.form.value["inwardDetails"] = this.listDetails;
         this.service.Add(this.form.value).subscribe(x => {
-          if (x.success)
-          {
+          if (x.success) {
             this.notifier.notify('success', 'Thêm thành công');
-             this.routerde.navigate(['/warehouse-book']);
-         //   this.routerde.navigate(['/details-inward', this.form.value["id"]]);
+            this.routerde.navigate(['/warehouse-book']);
+            //   this.routerde.navigate(['/details-inward', this.form.value["id"]]);
           }
-          else
-            this.notifier.notify('error', x.errors["msg"][0]);
-        }   ,     error => {
-            if (error.error.errors.length === undefined)
-              this.notifier.notify('error', error.error.message);
-            else
-              this.notifier.notify('error', error.error);
-          }
+          // commnet vì xử dụng bộ đánh chặn để thông báo thay vì ở đây
+          // else
+          //   this.notifier.notify('error', x.errors["msg"][0]);
+        }
+          // , error => {
+          //   if (error.error.errors.length === undefined)
+          //     this.notifier.notify('error', error.error.message);
+          //   else
+          //     this.notifier.notify('error', error.error);
+          // }
         );
       }
       else {
