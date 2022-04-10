@@ -73,10 +73,10 @@ export class LoginComponent implements OnInit {
           error: error => {
             this.error = error;
             this.loading = false;
-            if (error.error.errors.length === undefined)
-              this.notifierService.notify('error', error.error.message);
-            else
-              this.notifierService.notify('error', error.error);
+            // if (error.error.errors.length === undefined)
+            //   this.notifierService.notify('error', error.error.message);
+            // else
+            //   this.notifierService.notify('error', error.error);
           }
         });
     }

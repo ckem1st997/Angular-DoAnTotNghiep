@@ -145,20 +145,22 @@ export class ReportTotalComponent implements OnInit {
         else {
           this.notifier.notify('error', list.message);
 
-          if (list.errors)
-            this.notifier.notify('error', list.errors['msg'][0]);
-          else
-            this.notifier.notify('error', list.message);
+          // if (list.errors)
+          //   this.notifier.notify('error', list.errors['msg'][0]);
+          // else
+          //   this.notifier.notify('error', list.message);
 
         }
 
 
-      }, error => {
-        if (error.error.errors.length === undefined)
-          this.notifier.notify('error', error.error.message);
-        else
-          this.notifier.notify('error', error.error);
-      });
+      },
+      //  error => {
+      //   if (error.error.errors.length === undefined)
+      //     this.notifier.notify('error', error.error.message);
+      //   else
+      //     this.notifier.notify('error', error.error);
+      // }
+      );
     else
       this.notifier.notify('error', 'Bạn chưa chọn ngày !');
 
