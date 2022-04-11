@@ -57,6 +57,34 @@ export class WarehouseService {
     );
   }
 
+
+  
+  Details(id:string): Observable<ResultMessageResponse<WareHouseDTO>> {
+    var url = this.baseUrl + `WareHouses/details?id=` + id;
+    return this.http.post<ResultMessageResponse<WareHouseDTO>>(url, this.httpOptions).pipe(
+      tap(_ => console.log(`details WareHouses id=${id}`)),
+     
+    );
+  }
+
+  EditIndex(id:string): Observable<ResultMessageResponse<WareHouseDTO>> {
+    var url = this.baseUrl + `WareHouses/edit?id=` + id;
+    return this.http.post<ResultMessageResponse<WareHouseDTO>>(url, this.httpOptions).pipe(
+      tap(_ => console.log(`edit WareHouses id=${id}`)),
+     
+    );
+  }
+
+  AddIndex(): Observable<ResultMessageResponse<WareHouseDTO>> {
+    var url = this.baseUrl + `WareHouses/create`;
+    return this.http.post<ResultMessageResponse<WareHouseDTO>>(url, this.httpOptions).pipe(
+      tap(_ => console.log(`add WareHouses`)),
+     
+    );
+  }
+
+
+
   Edit(model: WareHouse): Observable<ResultMessageResponse<WareHouse>> {
     var url = this.baseUrl + `WareHouses/edit`;
     return this.http.post<ResultMessageResponse<WareHouse>>(url, model, this.httpOptions).pipe(

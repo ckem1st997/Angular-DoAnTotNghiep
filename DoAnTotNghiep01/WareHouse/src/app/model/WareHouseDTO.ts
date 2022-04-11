@@ -9,4 +9,5 @@ export interface WareHouseDTO extends BaseModel {
     path?: any;
     inactive: boolean;
     id: string;
+    wareHouseDTOs:WareHouseDTO[];
 }

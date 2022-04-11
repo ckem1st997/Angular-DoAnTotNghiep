@@ -43,10 +43,37 @@ export class WareHouseItemCategoryService {
     );
   }
 
+
+  Details(id:string): Observable<ResultMessageResponse<WareHouseItemCategoryDTO>> {
+    var url = this.baseUrl + `/details?id=` + id;
+    return this.http.post<ResultMessageResponse<WareHouseItemCategoryDTO>>(url, this.httpOptions).pipe(
+      tap(_ => console.log(`details WareHouseItemCategoryDTO id=${id}`)),
+     
+    );
+  }
+
+  EditIndex(id:string): Observable<ResultMessageResponse<WareHouseItemCategoryDTO>> {
+    var url = this.baseUrl + `/edit?id=` + id;
+    return this.http.post<ResultMessageResponse<WareHouseItemCategoryDTO>>(url, this.httpOptions).pipe(
+      tap(_ => console.log(`edit WareHouseItemCategoryDTO id=${id}`)),
+     
+    );
+  }
+
+  AddIndex(): Observable<ResultMessageResponse<WareHouseItemCategoryDTO>> {
+    var url = this.baseUrl + `/create`;
+    return this.http.post<ResultMessageResponse<WareHouseItemCategoryDTO>>(url, this.httpOptions).pipe(
+      tap(_ => console.log(`add WareHouseItemCategory`)),
+     
+    );
+  }
+
+
+
   Edit(model: WareHouseItemCategory): Observable<ResultMessageResponse<WareHouseItemCategory>> {
     var url = this.baseUrl + `/edit`;
     return this.http.post<ResultMessageResponse<WareHouseItemCategory>>(url, model, this.httpOptions).pipe(
-      tap(_ => console.log(`edit WareHouses id=${model.id}`)),
+      tap(_ => console.log(`edit WareHouseItemCategory id=${model.id}`)),
      
     );
   }
@@ -54,7 +81,7 @@ export class WareHouseItemCategoryService {
   Add(model: WareHouseItemCategory): Observable<ResultMessageResponse<WareHouseItemCategory>> {
     var url = this.baseUrl + `/create`;
     return this.http.post<ResultMessageResponse<WareHouseItemCategory>>(url, model, this.httpOptions).pipe(
-      tap(_ => console.log(`create vendor id=${model.id}`)),
+      tap(_ => console.log(`create WareHouseItemCategory id=${model.id}`)),
      
     );
   }
@@ -62,7 +89,7 @@ export class WareHouseItemCategoryService {
  Delete(ids:string[]): Observable<ResultMessageResponse<WareHouseItemCategory>> {
     var url = this.baseUrl + `/delete`;
     return this.http.post<ResultMessageResponse<WareHouseItemCategory>>(url, ids, this.httpOptions).pipe(
-      tap(_ => console.log(`delete vendor id=${ids}`)),
+      tap(_ => console.log(`delete WareHouseItemCategory id=${ids}`)),
      
     );
   }

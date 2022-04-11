@@ -43,6 +43,31 @@ export class UnitService {
     );
   }
 
+  Details(id:string): Observable<ResultMessageResponse<Unit>> {
+    var url = this.baseUrl + `/details?id=` + id;
+    return this.http.post<ResultMessageResponse<Unit>>(url, this.httpOptions).pipe(
+      tap(_ => console.log(`details Unit id=${id}`)),
+     
+    );
+  }
+
+  EditIndex(id:string): Observable<ResultMessageResponse<Unit>> {
+    var url = this.baseUrl + `/edit?id=` + id;
+    return this.http.post<ResultMessageResponse<Unit>>(url, this.httpOptions).pipe(
+      tap(_ => console.log(`edit Unit id=${id}`)),
+     
+    );
+  }
+
+  AddIndex(): Observable<ResultMessageResponse<Unit>> {
+    var url = this.baseUrl + `/create`;
+    return this.http.post<ResultMessageResponse<Unit>>(url, this.httpOptions).pipe(
+      tap(_ => console.log(`add Unit`)),
+     
+    );
+  }
+
+
   Edit(model: Unit): Observable<ResultMessageResponse<Unit>> {
     var url = this.baseUrl + `/edit`;
     return this.http.post<ResultMessageResponse<Unit>>(url, model, this.httpOptions).pipe(
