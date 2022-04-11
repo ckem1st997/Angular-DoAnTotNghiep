@@ -84,7 +84,7 @@ export class OutwardDetailsComponent implements OnInit {
     this.onWindowResize();
     this.getData();
     this.form = this.formBuilder.group({
-      id:null,
+      id: null,
       voucherCode: null,
       voucher: this.dt.voucher,
       voucherDate: new Date().toISOString().slice(0, 16),
@@ -146,13 +146,15 @@ export class OutwardDetailsComponent implements OnInit {
           receiverDepartment: this.dt.receiverDepartment,
           OutwardDetails: null
         });
-      },     error => {
-        if (error.error.errors.length === undefined)
-          this.notifier.notify('error', error.error.message);
-        else
-          this.notifier.notify('error', error.error);
-      });
-
+      },
+        //   error => {
+        //   if (error.error.errors.length === undefined)
+        //     this.notifier.notify('error', error.error.message);
+        //   else
+        //     this.notifier.notify('error', error.error);
+        // }
+      );
+    // đây là create
     this.serviceBook.AddOutwarDetailsIndex().subscribe(x => {
       this.listItem = x.data.wareHouseItemDTO;
       this.listUnit = x.data.unitDTO;
@@ -168,10 +170,10 @@ export class OutwardDetailsComponent implements OnInit {
 
 
   openDialogDetails(model: OutwardDetailDTO): void {
-      const dialogRef = this.dialog.open(OutwardDetailDetailsComponent, {
-        width: '550px',
-        data:model
-      });
+    const dialogRef = this.dialog.open(OutwardDetailDetailsComponent, {
+      width: '550px',
+      data: model
+    });
   }
 
 }
