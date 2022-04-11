@@ -40,18 +40,18 @@ export class WareHouseDetailsComponent implements OnInit {
     this.dt = this.data;
     this.form = this.formBuilder.group({
       id: this.data.id,
-      code:  this.data.code,
-      name:  this.data.name,
-      address:  this.data.address,
-      description:  this.data.description,
-      parentId:  this.data.parentId,
-      path:  this.data.path,
-      inactive:  this.data.inactive,
+      code: this.data.code,
+      name: this.data.name,
+      address: this.data.address,
+      description: this.data.description,
+      parentId: this.data.parentId,
+      path: this.data.path,
+      inactive: this.data.inactive,
     });
     this.getDropDown();
   }
   getDropDown() {
-    this.service.getListDropDown().subscribe(x => this.listDropDown = x);
+    this.listDropDown.data = this.data.wareHouseDTOs;
   }
   get f() { return this.form.controls; }
   onNoClick(): void {

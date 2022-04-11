@@ -57,7 +57,7 @@ export class WareHouseEditComponent implements OnInit {
     this.dialogRef.close(false);
   }
   getDropDown() {
-    this.service.getListDropDown().subscribe(x => this.listDropDown = x);
+    this.listDropDown.data = this.data.wareHouseDTOs;
   }
 
   onSubmit() {

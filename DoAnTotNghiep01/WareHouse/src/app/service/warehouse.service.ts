@@ -61,7 +61,7 @@ export class WarehouseService {
   
   Details(id:string): Observable<ResultMessageResponse<WareHouseDTO>> {
     var url = this.baseUrl + `WareHouses/details?id=` + id;
-    return this.http.post<ResultMessageResponse<WareHouseDTO>>(url, this.httpOptions).pipe(
+    return this.http.get<ResultMessageResponse<WareHouseDTO>>(url, this.httpOptions).pipe(
       tap(_ => console.log(`details WareHouses id=${id}`)),
      
     );
@@ -69,7 +69,7 @@ export class WarehouseService {
 
   EditIndex(id:string): Observable<ResultMessageResponse<WareHouseDTO>> {
     var url = this.baseUrl + `WareHouses/edit?id=` + id;
-    return this.http.post<ResultMessageResponse<WareHouseDTO>>(url, this.httpOptions).pipe(
+    return this.http.get<ResultMessageResponse<WareHouseDTO>>(url, this.httpOptions).pipe(
       tap(_ => console.log(`edit WareHouses id=${id}`)),
      
     );
@@ -77,7 +77,7 @@ export class WarehouseService {
 
   AddIndex(): Observable<ResultMessageResponse<WareHouseDTO>> {
     var url = this.baseUrl + `WareHouses/create`;
-    return this.http.post<ResultMessageResponse<WareHouseDTO>>(url, this.httpOptions).pipe(
+    return this.http.get<ResultMessageResponse<WareHouseDTO>>(url, this.httpOptions).pipe(
       tap(_ => console.log(`add WareHouses`)),
      
     );

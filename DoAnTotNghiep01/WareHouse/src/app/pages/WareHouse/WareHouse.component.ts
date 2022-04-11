@@ -55,7 +55,7 @@ export class WareHouseComponent implements OnInit {
   pageSize = 15;
   currentPage = 0;
   pageSizeOptions: number[] = [15, 50, 100];
-  displayedColumns: string[] = ['select', 'id', 'name', 'code', 'address','description','parentId', 'inactive', 'method'];
+  displayedColumns: string[] = ['select', 'id', 'name', 'code', 'address', 'description', 'parentId', 'inactive', 'method'];
   dataSource = new MatTableDataSource<WareHouseDTO>();
   model: WareHouseSearchModel = {
     active: null,
@@ -135,44 +135,53 @@ export class WareHouseComponent implements OnInit {
     this.model.active = this.checkedl;
     this.GetData();
   }
-  openDialog(model:WareHouseDTO): void {
-    var val = document.getElementById("searchInput") as HTMLInputElement;
+  openDialog(model: WareHouseDTO): void {
 
-    const dialogRef = this.dialog.open(WareHouseEditComponent, {
-      width: '550px',
-      data: model,
+    this.service.EditIndex(model.id).subscribe(x => {
+      const dialogRef = this.dialog.open(WareHouseEditComponent, {
+        width: '550px',
+        data: x.data,
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        var res = result;
+        if (res) {
+          this.notifier.notify('success', 'Chỉnh sửa thành công !');
+          this.GetData();
+        }
+      });
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      var res = result;
-      if (res) {
-        this.notifier.notify('success', 'Chỉnh sửa thành công !');
-        this.GetData();
-      }
-    });
+
   }
   openDialogDetals(model: WareHouseDTO): void {
-    var val = document.getElementById("searchInput") as HTMLInputElement;
+    this.service.Details(model.id).subscribe(x => {
+      const dialogRef = this.dialog.open(WareHouseDetailsComponent, {
+        width: '550px',
+        data: x.data,
+      });
 
-    const dialogRef = this.dialog.open(WareHouseDetailsComponent, {
-      width: '550px',
-      data: model,
     });
+
   }
   openDialogCreate(): void {
-    var val = document.getElementById("searchInput") as HTMLInputElement;
+    this.service.AddIndex().subscribe(x => {
 
-    const dialogRef = this.dialog.open(WareHouseCreateComponent, {
-      width: '550px'
+      const dialogRef = this.dialog.open(WareHouseCreateComponent, {
+        width: '550px',
+        data: x.data,
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        var res = result;
+        if (res) {
+          this.notifier.notify('success', 'Thêm mới thành công !');
+          this.GetData();
+        }
+      });
+
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      var res = result;
-      if (res) {
-        this.notifier.notify('success', 'Thêm mới thành công !');
-        this.GetData();
-      }
-    });
   }
 
   openDialogDelelte(model: WareHouseDTO): void {
@@ -185,32 +194,66 @@ export class WareHouseComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       var res = result;
       if (res) {
-        this.notifier.notify('success', 'Xoá thành công !');
-        this.GetData();
+        //
+        var ids = Array<string>();
+        // for (let index = 0; index < this.listDelete.length; index++) {
+        //   const element = this.listDelete[index];
+        //   ids.push(element.id);
+        // }
+        if (model.id !== undefined) {
+          ids.push(model.id);
+          this.service.Delete(ids).subscribe(x => {
+            if (x.success) {
+              this.notifier.notify('success', 'Xoá thành công !');
+              this.GetData();
+            }
+          } ,
+
+          );
+        }
+        else this.notifier.notify('error', 'Có lỗi xảy ra, xin vui lòng thử lại !');
       }
+
+
     });
   }
   openDialogDeleteAll(): void {
     var model = this.selection.selected;
-    if(model.length>0)
-    {
+    if (model.length > 0) {
       this.listDelete = model;
       const dialogRef = this.dialog.open(WareHouseDeleteComponent, {
         width: '550px',
         data: this.listDelete,
       });
-  
+
       dialogRef.afterClosed().subscribe(result => {
         var res = result;
         if (res) {
-          this.notifier.notify('success', 'Xoá thành công !');
+          //
+          var ids = Array<string>();
+          for (let index = 0; index < this.listDelete.length; index++) {
+            const element = this.listDelete[index];
+            ids.push(element.id);
+          }
+          if (this.listDelete !== undefined && this.listDelete.length > 0) {
+            this.service.Delete(ids).subscribe(x => {
+              if (x.success) {
+                this.notifier.notify('success', 'Xoá thành công !');
+                this.GetData();
+              }
+            } ,
+
+            );
+          }
+          else
+            this.notifier.notify('success', 'Xoá thành công !');
           this.GetData();
         }
       });
     }
     else
-    this.notifier.notify('warning',"Bạn chưa chọn kho nào !");
-   
+      this.notifier.notify('warning', "Bạn chưa chọn kho nào !");
+
   }
   //searchQueryDialog
   searchQueryDialog(): void {
