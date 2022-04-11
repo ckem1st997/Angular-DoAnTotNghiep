@@ -28,6 +28,8 @@ import { GetDataToGprcService } from "src/app/service/GetDataToGprc.service";
 import { BaseSelectDTO } from "src/app/model/BaseSelectDTO";
 import { WareHouseBookDeleteComponent } from "src/app/method/delete/WareHouseBookDelete/WareHouseBookDelete.component";
 import { WareHouseBookDeleteAllComponent } from "src/app/method/delete/WareHouseBookDeleteAll/WareHouseBookDeleteAll.component";
+import { InwardService } from "src/app/service/Inward.service";
+import { OutwardService } from "src/app/service/Outward.service";
 
 interface ExampleFlatNode {
   expandable: boolean;
@@ -116,7 +118,7 @@ export class WareHouseBookComponent implements OnInit {
 
   dataSourceTreee = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
-  constructor(private getDataToGprc: GetDataToGprcService, private route: Router, private service: WareHouseBookService, private serviceW: WarehouseService, private _liveAnnouncer: LiveAnnouncer, public dialog: MatDialog, notifierService: NotifierService) {
+  constructor(private serviceInward: InwardService, private serviceOutward: OutwardService, private getDataToGprc: GetDataToGprcService, private route: Router, private service: WareHouseBookService, private serviceW: WarehouseService, private _liveAnnouncer: LiveAnnouncer, public dialog: MatDialog, notifierService: NotifierService) {
     this.notifier = notifierService;
   }
 
@@ -247,7 +249,10 @@ export class WareHouseBookComponent implements OnInit {
         idCheck = element.getAttribute("id");
     });
     if (idCheck !== null) {
-      this.route.navigate(['/create-inward', idCheck]);
+      this.serviceInward.AddIndex(idCheck).subscribe(x => {
+        if (x.success)
+          this.route.navigate(['/create-inward', idCheck]);
+      });
     }
     else
       this.notifier.notify('warning', "Bạn chưa chọn kho nào !");
@@ -262,7 +267,10 @@ export class WareHouseBookComponent implements OnInit {
         idCheck = element.getAttribute("id");
     });
     if (idCheck !== null) {
-      this.route.navigate(['/create-outward', idCheck]);
+      this.serviceOutward.AddIndex(idCheck).subscribe(x => {
+        if (x.success)
+        this.route.navigate(['/create-outward', idCheck]);
+      });
     }
     else
       this.notifier.notify('warning', "Bạn chưa chọn kho nào !");
