@@ -37,10 +37,13 @@ export class ErrorIntercept implements HttpInterceptor {
                     else if (error.status === 401) {
                         // A client-side or network error occurred. Handle it accordingly.
                         this.router.navigate(['/authozire/login']);
+                        this.notife.notify('error', error.error.message);
+
                     }
                     else if (error.status === 403) {
                         // A client-side or network error occurred. Handle it accordingly.
                         this.router.navigate(['/403']);
+                        this.notife.notify('error', error.error.message);
                     }
                     else {
                         console.error(
