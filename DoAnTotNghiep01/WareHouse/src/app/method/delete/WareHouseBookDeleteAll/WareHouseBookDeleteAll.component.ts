@@ -45,17 +45,11 @@ export class WareHouseBookDeleteAllComponent implements OnInit {
     if (this.data !== undefined && this.data.length > 0) {
       if (this.idsDelete.idsIn.length > 0 || this.idsDelete.idsOut.length > 0) {
         this.service.Delete(this.idsDelete).subscribe(x => {
+          console.log(x);
           if (x.success)
             this.dialogRef.close(x.success);
-        //  else
-         //   this.notifier.notify('error', x?.errors["msg"]==undefined?x.message:x?.errors["msg"][0]);
         },
-        //  error => {
-        //   if (error.error.errors.length === undefined)
-        //     this.notifier.notify('error', error.error.message);
-        //   else
-        //     this.notifier.notify('error', error.error);
-        // }
+      
         );
 
       }

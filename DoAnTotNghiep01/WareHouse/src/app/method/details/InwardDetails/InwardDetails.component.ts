@@ -166,7 +166,7 @@ export class InwardDetailsComponent implements OnInit {
           this.notifier.notify('error', error.error);
       });
 
-    this.serviceBook.AddInwarDetailsIndex().subscribe(x => {
+    this.serviceBook.GetDataToWareHouseBookIndex().subscribe(x => {
       this.listItem = x.data.wareHouseItemDTO;
       this.listUnit = x.data.unitDTO;
     });

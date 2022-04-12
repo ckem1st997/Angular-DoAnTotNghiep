@@ -5,6 +5,7 @@ import { LoadingService } from "../service/Loading.service";
 import { AuthenticationService } from 'src/app/extension/Authentication.service';
 import { Router } from "@angular/router";
 import { NotifierService } from "angular-notifier";
+import { MatDialog } from "@angular/material/dialog";
 /// bắt lỗi toàn client
 @Injectable()
 export class ErrorIntercept implements HttpInterceptor {
@@ -13,6 +14,7 @@ export class ErrorIntercept implements HttpInterceptor {
         private service: AuthenticationService,
         private router: Router,
         private notife: NotifierService,
+        private dialogRef: MatDialog
     ) { }
     intercept(
         request: HttpRequest<any>,
@@ -45,10 +47,12 @@ export class ErrorIntercept implements HttpInterceptor {
                             this.router.navigate(['/403']);
                     }
                     else {
-                      
+
                         this.notife.notify('error', "Có lỗi xảy ra, xin vui lòng thử lại sau ít phút !");
                     }
                     this._loading.setLoading(false, request.url);
+                    this.dialogRef.closeAll();
+
                     // Return an observable with a user-facing error message.
                     return throwError(error);
                 })

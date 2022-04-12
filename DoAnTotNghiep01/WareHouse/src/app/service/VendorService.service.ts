@@ -43,7 +43,7 @@ export class VendorService {
 
   Details(id:string): Observable<ResultMessageResponse<VendorDTO>> {
     var url = this.baseUrl + `Vendor/details?id=` + id;
-    return this.http.post<ResultMessageResponse<VendorDTO>>(url, this.httpOptions).pipe(
+    return this.http.get<ResultMessageResponse<VendorDTO>>(url, this.httpOptions).pipe(
       tap(_ => console.log(`details Vendor id=${id}`)),
      
     );
@@ -51,7 +51,7 @@ export class VendorService {
 
   EditIndex(id:string): Observable<ResultMessageResponse<VendorDTO>> {
     var url = this.baseUrl + `Vendor/edit?id=` + id;
-    return this.http.post<ResultMessageResponse<VendorDTO>>(url, this.httpOptions).pipe(
+    return this.http.get<ResultMessageResponse<VendorDTO>>(url, this.httpOptions).pipe(
       tap(_ => console.log(`edit Vendor id=${id}`)),
      
     );
@@ -59,7 +59,7 @@ export class VendorService {
 
   AddIndex(): Observable<ResultMessageResponse<VendorDTO>> {
     var url = this.baseUrl + `Vendor/create`;
-    return this.http.post<ResultMessageResponse<VendorDTO>>(url, this.httpOptions).pipe(
+    return this.http.get<ResultMessageResponse<VendorDTO>>(url, this.httpOptions).pipe(
       tap(_ => console.log(`add Vendor`)),
      
     );

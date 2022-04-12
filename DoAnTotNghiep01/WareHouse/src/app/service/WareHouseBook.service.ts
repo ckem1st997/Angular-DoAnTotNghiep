@@ -14,6 +14,7 @@ import { OutwardDetailDTO } from '../model/OutwardDetailDTO';
 import { InwardDetail } from '../entity/InwardDetail';
 import { OutwardDetail } from '../entity/OutwardDetail';
 import { DeleteWareHouseBook } from '../model/DeleteWareHouseBook';
+import { GetDataWareHouseBookBaseDTO } from '../model/GetDataWareHouseBookBaseDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -144,10 +145,17 @@ export class WareHouseBookService {
     var url = this.baseUrl + `/create-outward-details`;
     return this.http.get<ResultDataResponse<OutwardDetailDTO>>(url, this.httpOptions).pipe(
       tap(_ => console.log(`create`)),
-
     );
   }
 
+
+  GetDataToWareHouseBookIndex(): Observable<ResultDataResponse<GetDataWareHouseBookBaseDTO>> {
+    var url = this.baseUrl + `/get-data-to-warehouse-book`;
+    return this.http.get<ResultDataResponse<GetDataWareHouseBookBaseDTO>>(url, this.httpOptions).pipe(
+      tap(_ => console.log(`create`)),
+      
+    );
+  }
   DeleteInwarDetails(ids:string[]): Observable<ResultMessageResponse<WareHouseBookDTO>> {
     var url = this.baseUrl + `/delete-details-inward`;
     return this.http.post<ResultMessageResponse<WareHouseBookDTO>>(url, ids, this.httpOptions).pipe(

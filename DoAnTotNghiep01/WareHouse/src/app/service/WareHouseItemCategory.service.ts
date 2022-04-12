@@ -46,7 +46,7 @@ export class WareHouseItemCategoryService {
 
   Details(id:string): Observable<ResultMessageResponse<WareHouseItemCategoryDTO>> {
     var url = this.baseUrl + `/details?id=` + id;
-    return this.http.post<ResultMessageResponse<WareHouseItemCategoryDTO>>(url, this.httpOptions).pipe(
+    return this.http.get<ResultMessageResponse<WareHouseItemCategoryDTO>>(url, this.httpOptions).pipe(
       tap(_ => console.log(`details WareHouseItemCategoryDTO id=${id}`)),
      
     );
@@ -54,7 +54,7 @@ export class WareHouseItemCategoryService {
 
   EditIndex(id:string): Observable<ResultMessageResponse<WareHouseItemCategoryDTO>> {
     var url = this.baseUrl + `/edit?id=` + id;
-    return this.http.post<ResultMessageResponse<WareHouseItemCategoryDTO>>(url, this.httpOptions).pipe(
+    return this.http.get<ResultMessageResponse<WareHouseItemCategoryDTO>>(url, this.httpOptions).pipe(
       tap(_ => console.log(`edit WareHouseItemCategoryDTO id=${id}`)),
      
     );
@@ -62,7 +62,7 @@ export class WareHouseItemCategoryService {
 
   AddIndex(): Observable<ResultMessageResponse<WareHouseItemCategoryDTO>> {
     var url = this.baseUrl + `/create`;
-    return this.http.post<ResultMessageResponse<WareHouseItemCategoryDTO>>(url, this.httpOptions).pipe(
+    return this.http.get<ResultMessageResponse<WareHouseItemCategoryDTO>>(url, this.httpOptions).pipe(
       tap(_ => console.log(`add WareHouseItemCategory`)),
      
     );

@@ -8,6 +8,6 @@ export interface WareHouseItemCategoryDTO extends BaseModel {
     description?: any;
     inactive: boolean;
     parent?: any;
-    inverseParent: any[];
+    inverseParent: WareHouseItemCategoryDTO[];
     wareHouseItems: any[];
 }

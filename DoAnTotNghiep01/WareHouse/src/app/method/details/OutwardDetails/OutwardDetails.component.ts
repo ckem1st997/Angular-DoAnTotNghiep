@@ -155,7 +155,7 @@ export class OutwardDetailsComponent implements OnInit {
         // }
       );
     // đây là create
-    this.serviceBook.AddOutwarDetailsIndex().subscribe(x => {
+    this.serviceBook.GetDataToWareHouseBookIndex().subscribe(x => {
       this.listItem = x.data.wareHouseItemDTO;
       this.listUnit = x.data.unitDTO;
     });

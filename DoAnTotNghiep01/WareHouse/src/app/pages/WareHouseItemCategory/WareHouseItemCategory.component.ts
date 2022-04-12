@@ -124,42 +124,49 @@ export class WareHouseItemCategoryComponent implements OnInit {
     this.GetData();
   }
   openDialog(model: WareHouseItemCategoryDTO): void {
-    var val = document.getElementById("searchInput") as HTMLInputElement;
+    this.service.EditIndex(model.id).subscribe(x => {
+      const dialogRef = this.dialog.open(WareHouseItemCategoryEditComponent, {
+        width: '550px',
+        data: x.data,
+      });
 
-    const dialogRef = this.dialog.open(WareHouseItemCategoryEditComponent, {
-      width: '550px',
-      data: model,
+      dialogRef.afterClosed().subscribe(result => {
+        var res = result;
+        if (res) {
+          this.notifier.notify('success', 'Chỉnh sửa thành công !');
+          this.GetData();
+        }
+      });
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      var res = result;
-      if (res) {
-        this.notifier.notify('success', 'Chỉnh sửa thành công !');
-        this.GetData();
-      }
-    });
   }
   openDialogDetals(model: WareHouseItemCategoryDTO): void {
-    var val = document.getElementById("searchInput") as HTMLInputElement;
+    this.service.Details(model.id).subscribe(x => {
+      const dialogRef = this.dialog.open(WareHouseItemCategoryEditDetailsComponent, {
+        width: '550px',
+        data: x.data,
+      });
 
-    const dialogRef = this.dialog.open(WareHouseItemCategoryEditDetailsComponent, {
-      width: '550px',
-      data: model,
     });
+
+  
   }
   openDialogCreate(): void {
-    var val = document.getElementById("searchInput") as HTMLInputElement;
+    this.service.AddIndex().subscribe(x => {
 
-    const dialogRef = this.dialog.open(WareHouseItemCategoryCreateComponent, {
-      width: '550px'
-    });
+      const dialogRef = this.dialog.open(WareHouseItemCategoryCreateComponent, {
+        width: '550px',
+        data: x.data,
+      });
 
-    dialogRef.afterClosed().subscribe(result => {
-      var res = result;
-      if (res) {
-        this.notifier.notify('success', 'Thêm mới thành công !');
-        this.GetData();
-      }
+      dialogRef.afterClosed().subscribe(result => {
+        var res = result;
+        if (res) {
+          this.notifier.notify('success', 'Thêm mới thành công !');
+          this.GetData();
+        }
+      });
+
     });
   }
 

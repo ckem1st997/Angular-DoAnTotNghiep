@@ -16,7 +16,7 @@
     <div class="form-group row mb-1" style="position: relative;">
       <mat-label class="form-label col-3">Thuộc loại</mat-label>
       <select [attr.disabled]="true" formControlName="parentId" class="form-select col">
-        <option readonly class="s-c option" *ngFor="let state of listDropDown.data" [ngValue]="state.id">
+        <option readonly class="s-c option" *ngFor="let state of listDropDown" [ngValue]="state.id">
         {{ state.name }}
         </option>
     </select>

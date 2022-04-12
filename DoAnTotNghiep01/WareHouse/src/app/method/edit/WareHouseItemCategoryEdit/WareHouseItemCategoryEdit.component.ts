@@ -21,18 +21,7 @@ export class WareHouseItemCategoryEditComponent implements OnInit {
   form!: FormGroup;
   dt!: WareHouseItemCategoryDTO;
   options!: FormGroup;
-  listDropDown: ResultMessageResponse<WareHouseItemCategoryDTO> = {
-    success: false,
-    code: '',
-    httpStatusCode: 0,
-    title: '',
-    message: '',
-    data: [],
-    totalCount: 0,
-    isRedirect: false,
-    redirectUrl: '',
-    errors: {}
-  }
+  listDropDown: WareHouseItemCategoryDTO [] = [];
   constructor(
     public dialogRef: MatDialogRef<WareHouseCreateComponent>,
     @Inject(MAT_DIALOG_DATA) public data: WareHouseItemCategoryDTO,
@@ -58,7 +47,7 @@ export class WareHouseItemCategoryEditComponent implements OnInit {
     this.dialogRef.close(false);
   }
   getDropDown() {
-    this.service.getListDropDown().subscribe(x => this.listDropDown = x);
+    this.listDropDown=this.data.inverseParent;
   }
 
   onSubmit() {
