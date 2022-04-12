@@ -46,6 +46,6 @@ export class AuthenticationService {
         // remove user from local storage to log user out
         sessionStorage.removeItem('user');
      //   this.userSubject.next(new User());
-        this.router.navigate(['/authozire/login']);
+        this.router.navigate(['/center']);
     }
 }

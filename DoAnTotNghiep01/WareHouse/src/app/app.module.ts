@@ -109,6 +109,7 @@ import { MasterUserComponent } from './layout/MasterUser/MasterUser.component';
 import { MasterhomeComponent } from './pages/masterhome/masterhome.component';
 import { RoleEditComponent } from './method/edit/RoleEdit/RoleEdit.component';
 import { SelectWareHouseComponent } from './method/edit/selectWareHouse/selectWareHouse.component';
+import { PagesHomeCenterComponent } from './pages/PagesHomeCenter/PagesHomeCenter.component';
 const customNotifierOptions: NotifierOptions = {
   position: {
     horizontal: {
@@ -227,7 +228,8 @@ const customNotifierOptions: NotifierOptions = {
     MasterUserComponent,
     MasterhomeComponent,
     RoleEditComponent,
-    SelectWareHouseComponent
+    SelectWareHouseComponent,
+    PagesHomeCenterComponent
   ],
   imports: [
     BrowserModule,

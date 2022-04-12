@@ -29,6 +29,7 @@ import { PagesForbieComponent } from './pages/PagesForbie/PagesForbie.component'
 import { PagesOptionComponent } from './pages/PagesOption/PagesOption.component';
 import { MasterUserComponent } from './layout/MasterUser/MasterUser.component';
 import { MasterhomeComponent } from './pages/masterhome/masterhome.component';
+import { PagesHomeCenterComponent } from './pages/PagesHomeCenter/PagesHomeCenter.component';
 const DEFAULT_ROUTES: Routes = [
 
   { path: 'warehouse-limit', component: WareHouseLimitComponent, data: { state: 'wh-limit' }, canActivate: [AuthGuard] },
@@ -69,6 +70,7 @@ const routes: Routes = [
   { path: '404', component: NotFoundComponent, data: { state: '404' } },
   { path: '403', component: PagesForbieComponent, data: { state: '403' } },
   { path: 'page', component: PagesOptionComponent, data: { state: 'page' }, canActivate: [AuthGuard] },
+  { path: 'center', component: PagesHomeCenterComponent, data: { state: 'center' }},
   { path: '**', redirectTo: '/404' },
 ];
 
