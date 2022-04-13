@@ -17,6 +17,7 @@ import { InwarDetailsCreateComponent } from '../../create/InwarDetailsCreate/Inw
 import { InwarDetailsEditByServiceComponent } from '../../edit/InwarDetailsEditByService/InwarDetailsEditByService.component';
 import { InwardDetailDetailsComponent } from '../InwardDetailDetails/InwardDetailDetails.component';
 import { environment } from 'src/environments/environment';
+import { SignalRService } from 'src/app/service/SignalR.service';
 
 @Component({
   selector: 'app-InwardDetails',
@@ -71,8 +72,9 @@ export class InwardDetailsComponent implements OnInit {
   @ViewChild(MatTable)
   table!: MatTable<InwardDetailDTO>;
 
-  constructor(private changeDetectorRefs: ChangeDetectorRef, private serviceBook: WareHouseBookService, notifierService: NotifierService, public dialog: MatDialog, private formBuilder: FormBuilder, private route: ActivatedRoute, private service: InwardService) {
+  constructor( private changeDetectorRefs: ChangeDetectorRef, private serviceBook: WareHouseBookService, notifierService: NotifierService, public dialog: MatDialog, private formBuilder: FormBuilder, private route: ActivatedRoute, private service: InwardService) {
     this.notifier = notifierService;
+    
   }
   @HostListener('window:resize', ['$event'])
 
@@ -119,13 +121,13 @@ export class InwardDetailsComponent implements OnInit {
   }
 
   getData() {
+    console.log(11111);
     const id = this.route.snapshot.paramMap.get('id');
-    this.dt.id=id==null?'':id;
+    this.dt.id = id == null ? '' : id;
     if (id !== null)
       this.service.Details(id).subscribe(x => {
         console.log(x);
-        if(x.success)
-        {
+        if (x.success) {
           this.dt = x.data;
           this.listDetails = x.data.inwardDetails;
           this.removeData();

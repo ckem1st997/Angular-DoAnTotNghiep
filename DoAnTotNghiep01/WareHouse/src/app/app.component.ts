@@ -4,6 +4,7 @@ import  {fromRightEasing, rotateCubeToLeft}  from  "ngx-router-animations";
 import { delay } from 'rxjs';
 import { LoadingService } from './service/Loading.service';
 import { NotifierService } from 'angular-notifier';
+import { SignalRService } from './service/SignalR.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -21,12 +22,16 @@ export class AppComponent {
 
   constructor(
     private _loading: LoadingService,
-    private notifierService: NotifierService
+    private notifierService: NotifierService,
+    private signalRService: SignalRService,
 
   ){ }
 
   ngOnInit() {
     this.listenToLoading();
+    this.signalRService.startConnection();
+  //  this.signalRService.CallMethodToServiceByInwardChange('SendMessageToCLient');
+
   }
 
   /**

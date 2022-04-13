@@ -1,14 +1,15 @@
 <div id="formCreateDiv" style="height: 100%;position: relative;    padding-top: 362px;">
   <notifier-container></notifier-container>
   <form id="formCreate" style="position: absolute;top: 0;width: 100%;" [formGroup]="form" (ngSubmit)="onSubmit()">
-    <div class=" d-flex justify-content-between" style="border-bottom: 1px solid #ced4da;align-items: center;height: 55px;">
+    <div class=" d-flex justify-content-between"
+      style="border-bottom: 1px solid #ced4da;align-items: center;height: 55px;">
 
       <div class="breadcrumb">
-        <a class="breadcrumb__step breadcrumb__step--active"routerLink="/">Trang chủ</a>
+        <a class="breadcrumb__step breadcrumb__step--active" routerLink="/">Trang chủ</a>
         <a class="breadcrumb__step" routerLink="/warehouse-item">Vật tư</a>
         <a class="breadcrumb__step" routerLink="/warehouse">Kho</a>
       </div>
-
+      <input (input)="getData()"[value]="signalRService.changeInward"/>
       <div class="">
         <div class="">
           <button type="submit" routerLink="/warehouse-book" mat-raised-button color="warn">

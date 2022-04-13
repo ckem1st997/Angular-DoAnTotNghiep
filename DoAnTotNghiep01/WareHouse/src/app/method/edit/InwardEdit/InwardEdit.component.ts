@@ -11,6 +11,7 @@ import { InwardDTO } from 'src/app/model/InwardDTO';
 import { UnitDTO } from 'src/app/model/UnitDTO';
 import { WareHouseItemDTO } from 'src/app/model/WareHouseItemDTO';
 import { InwardService } from 'src/app/service/Inward.service';
+import { SignalRService } from 'src/app/service/SignalR.service';
 import { WareHouseBookService } from 'src/app/service/WareHouseBook.service';
 import { InwardValidator } from 'src/app/validator/InwardValidator';
 import { InwarDetailsCreateComponent } from '../../create/InwarDetailsCreate/InwarDetailsCreate.component';
@@ -23,6 +24,7 @@ import { InwarDetailsEditByServiceComponent } from '../InwarDetailsEditByService
   styleUrls: ['./InwardEdit.component.scss']
 })
 export class InwardEditComponent implements OnInit {
+  title:string="";
   form!: FormGroup;
   listDetails = Array<InwardDetailDTO>();
   listItem = Array<WareHouseItemDTO>();
@@ -67,7 +69,7 @@ export class InwardEditComponent implements OnInit {
   @ViewChild(MatTable)
   table!: MatTable<InwardDetailDTO>;
 
-  constructor(private serviceBook: WareHouseBookService, notifierService: NotifierService, public dialog: MatDialog, private formBuilder: FormBuilder, private route: ActivatedRoute, private service: InwardService) {
+  constructor(public signalRService: SignalRService, private serviceBook: WareHouseBookService, notifierService: NotifierService, public dialog: MatDialog, private formBuilder: FormBuilder, private route: ActivatedRoute, private service: InwardService) {
     this.notifier = notifierService;
   }
   @HostListener('window:resize', ['$event'])
@@ -81,6 +83,8 @@ export class InwardEditComponent implements OnInit {
     clientHeightForm.style.paddingTop = clientHeight.clientHeight + "px";
   }
   ngOnInit() {
+    this.signalRService.CallMethodToServiceByInwardChange('SendMessageToCLient');
+    console.log(this.signalRService.changeInward);
     this.onWindowResize();
     this.getData();
     this.form = this.formBuilder.group({
@@ -111,6 +115,7 @@ export class InwardEditComponent implements OnInit {
   }
 
   getData() {
+    console.log(123);
     const id = this.route.snapshot.paramMap.get('id');
     if (id !== null)
       this.service.EditIndex(id).subscribe(x => {
@@ -189,12 +194,12 @@ export class InwardEditComponent implements OnInit {
               this.notifier.notify('ward', 'Thêm thất bại');
 
           },
-          //  error => {
-          //   if (error.error.errors.length === undefined)
-          //     this.notifier.notify('error', error.error.message);
-          //   else
-          //     this.notifier.notify('error', error.error);
-          // }
+            //  error => {
+            //   if (error.error.errors.length === undefined)
+            //     this.notifier.notify('error', error.error.message);
+            //   else
+            //     this.notifier.notify('error', error.error);
+            // }
           );
         }
         else
@@ -208,7 +213,7 @@ export class InwardEditComponent implements OnInit {
   openDialogDelelte(id: string): void {
     const model = this.listDetails.find(x => x.id === id);
     if (model !== undefined) {
-      var ids=new Array<string>();
+      var ids = new Array<string>();
       ids.push(id);
       this.serviceBook.DeleteInwarDetails(ids).subscribe(x => {
         if (x.success) {
@@ -221,13 +226,13 @@ export class InwardEditComponent implements OnInit {
           this.notifier.notify('error', 'Xóa thất bại');
 
 
-      }, 
-      // error => {
-      //   if (error.error.errors.length === undefined)
-      //     this.notifier.notify('error', error.error.message);
-      //   else
-      //     this.notifier.notify('error', error.error);
-      // }
+      },
+        // error => {
+        //   if (error.error.errors.length === undefined)
+        //     this.notifier.notify('error', error.error.message);
+        //   else
+        //     this.notifier.notify('error', error.error);
+        // }
       );
     }
     else
@@ -256,12 +261,12 @@ export class InwardEditComponent implements OnInit {
             }
 
           },
-          //  error => {
-          //   if (error.error.errors.length === undefined)
-          //     this.notifier.notify('error', error.error.message);
-          //   else
-          //     this.notifier.notify('error', error.error);
-          // }
+            //  error => {
+            //   if (error.error.errors.length === undefined)
+            //     this.notifier.notify('error', error.error.message);
+            //   else
+            //     this.notifier.notify('error', error.error);
+            // }
           );
 
         }
