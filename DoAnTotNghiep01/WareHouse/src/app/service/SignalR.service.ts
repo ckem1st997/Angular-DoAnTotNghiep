@@ -13,7 +13,8 @@ export class SignalRService {
   private baseUrl = environment.baseSignalr + "signalr";
   private hubConnection!: signalR.HubConnection;
   changeInward: string = "";
-  private message$!: Subject<string>;
+  private msgSignalrSource = new Subject();
+  msgReceived$ = this.msgSignalrSource.asObservable();
 
   public constructor(){
 
@@ -31,6 +32,7 @@ export class SignalRService {
   public CallMethodToServiceByInwardChange(nameMethodCallToService: string) {
     this.hubConnection.on(nameMethodCallToService, (data) => {
       this.changeInward = data;
+      this.msgSignalrSource.next(data);
     });
   }
 }

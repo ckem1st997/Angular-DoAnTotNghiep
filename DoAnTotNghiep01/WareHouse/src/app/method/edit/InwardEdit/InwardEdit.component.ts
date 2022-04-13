@@ -85,6 +85,7 @@ export class InwardEditComponent implements OnInit {
 
   ngOnInit() {
     this.signalRService.CallMethodToServiceByInwardChange('SendMessageToCLient');
+    this.signalRService.msgReceived$.subscribe(x=>this.getData());
     console.log(this.signalRService.changeInward);
     this.onWindowResize();
     this.getData();
