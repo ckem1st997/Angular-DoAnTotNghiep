@@ -9,7 +9,7 @@
         <a class="breadcrumb__step" routerLink="/warehouse-item">Vật tư</a>
         <a class="breadcrumb__step" routerLink="/warehouse">Kho</a>
       </div>
-      <input (input)="getData()"[value]="signalRService.changeInward"/>
+      <input (change)="getData()"[value]="signalRService.changeInward"/>
       <div class="">
         <div class="">
           <button type="submit" routerLink="/warehouse-book" mat-raised-button color="warn">

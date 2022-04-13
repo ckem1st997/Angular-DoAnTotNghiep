@@ -82,6 +82,7 @@ export class InwardEditComponent implements OnInit {
     table.style.height = getScreenHeight - 75 - clientHeight.clientHeight + "px";
     clientHeightForm.style.paddingTop = clientHeight.clientHeight + "px";
   }
+
   ngOnInit() {
     this.signalRService.CallMethodToServiceByInwardChange('SendMessageToCLient');
     console.log(this.signalRService.changeInward);
