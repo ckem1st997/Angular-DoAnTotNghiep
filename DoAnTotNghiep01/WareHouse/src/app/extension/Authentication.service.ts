@@ -41,7 +41,13 @@ export class AuthenticationService {
 
             }));
     }
+    registration(username: string, password: string,  confirmPassword: string) {
+        return this.http.post<any>(`${environment.authorizeApi}AuthorizeMaster/register`, { username, password, confirmPassword })
+            .pipe(map(user => {
+                return user;
 
+            }));
+    }
     logout() {
         // remove user from local storage to log user out
         sessionStorage.removeItem('user');

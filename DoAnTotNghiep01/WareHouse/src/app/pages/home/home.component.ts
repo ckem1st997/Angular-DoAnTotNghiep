@@ -14,6 +14,7 @@ import { DashBoardChartInAndOutCountDTO } from 'src/app/model/DashBoardChartInAn
 import { SelectTopWareHouseDTO } from 'src/app/model/SelectTopWareHouseDTO';
 import { NotifierService } from 'angular-notifier';
 import { Router } from '@angular/router';
+import { AuthenticationService } from 'src/app/extension/Authentication.service';
 
 
 interface ChartPhieu {

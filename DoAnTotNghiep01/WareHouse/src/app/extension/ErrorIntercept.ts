@@ -29,7 +29,6 @@ export class ErrorIntercept implements HttpInterceptor {
             .pipe(
                 retry(1),
                 catchError((error: HttpErrorResponse) => {
-
                     if (error.status === 0) {
                         this.notife.notify('error', "Không thể kết nối đến máy chủ, xin vui lòng thử lại sau ít phút !");
 
@@ -41,8 +40,11 @@ export class ErrorIntercept implements HttpInterceptor {
 
                     }
                     else if (error.status === 403) {
-                        if (error.error !== null && error.error.message !== undefined)
+                        if (error.error !== null && error.error.message !== undefined) {
                             this.notife.notify('error', error.error.message);
+                            if (error.error !== null && error.error.isRedirect)
+                                this.router.navigate(['/403']);
+                        }
                         else
                             this.router.navigate(['/403']);
                     }

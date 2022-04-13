@@ -30,6 +30,7 @@ import { PagesOptionComponent } from './pages/PagesOption/PagesOption.component'
 import { MasterUserComponent } from './layout/MasterUser/MasterUser.component';
 import { MasterhomeComponent } from './pages/masterhome/masterhome.component';
 import { PagesHomeCenterComponent } from './pages/PagesHomeCenter/PagesHomeCenter.component';
+import { RegistrationComponent } from './pages/registration/registration.component';
 const DEFAULT_ROUTES: Routes = [
 
   { path: 'warehouse-limit', component: WareHouseLimitComponent, data: { state: 'wh-limit' }, canActivate: [AuthGuard] },
@@ -55,6 +56,7 @@ const DEFAULT_ROUTES: Routes = [
 
 export const Authozire_LAYOUT: Routes = [
   { path: 'login', component: LoginComponent, data: { state: 'login' } },
+  { path: 'registration', component: RegistrationComponent, data: { state: 'registration' } },
 
 ]
 

@@ -64,18 +64,14 @@
           <i class="bi bi-github icon-link"></i>
           GitHub
         </a>
-        <a class="link-icon" routerLink="/role">
-          <i class="bi bi-github icon-link"></i>
-          Role
-        </a>
         <a id="QuanLyReport" #createPlanmenuTriggerLogin="matMenuTrigger" [matMenuTriggerFor]="menuLogin"
           (click)="createPlanmenuTriggerLogin.openMenu()" class="link-icon header-a" (click)="changActive($event)">
           <mat-icon class="icon-link" aria-hidden="false" aria-label="Example home icon">login</mat-icon>
           Tài khoản
           <mat-menu #menuLogin="matMenu">
             <span data-active="QuanLyDanhMucLinkTwo" (click)="createPlanmenuTriggerLogin.closeMenu()">
+              <a  mat-menu-item>{{userName}}</a>
               <a (click)="changActive($event)" (click)="logout()" mat-menu-item>Đăng xuất</a>
-              <a (click)="changActive($event)" routerLink="/report-details" mat-menu-item>Báo cáo chi tiết</a>
             </span>
 
           </mat-menu>

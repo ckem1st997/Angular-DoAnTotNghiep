@@ -7,10 +7,13 @@ import { AuthenticationService } from 'src/app/extension/Authentication.service'
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
+  userName: string |undefined;
 
   constructor(private service:AuthenticationService) { }
 
   ngOnInit() {
+    this.userName=this.service.userValue.username;
+
   }
 
   /// active to click
