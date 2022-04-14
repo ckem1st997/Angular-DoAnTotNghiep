@@ -196,7 +196,7 @@ export class InwardEditComponent implements OnInit {
               this.dataSource.data = this.listDetails;
               this.table.renderRows();
               this.notifier.notify('success', 'Thêm thành công');
-
+              this.signalRService.SendWareHouseBookTrachking(this.form.value["id"]);
             }
             else
               this.notifier.notify('ward', 'Thêm thất bại');
@@ -229,6 +229,7 @@ export class InwardEditComponent implements OnInit {
           this.dataSource.data = this.listDetails;
           this.table.renderRows();
           this.notifier.notify('success', 'Xóa thành công');
+          this.signalRService.SendWareHouseBookTrachking(this.form.value["id"]);
         }
         else
           this.notifier.notify('error', 'Xóa thất bại');
@@ -266,6 +267,7 @@ export class InwardEditComponent implements OnInit {
               this.dataSource.data = this.listDetails;
               this.table.renderRows();
               this.notifier.notify('success', 'Sửa thành công');
+              this.signalRService.SendWareHouseBookTrachking(this.form.value["id"]);
             }
 
           },
@@ -302,19 +304,7 @@ export class InwardEditComponent implements OnInit {
             this.notifier.notify('success', 'Chỉnh sửa thành công');
             this.signalRService.SendWareHouseBookTrachking(this.form.value["id"]);
           }
-          // else {
-          //   if (x.errors["msg"] !== undefined && x.errors["msg"].length !== undefined)
-          //     this.notifier.notify('error', x.errors["msg"][0]);
-          //   else
-          //     this.notifier.notify('error', x.message);
-          // }
         },
-          // error => {
-          //   if (error.error.errors.length === undefined)
-          //     this.notifier.notify('error', error.error.message);
-          //   else
-          //     this.notifier.notify('error', error.error);
-          // }
         );
       }
       else {

@@ -66,7 +66,7 @@ export const Master_LAYOUT: Routes = [
 ]
 const routes: Routes = [
 
-  { path: '', component: DefaultLayoutComponent, children: DEFAULT_ROUTES, canActivate: [AuthGuard] },
+  { path: 'wh', component: DefaultLayoutComponent, children: DEFAULT_ROUTES, canActivate: [AuthGuard] },
   { path: 'authozire', component: AuthozireComponent, children: Authozire_LAYOUT },
   { path: 'master', component: MasterUserComponent, children: Master_LAYOUT, canActivate: [AuthGuard] },
   { path: '404', component: NotFoundComponent, data: { state: '404' } },

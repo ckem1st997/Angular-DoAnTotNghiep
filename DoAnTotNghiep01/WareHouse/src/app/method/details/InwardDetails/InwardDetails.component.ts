@@ -72,7 +72,7 @@ export class InwardDetailsComponent implements OnInit {
   @ViewChild(MatTable)
   table!: MatTable<InwardDetailDTO>;
 
-  constructor( private changeDetectorRefs: ChangeDetectorRef, private serviceBook: WareHouseBookService, notifierService: NotifierService, public dialog: MatDialog, private formBuilder: FormBuilder, private route: ActivatedRoute, private service: InwardService) {
+  constructor(public signalRService: SignalRService, private changeDetectorRefs: ChangeDetectorRef, private serviceBook: WareHouseBookService, notifierService: NotifierService, public dialog: MatDialog, private formBuilder: FormBuilder, private route: ActivatedRoute, private service: InwardService) {
     this.notifier = notifierService;
     
   }
@@ -87,10 +87,17 @@ export class InwardDetailsComponent implements OnInit {
     clientHeightForm.style.paddingTop = clientHeight.clientHeight + "px";
   }
 
-  ngAfterViewInit() {
-
-  }
   ngOnInit() {
+    this.signalRService.WareHouseBookTrachking();
+    this.signalRService.msgReceived$.subscribe(x => {
+      if (x.success) {
+        if (this.form.value["id"] === x.data)
+        {
+          this.getData();
+          this.notifier.notify('success', x.message);
+        }
+      }
+    });
     this.onWindowResize();
     this.getData();
     this.form = this.formBuilder.group({
@@ -121,12 +128,10 @@ export class InwardDetailsComponent implements OnInit {
   }
 
   getData() {
-    console.log(11111);
     const id = this.route.snapshot.paramMap.get('id');
     this.dt.id = id == null ? '' : id;
     if (id !== null)
       this.service.Details(id).subscribe(x => {
-        console.log(x);
         if (x.success) {
           this.dt = x.data;
           this.listDetails = x.data.inwardDetails;
@@ -161,12 +166,8 @@ export class InwardDetailsComponent implements OnInit {
           this.changeDetectorRefs.detectChanges();
         }
 
-      }, error => {
-        if (error.error.errors.length === undefined)
-          this.notifier.notify('error', error.error.message);
-        else
-          this.notifier.notify('error', error.error);
-      });
+      }
+      );
 
     this.serviceBook.GetDataToWareHouseBookIndex().subscribe(x => {
       this.listItem = x.data.wareHouseItemDTO;

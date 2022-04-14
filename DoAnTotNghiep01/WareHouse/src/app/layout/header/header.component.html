@@ -21,9 +21,9 @@
           Quản lý kho
           <mat-menu #menu="matMenu">
             <span data-active="QuanLyDanhMucLink" (click)="createPlanmenuTrigger.closeMenu()">
-              <a (click)="changActive($event)" routerLink="/warehouse-book" mat-menu-item>Quản lý sổ kho</a>
-              <a (click)="changActive($event)" routerLink="/warehouse-limit" mat-menu-item>Định mức tồn kho</a>
-              <a (click)="changActive($event)" routerLink="/warehouse-benging" mat-menu-item>Tồn kho đầu kì</a>
+              <a (click)="changActive($event)" routerLink="/wh/warehouse-book" mat-menu-item>Quản lý sổ kho</a>
+              <a (click)="changActive($event)" routerLink="/wh/warehouse-limit" mat-menu-item>Định mức tồn kho</a>
+              <a (click)="changActive($event)" routerLink="/wh/warehouse-benging" mat-menu-item>Tồn kho đầu kì</a>
             </span>
 
           </mat-menu>
@@ -35,11 +35,11 @@
           Danh mục
           <mat-menu #menuDanhMuc="matMenu">
             <span data-active="QuanLyDanhMucLinkTwo" (click)="createPlanmenuTriggerDanhMuc.closeMenu()">
-              <a (click)="changActive($event)" routerLink="/warehouse" mat-menu-item>Kho vận</a>
-              <a (click)="changActive($event)" routerLink="/warehouse-item" mat-menu-item>Vật tư</a>
-              <a (click)="changActive($event)" routerLink="/warehouse-item-category" mat-menu-item>Loại vật tư</a>
-              <a (click)="changActive($event)" routerLink="/vendor" mat-menu-item>Nhà cung cấp</a>
-              <a (click)="changActive($event)" routerLink="/unit" mat-menu-item>Đơn vị tính</a>
+              <a (click)="changActive($event)" routerLink="/wh/warehouse" mat-menu-item>Kho vận</a>
+              <a (click)="changActive($event)" routerLink="/wh/warehouse-item" mat-menu-item>Vật tư</a>
+              <a (click)="changActive($event)" routerLink="/wh/warehouse-item-category" mat-menu-item>Loại vật tư</a>
+              <a (click)="changActive($event)" routerLink="/wh/vendor" mat-menu-item>Nhà cung cấp</a>
+              <a (click)="changActive($event)" routerLink="/wh/unit" mat-menu-item>Đơn vị tính</a>
             </span>
 
           </mat-menu>
@@ -51,8 +51,8 @@
           Báo cáo
           <mat-menu #menuReport="matMenu">
             <span data-active="QuanLyDanhMucLinkTwo" (click)="createPlanmenuTriggerReport.closeMenu()">
-              <a (click)="changActive($event)" routerLink="/report-total" mat-menu-item>Báo cáo tổng hợp</a>
-              <a (click)="changActive($event)" routerLink="/report-details" mat-menu-item>Báo cáo chi tiết</a>
+              <a (click)="changActive($event)" routerLink="/wh/report-total" mat-menu-item>Báo cáo tổng hợp</a>
+              <a (click)="changActive($event)" routerLink="/wh/report-details" mat-menu-item>Báo cáo chi tiết</a>
             </span>
 
           </mat-menu>

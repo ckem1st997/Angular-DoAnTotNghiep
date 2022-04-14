@@ -30,6 +30,7 @@ import { WareHouseBookDeleteComponent } from "src/app/method/delete/WareHouseBoo
 import { WareHouseBookDeleteAllComponent } from "src/app/method/delete/WareHouseBookDeleteAll/WareHouseBookDeleteAll.component";
 import { InwardService } from "src/app/service/Inward.service";
 import { OutwardService } from "src/app/service/Outward.service";
+import { SignalRService } from "src/app/service/SignalR.service";
 
 interface ExampleFlatNode {
   expandable: boolean;
@@ -118,7 +119,7 @@ export class WareHouseBookComponent implements OnInit {
 
   dataSourceTreee = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
-  constructor(private serviceInward: InwardService, private serviceOutward: OutwardService, private getDataToGprc: GetDataToGprcService, private route: Router, private service: WareHouseBookService, private serviceW: WarehouseService, private _liveAnnouncer: LiveAnnouncer, public dialog: MatDialog, notifierService: NotifierService) {
+  constructor(public signalRService: SignalRService,private serviceInward: InwardService, private serviceOutward: OutwardService, private getDataToGprc: GetDataToGprcService, private route: Router, private service: WareHouseBookService, private serviceW: WarehouseService, private _liveAnnouncer: LiveAnnouncer, public dialog: MatDialog, notifierService: NotifierService) {
     this.notifier = notifierService;
   }
 
@@ -129,6 +130,13 @@ export class WareHouseBookComponent implements OnInit {
     this.dataSource.sort = this.sort;
   }
   ngOnInit() {
+    this.signalRService.WareHouseBookTrachking();
+    this.signalRService.msgReceived$.subscribe(x => {
+      if (x.success) {
+          this.GetData();
+          this.notifier.notify('success', x.message);
+      }
+    });
     this.GetData();
     this.getScreenWidth = window.innerWidth;
     this.getScreenHeight = window.innerHeight;
@@ -183,9 +191,9 @@ export class WareHouseBookComponent implements OnInit {
   openDialog(model: WareHouseBookDTO): void {
     if (model.id !== null) {
       if (model.type === this.typeIn)
-        this.route.navigate(['/edit-inward', model.id]);
+        this.route.navigate(['/wh/edit-inward', model.id]);
       else if (model.type === this.typeOut)
-        this.route.navigate(['/edit-outward', model.id]);
+        this.route.navigate(['/wh/edit-outward', model.id]);
     }
     else
       this.notifier.notify('warning', "Xin vui lòng thử lại !");
@@ -195,9 +203,9 @@ export class WareHouseBookComponent implements OnInit {
   openDetails(model: WareHouseBookDTO): void {
     if (model.id !== null) {
       if (model.type === this.typeIn)
-        this.route.navigate(['/details-inward', model.id]);
+        this.route.navigate(['/wh/details-inward', model.id]);
       else if (model.type === this.typeOut)
-        this.route.navigate(['/details-outward', model.id]);
+        this.route.navigate(['/wh/details-outward', model.id]);
     }
     else
       this.notifier.notify('warning', "Xin vui lòng thử lại !");
@@ -251,7 +259,7 @@ export class WareHouseBookComponent implements OnInit {
     if (idCheck !== null) {
       this.serviceInward.AddIndex(idCheck).subscribe(x => {
         if (x.success)
-          this.route.navigate(['/create-inward', idCheck]);
+          this.route.navigate(['/wh/create-inward', idCheck]);
       });
     }
     else
@@ -269,7 +277,7 @@ export class WareHouseBookComponent implements OnInit {
     if (idCheck !== null) {
       this.serviceOutward.AddIndex(idCheck).subscribe(x => {
         if (x.success)
-        this.route.navigate(['/create-outward', idCheck]);
+        this.route.navigate(['/wh/create-outward', idCheck]);
       });
     }
     else

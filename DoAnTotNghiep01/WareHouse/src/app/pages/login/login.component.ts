@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
-      username: 'user@example.com',
+      username: 'admin@gmail.com',
       password: '123456',
       remember: true
     });

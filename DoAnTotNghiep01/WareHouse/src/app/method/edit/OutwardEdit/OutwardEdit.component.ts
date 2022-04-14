@@ -195,7 +195,7 @@ export class OutwardEditComponent implements OnInit {
               this.dataSource.data = this.listDetails;
               this.table.renderRows();
               this.notifier.notify('success', 'Thêm thành công');
-
+              this.signalRService.SendWareHouseBookTrachking(this.form.value["id"]);
             }
             else
               this.notifier.notify('ward', 'Thêm thất bại');
@@ -228,6 +228,8 @@ export class OutwardEditComponent implements OnInit {
           this.dataSource.data = this.listDetails;
           this.table.renderRows();
           this.notifier.notify('success', 'Xóa thành công');
+          this.signalRService.SendWareHouseBookTrachking(this.form.value["id"]);
+
         }
         else
           this.notifier.notify('error', 'Xóa thất bại');
@@ -265,6 +267,8 @@ export class OutwardEditComponent implements OnInit {
               this.dataSource.data = this.listDetails;
               this.table.renderRows();
               this.notifier.notify('success', 'Sửa thành công');
+              this.signalRService.SendWareHouseBookTrachking(this.form.value["id"]);
+
             }
 
           },

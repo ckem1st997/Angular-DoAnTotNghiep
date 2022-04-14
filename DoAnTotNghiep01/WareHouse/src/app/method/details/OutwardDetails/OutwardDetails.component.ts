@@ -1,8 +1,8 @@
-import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource, MatTable } from '@angular/material/table';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NotifierService } from 'angular-notifier';
 import { BaseSelectDTO } from 'src/app/model/BaseSelectDTO';
 import { OutwardDetailDTO } from 'src/app/model/OutwardDetailDTO';
@@ -10,6 +10,7 @@ import { OutwardDTO } from 'src/app/model/OutwardDTO';
 import { UnitDTO } from 'src/app/model/UnitDTO';
 import { WareHouseItemDTO } from 'src/app/model/WareHouseItemDTO';
 import { OutwardService } from 'src/app/service/Outward.service';
+import { SignalRService } from 'src/app/service/SignalR.service';
 import { WareHouseBookService } from 'src/app/service/WareHouseBook.service';
 import { OutwardValidator } from 'src/app/validator/OutwardValidator';
 import { environment } from 'src/environments/environment';
@@ -67,7 +68,7 @@ export class OutwardDetailsComponent implements OnInit {
   @ViewChild(MatTable)
   table!: MatTable<OutwardDetailDTO>;
 
-  constructor(private serviceBook: WareHouseBookService, notifierService: NotifierService, public dialog: MatDialog, private formBuilder: FormBuilder, private route: ActivatedRoute, private service: OutwardService) {
+  constructor(public signalRService: SignalRService, private serviceBook: WareHouseBookService, notifierService: NotifierService, public dialog: MatDialog, private formBuilder: FormBuilder, private route: ActivatedRoute, private service: OutwardService) {
     this.notifier = notifierService;
   }
   @HostListener('window:resize', ['$event'])
@@ -80,7 +81,20 @@ export class OutwardDetailsComponent implements OnInit {
     table.style.height = getScreenHeight - 75 - clientHeight.clientHeight + "px";
     clientHeightForm.style.paddingTop = clientHeight.clientHeight + "px";
   }
+
+  ngOndestroy() {
+  }
+
   ngOnInit() {
+    this.signalRService.WareHouseBookTrachking();
+    this.signalRService.msgReceived$.subscribe(x => {
+      if (x.success) {
+        if (this.form.value["id"] === x.data && this.table.dataSource) {
+          this.getData();
+          this.notifier.notify('success', x.message);
+        }
+      }
+    });
     this.onWindowResize();
     this.getData();
     this.form = this.formBuilder.group({
@@ -113,13 +127,16 @@ export class OutwardDetailsComponent implements OnInit {
   }
 
   getData() {
+
     const id = this.route.snapshot.paramMap.get('id');
+    console.log(id);
     if (id !== null)
       this.service.Details(id).subscribe(x => {
         this.dt = x.data;
         this.listDetails = this.dt.outwardDetails;
         this.dataSource.data = this.dt.outwardDetails;
-        this.table.renderRows();
+        if (this.table.dataSource)
+          this.table.renderRows();
         this.form.patchValue({
           id: this.dt.id,
           voucherCode: this.dt.voucherCode,
@@ -147,12 +164,6 @@ export class OutwardDetailsComponent implements OnInit {
           OutwardDetails: null
         });
       },
-        //   error => {
-        //   if (error.error.errors.length === undefined)
-        //     this.notifier.notify('error', error.error.message);
-        //   else
-        //     this.notifier.notify('error', error.error);
-        // }
       );
     // đây là create
     this.serviceBook.GetDataToWareHouseBookIndex().subscribe(x => {
