@@ -22,7 +22,7 @@ import { OutwardDetailDetailsComponent } from '../OutwardDetailDetails/OutwardDe
   templateUrl: './OutwardDetails.component.html',
   styleUrls: ['./OutwardDetails.component.scss']
 })
-export class OutwardDetailsComponent implements OnInit,OnDestroy  {
+export class OutwardDetailsComponent implements OnInit  {
   baseAPI: string = environment.baseApi;
 
   form!: FormGroup;
@@ -69,12 +69,11 @@ export class OutwardDetailsComponent implements OnInit,OnDestroy  {
   @ViewChild(MatTable)
   table!: MatTable<OutwardDetailDTO>;
   private subscriptions = new Subscription();
-  constructor(private router:Router,public signalRService: SignalRService, private serviceBook: WareHouseBookService, notifierService: NotifierService, public dialog: MatDialog, private formBuilder: FormBuilder, private route: ActivatedRoute, private service: OutwardService) {
+  constructor(private router1:Router,public signalRService: SignalRService, private serviceBook: WareHouseBookService, notifierService: NotifierService, public dialog: MatDialog, private formBuilder: FormBuilder, private route: ActivatedRoute, private service: OutwardService) {
     this.notifier = notifierService;
+    this.route.params.subscribe(param =>console.log(param));
   }
-  ngOnDestroy(): void {
-   this.ngOnInit(); 
-  }
+
   @HostListener('window:resize', ['$event'])
 
   onWindowResize(): void {
@@ -88,20 +87,12 @@ export class OutwardDetailsComponent implements OnInit,OnDestroy  {
 
 
   ngOnInit() {
-    this.router.events.subscribe(event => {
-      if (event instanceof NavigationStart) {
-       console.log(event)
-      }
-    })
-    this.signalRService.WareHouseBookTrachking();
-    this.signalRService.msgReceived$.subscribe(x => {
-      if (x.success) {
-        if (this.form.value["id"] === x.data && this.table.dataSource) {
-          this.getData();
-          this.notifier.notify('success', x.message);
-        }
-      }
-    });
+    // this.router1.events.subscribe(event => {
+    //   if (event instanceof NavigationStart) {
+    //    console.log(event)
+    //   }
+    // })
+    
     this.onWindowResize();
     this.getData();
     this.form = this.formBuilder.group({
@@ -131,45 +122,26 @@ export class OutwardDetailsComponent implements OnInit,OnDestroy  {
       toWareHouseId: null
 
     });
+    this.signalRService.WareHouseBookTrachking();
+    this.signalRService.msgReceived$.subscribe(x => {
+      if (x.success) {
+        if (this.form.value["id"] === x.data) {
+          this.getData();
+          this.notifier.notify('success', x.message);
+        }
+      }
+    });
   }
 
   getData() {
-
     const id = this.route.snapshot.paramMap.get('id');
-    console.log(id);
     if (id !== null)
       this.service.Details(id).subscribe(x => {
         this.dt = x.data;
         this.listDetails = this.dt.outwardDetails;
         this.dataSource.data = this.dt.outwardDetails;
-        if (this.table.dataSource)
-          this.table.renderRows();
-        this.form.patchValue({
-          id: this.dt.id,
-          voucherCode: this.dt.voucherCode,
-          voucher: this.dt.voucher,
-          voucherDate: this.dt.voucherDate,
-          wareHouseId: this.dt.wareHouseId,
-          toWareHouseId: this.dt.toWareHouseId,
-          deliver: this.dt.deliver,
-          receiver: this.dt.receiver,
-          vendorId: this.dt.vendorId,
-          reason: this.dt.reason,
-          reasonDescription: this.dt.reasonDescription,
-          description: this.dt.description,
-          reference: null,
-          createdDate: this.dt.createdDate,
-          createdBy: this.dt.createdBy,
-          modifiedDate: this.dt.modifiedDate,
-          modifiedBy: this.dt.modifiedBy,
-          deliverPhone: this.dt.deliverPhone,
-          deliverAddress: this.dt.deliverAddress,
-          deliverDepartment: this.dt.deliverDepartment,
-          receiverPhone: this.dt.receiverPhone,
-          receiverAddress: this.dt.receiverAddress,
-          receiverDepartment: this.dt.receiverDepartment,
-          OutwardDetails: null
-        });
+        this.table.renderRows();
+        this.form.patchValue(x.data);
       },
       );
     // đây là create

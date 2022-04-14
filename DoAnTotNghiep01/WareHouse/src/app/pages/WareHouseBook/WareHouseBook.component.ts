@@ -130,13 +130,13 @@ export class WareHouseBookComponent implements OnInit,OnDestroy {
     this.dataSource.sort = this.sort;
   }
   ngOnInit() {
-    this.signalRService.WareHouseBookTrachking();
-    this.signalRService.msgReceived$.subscribe(x => {
-      if (x.success) {
-          this.GetData();
-          this.notifier.notify('success', x.message);
-      }
-    });
+    // this.signalRService.WareHouseBookTrachking();
+    // this.signalRService.msgReceived$.subscribe(x => {
+    //   if (x.success) {
+    //       this.GetData();
+    //       this.notifier.notify('success', x.message);
+    //   }
+    // });
     this.GetData();
     this.getScreenWidth = window.innerWidth;
     this.getScreenHeight = window.innerHeight;

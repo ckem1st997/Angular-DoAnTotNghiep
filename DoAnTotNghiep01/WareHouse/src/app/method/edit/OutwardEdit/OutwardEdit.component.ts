@@ -82,15 +82,15 @@ export class OutwardEditComponent implements OnInit {
   }
   ngOnInit() {
     this.signalRService.WareHouseBookTrachking();
-    this.signalRService.msgReceived$.subscribe(x => {
-      if (x.success) {
-        if (this.form.value["id"] === x.data)
-        {
-          this.getData();
-          this.notifier.notify('success', x.message);
-        }
-      }
-    });
+    // this.signalRService.msgReceived$.subscribe(x => {
+    //   if (x.success) {
+    //     if (this.form.value["id"] === x.data)
+    //     {
+    //       this.getData();
+    //       this.notifier.notify('success', x.message);
+    //     }
+    //   }
+    // });
     this.onWindowResize();
     this.getData();
     this.form = this.formBuilder.group({
@@ -129,32 +129,7 @@ export class OutwardEditComponent implements OnInit {
         this.listDetails = this.dt.outwardDetails;
         this.dataSource.data = this.dt.outwardDetails;
         this.table.renderRows();
-        this.form.patchValue({
-          id: this.dt.id,
-          voucherCode: this.dt.voucherCode,
-          voucher: this.dt.voucher,
-          voucherDate: this.dt.voucherDate,
-          wareHouseId: this.dt.wareHouseId,
-          toWareHouseId: this.dt.toWareHouseId,
-          deliver: this.dt.deliver,
-          receiver: this.dt.receiver,
-          vendorId: this.dt.vendorId,
-          reason: this.dt.reason,
-          reasonDescription: this.dt.reasonDescription,
-          description: this.dt.description,
-          reference: null,
-          createdDate: this.dt.createdDate,
-          createdBy: this.dt.createdBy,
-          modifiedDate: this.dt.modifiedDate,
-          modifiedBy: this.dt.modifiedBy,
-          deliverPhone: this.dt.deliverPhone,
-          deliverAddress: this.dt.deliverAddress,
-          deliverDepartment: this.dt.deliverDepartment,
-          receiverPhone: this.dt.receiverPhone,
-          receiverAddress: this.dt.receiverAddress,
-          receiverDepartment: this.dt.receiverDepartment,
-          OutwardDetails: null
-        });
+        this.form.patchValue(x.data);
       });
 
     this.serviceBook.AddOutwarDetailsIndex().subscribe(x => {

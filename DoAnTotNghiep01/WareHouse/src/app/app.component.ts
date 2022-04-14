@@ -30,6 +30,7 @@ export class AppComponent {
   ngOnInit() {
     this.listenToLoading();
     this.signalRService.startConnection();
+
   //  this.signalRService.CallMethodToServiceByInwardChange('SendMessageToCLient');
 
   }
