@@ -1,7 +1,7 @@
 import { LiveAnnouncer } from "@angular/cdk/a11y";
 import { SelectionModel } from "@angular/cdk/collections";
 import { FlatTreeControl } from "@angular/cdk/tree";
-import { Component, OnInit, ViewChild, HostListener } from "@angular/core";
+import { Component, OnInit, ViewChild, HostListener, OnDestroy } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { MatPaginator, PageEvent } from "@angular/material/paginator";
 import { MatSort, Sort } from "@angular/material/sort";
@@ -43,7 +43,7 @@ interface ExampleFlatNode {
   templateUrl: './WareHouseBook.component.html',
   styleUrls: ['./WareHouseBook.component.scss']
 })
-export class WareHouseBookComponent implements OnInit {
+export class WareHouseBookComponent implements OnInit,OnDestroy {
   listACccount: BaseSelectDTO[] = [];
   //
   typeIn = "Phiếu nhập";
@@ -143,6 +143,11 @@ export class WareHouseBookComponent implements OnInit {
     this.selection.clear();
     this.serviceW.getTreeView().subscribe(x => this.dataSourceTreee.data = x.data);
 
+  }
+
+  @HostListener('unloaded')
+  ngOnDestroy() {
+    console.log('Items destroyed');
   }
   @HostListener('window:resize', ['$event'])
 

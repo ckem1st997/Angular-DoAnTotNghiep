@@ -66,18 +66,18 @@ export const Master_LAYOUT: Routes = [
 ]
 const routes: Routes = [
 
-  { path: 'wh', component: DefaultLayoutComponent, children: DEFAULT_ROUTES, canActivate: [AuthGuard] },
-  { path: 'authozire', component: AuthozireComponent, children: Authozire_LAYOUT },
+  { path: 'wh', component: DefaultLayoutComponent, children: DEFAULT_ROUTES, canActivate: [AuthGuard]   },
+  { path: 'authozire', component: AuthozireComponent, children: Authozire_LAYOUT,pathMatch: 'full' },
   { path: 'master', component: MasterUserComponent, children: Master_LAYOUT, canActivate: [AuthGuard] },
   { path: '404', component: NotFoundComponent, data: { state: '404' } },
   { path: '403', component: PagesForbieComponent, data: { state: '403' } },
-  { path: 'page', component: PagesOptionComponent, data: { state: 'page' }, canActivate: [AuthGuard] },
-  { path: 'center', component: PagesHomeCenterComponent, data: { state: 'center' }},
+  { path: 'page', component: PagesOptionComponent, data: { state: 'page' }, canActivate: [AuthGuard]},
+  { path: 'center', component: PagesHomeCenterComponent, data: { state: 'center' },pathMatch: 'full'},
   { path: '**', redirectTo: '/404' },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes,{onSameUrlNavigation: 'ignore'})],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

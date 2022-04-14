@@ -1,9 +1,10 @@
-import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource, MatTable } from '@angular/material/table';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { NotifierService } from 'angular-notifier';
+import { Subscription } from 'rxjs';
 import { BaseSelectDTO } from 'src/app/model/BaseSelectDTO';
 import { OutwardDetailDTO } from 'src/app/model/OutwardDetailDTO';
 import { OutwardDTO } from 'src/app/model/OutwardDTO';
@@ -21,7 +22,7 @@ import { OutwardDetailDetailsComponent } from '../OutwardDetailDetails/OutwardDe
   templateUrl: './OutwardDetails.component.html',
   styleUrls: ['./OutwardDetails.component.scss']
 })
-export class OutwardDetailsComponent implements OnInit {
+export class OutwardDetailsComponent implements OnInit,OnDestroy  {
   baseAPI: string = environment.baseApi;
 
   form!: FormGroup;
@@ -67,9 +68,12 @@ export class OutwardDetailsComponent implements OnInit {
   dataSource = new MatTableDataSource<OutwardDetailDTO>();
   @ViewChild(MatTable)
   table!: MatTable<OutwardDetailDTO>;
-
-  constructor(public signalRService: SignalRService, private serviceBook: WareHouseBookService, notifierService: NotifierService, public dialog: MatDialog, private formBuilder: FormBuilder, private route: ActivatedRoute, private service: OutwardService) {
+  private subscriptions = new Subscription();
+  constructor(private router:Router,public signalRService: SignalRService, private serviceBook: WareHouseBookService, notifierService: NotifierService, public dialog: MatDialog, private formBuilder: FormBuilder, private route: ActivatedRoute, private service: OutwardService) {
     this.notifier = notifierService;
+  }
+  ngOnDestroy(): void {
+   this.ngOnInit(); 
   }
   @HostListener('window:resize', ['$event'])
 
@@ -82,10 +86,13 @@ export class OutwardDetailsComponent implements OnInit {
     clientHeightForm.style.paddingTop = clientHeight.clientHeight + "px";
   }
 
-  ngOndestroy() {
-  }
 
   ngOnInit() {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationStart) {
+       console.log(event)
+      }
+    })
     this.signalRService.WareHouseBookTrachking();
     this.signalRService.msgReceived$.subscribe(x => {
       if (x.success) {
