@@ -88,16 +88,7 @@ export class InwardDetailsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.signalRService.WareHouseBookTrachking();
-    this.signalRService.msgReceived$.subscribe(x => {
-      if (x.success) {
-        if (this.form.value["id"] === x.data)
-        {
-          this.getData();
-          this.notifier.notify('success', x.message);
-        }
-      }
-    });
+  
     this.onWindowResize();
     this.getData();
     this.form = this.formBuilder.group({

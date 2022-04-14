@@ -4,10 +4,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource, MatTable } from '@angular/material/table';
 import { ActivatedRoute, NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { NotifierService } from 'angular-notifier';
-import { Subscription } from 'rxjs';
+import { first, Subject, Subscription } from 'rxjs';
 import { BaseSelectDTO } from 'src/app/model/BaseSelectDTO';
 import { OutwardDetailDTO } from 'src/app/model/OutwardDetailDTO';
 import { OutwardDTO } from 'src/app/model/OutwardDTO';
+import { ResultMessageResponse } from 'src/app/model/ResultMessageResponse';
 import { UnitDTO } from 'src/app/model/UnitDTO';
 import { WareHouseItemDTO } from 'src/app/model/WareHouseItemDTO';
 import { OutwardService } from 'src/app/service/Outward.service';
@@ -92,7 +93,17 @@ export class OutwardDetailsComponent implements OnInit  {
     //    console.log(event)
     //   }
     // })
-    
+    this.signalRService.WareHouseBookTrachking();
+    this.signalRService.msgReceived$.pipe(first()).subscribe(x => {
+      console.log(this.signalRService.msgReceived$);
+      if (x.success) {
+        if (this.form.value["id"] === x.data)
+        {
+          this.getData();
+          this.notifier.notify('success', x.message);
+        }
+      }
+    });
     this.onWindowResize();
     this.getData();
     this.form = this.formBuilder.group({
