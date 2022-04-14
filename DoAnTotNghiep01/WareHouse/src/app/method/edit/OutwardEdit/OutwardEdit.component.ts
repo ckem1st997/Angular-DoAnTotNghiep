@@ -11,6 +11,7 @@ import { OutwardDTO } from 'src/app/model/OutwardDTO';
 import { UnitDTO } from 'src/app/model/UnitDTO';
 import { WareHouseItemDTO } from 'src/app/model/WareHouseItemDTO';
 import { OutwardService } from 'src/app/service/Outward.service';
+import { SignalRService } from 'src/app/service/SignalR.service';
 import { WareHouseBookService } from 'src/app/service/WareHouseBook.service';
 import { OutwardValidator } from 'src/app/validator/OutwardValidator';
 import { OutwarDetailsCreateComponent } from '../../create/OutwarDetailsCreate/OutwarDetailsCreate.component';
@@ -66,7 +67,7 @@ export class OutwardEditComponent implements OnInit {
   @ViewChild(MatTable)
   table!: MatTable<OutwardDetailDTO>;
 
-  constructor(private serviceBook: WareHouseBookService, notifierService: NotifierService, public dialog: MatDialog, private formBuilder: FormBuilder, private route: ActivatedRoute, private service: OutwardService) {
+  constructor(public signalRService: SignalRService,private serviceBook: WareHouseBookService, notifierService: NotifierService, public dialog: MatDialog, private formBuilder: FormBuilder, private route: ActivatedRoute, private service: OutwardService) {
     this.notifier = notifierService;
   }
   @HostListener('window:resize', ['$event'])
@@ -80,6 +81,16 @@ export class OutwardEditComponent implements OnInit {
     clientHeightForm.style.paddingTop = clientHeight.clientHeight + "px";
   }
   ngOnInit() {
+    this.signalRService.WareHouseBookTrachking();
+    this.signalRService.msgReceived$.subscribe(x => {
+      if (x.success) {
+        if (this.form.value["id"] === x.data)
+        {
+          this.getData();
+          this.notifier.notify('success', x.message);
+        }
+      }
+    });
     this.onWindowResize();
     this.getData();
     this.form = this.formBuilder.group({
@@ -287,7 +298,10 @@ export class OutwardEditComponent implements OnInit {
         this.form.value["OutwardDetails"] = this.listDetails;
         this.service.Edit(this.form.value).subscribe(x => {
           if (x.success)
+          {
+            this.signalRService.SendWareHouseBookTrachking(this.form.value["id"]);
             this.notifier.notify('success', 'Chỉnh sửa thành công');
+          }
           // else {
           //   if (x.errors["msg"] !== undefined && x.errors["msg"].length !== undefined)
           //     this.notifier.notify('error', x.errors["msg"][0]);

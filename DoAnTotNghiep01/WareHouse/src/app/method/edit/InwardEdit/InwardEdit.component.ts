@@ -24,7 +24,7 @@ import { InwarDetailsEditByServiceComponent } from '../InwarDetailsEditByService
   styleUrls: ['./InwardEdit.component.scss']
 })
 export class InwardEditComponent implements OnInit {
-  title:string="";
+  title: string = "";
   form!: FormGroup;
   listDetails = Array<InwardDetailDTO>();
   listItem = Array<WareHouseItemDTO>();
@@ -84,9 +84,16 @@ export class InwardEditComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.signalRService.CallMethodToServiceByInwardChange('SendMessageToCLient');
-    this.signalRService.msgReceived$.subscribe(x=>this.getData());
-    console.log(this.signalRService.changeInward);
+    this.signalRService.WareHouseBookTrachking();
+    this.signalRService.msgReceived$.subscribe(x => {
+      if (x.success) {
+        if (this.form.value["id"] === x.data)
+        {
+          this.getData();
+          this.notifier.notify('success', x.message);
+        }
+      }
+    });
     this.onWindowResize();
     this.getData();
     this.form = this.formBuilder.group({
@@ -117,7 +124,6 @@ export class InwardEditComponent implements OnInit {
   }
 
   getData() {
-    console.log(123);
     const id = this.route.snapshot.paramMap.get('id');
     if (id !== null)
       this.service.EditIndex(id).subscribe(x => {
@@ -292,8 +298,10 @@ export class InwardEditComponent implements OnInit {
       if (checkDetails == true) {
         this.form.value["inwardDetails"] = this.listDetails;
         this.service.Edit(this.form.value).subscribe(x => {
-          if (x.success)
+          if (x.success) {
             this.notifier.notify('success', 'Chỉnh sửa thành công');
+            this.signalRService.SendWareHouseBookTrachking(this.form.value["id"]);
+          }
           // else {
           //   if (x.errors["msg"] !== undefined && x.errors["msg"].length !== undefined)
           //     this.notifier.notify('error', x.errors["msg"][0]);
