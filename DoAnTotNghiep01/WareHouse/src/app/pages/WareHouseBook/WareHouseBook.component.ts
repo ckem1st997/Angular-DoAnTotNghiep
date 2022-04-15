@@ -144,7 +144,6 @@ export class WareHouseBookComponent implements OnInit, OnDestroy {
 
   }
 
-  @HostListener('unloaded')
   ngOnDestroy() {
     this.signalRService.off(this.signalRService.WareHouseBookTrachkingToCLient);
   }
