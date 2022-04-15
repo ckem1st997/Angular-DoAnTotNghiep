@@ -136,16 +136,22 @@ export class WareHouseBookComponent implements OnInit, OnDestroy {
         this.GetData();
       }
     });
+    this.signalRService.hubConnection.on(this.signalRService.CreateWareHouseBookTrachking, (data: ResultMessageResponse<string>) => {
+      if (data.success) {
+        this.notifier.notify('success', data.message);
+        this.GetData();
+      }
+    });
     this.GetData();
     this.getScreenWidth = window.innerWidth;
     this.getScreenHeight = window.innerHeight;
     this.selection.clear();
     this.serviceW.getTreeView().subscribe(x => this.dataSourceTreee.data = x.data);
-
   }
 
   ngOnDestroy() {
     this.signalRService.off(this.signalRService.WareHouseBookTrachkingToCLient);
+    this.signalRService.hubConnection.off(this.signalRService.CreateWareHouseBookTrachking);
   }
   @HostListener('window:resize', ['$event'])
 

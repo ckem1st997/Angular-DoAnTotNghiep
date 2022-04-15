@@ -460,9 +460,9 @@ export class HomeComponent implements OnInit,OnDestroy {
   openDialog(model: WareHouseBookDTO) {
     if (model.id !== null) {
       if (model.type === this.typeIn)
-        this.route.navigate(['/details-inward', model.id]);
+        this.route.navigate(['wh/details-inward', model.id]);
       else if (model.type === this.typeOut)
-        this.route.navigate(['/details-outward', model.id]);
+        this.route.navigate(['wh/details-outward', model.id]);
     }
     else
       this.notifier.notify('warning', "Xin vui lòng thử lại !");

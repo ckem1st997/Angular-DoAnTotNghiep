@@ -215,7 +215,7 @@ export class WareHouseBenginingComponent implements OnInit {
         dialogRef.afterClosed().subscribe(result => {
           var res = result;
           if (res) {
-            this.notifier.notify('success', 'Chỉnh sửa thành công !');
+            this.notifier.notify('success', 'Thêm thành công !');
             this.GetData();
           }
         });

@@ -216,6 +216,7 @@ export class InwardCreateComponent implements OnInit,OnDestroy {
   }
 
   onSubmit() {
+   // this.signalRService.SendCreateWareHouseBookTrachking('nhập kho');
     this.form.value["voucher"] = this.dt.voucher;
     var test = new InwardValidator();
     var msg = test.validate(this.form.value);
@@ -226,8 +227,8 @@ export class InwardCreateComponent implements OnInit,OnDestroy {
         this.form.value["inwardDetails"] = this.listDetails;
         this.service.Add(this.form.value).subscribe(x => {
           if (x.success) {
-            this.notifier.notify('success', 'Thêm thành công');
             this.signalRService.SendCreateWareHouseBookTrachking('nhập kho');
+            this.notifier.notify('success', 'Thêm thành công');
             this.routerde.navigate(['wh/warehouse-book']);
             //   this.routerde.navigate(['/details-inward', this.form.value["id"]]);
           }
