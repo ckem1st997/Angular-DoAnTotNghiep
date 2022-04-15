@@ -3,9 +3,11 @@ import { Injectable } from '@angular/core';
 import * as signalR from "@microsoft/signalr";  // or from "@microsoft/signalr" if you are using a new library
 import { Observable, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { AuthenticationService } from '../extension/Authentication.service';
 import { InwardEditComponent } from '../method/edit/InwardEdit/InwardEdit.component';
 import { InwarDetailsEditComponent } from '../method/edit/InwarDetailsEdit/InwarDetailsEdit.component';
 import { ResultMessageResponse } from '../model/ResultMessageResponse';
+import { AuthozireService } from './Authozire.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,12 +20,13 @@ export class SignalRService {
   msgReceived$ = this.msgSignalrSource.asObservable();
   //name method call
   public WareHouseBookTrachkingToCLient: string = "WareHouseBookTrachkingToCLient";
-  public constructor() {
+  public CreateWareHouseBookTrachking: string = "CreateWareHouseBookTrachkingToCLient";
+  public constructor(private auth:AuthenticationService) {
 
   }
   public startConnection = () => {
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl(this.baseUrl)
+      .withUrl(this.baseUrl,{ accessTokenFactory: () => ''+this.auth.userValue.token+'' })
       .configureLogging(signalR.LogLevel.Information)
       .withAutomaticReconnect()
       .build();
@@ -38,13 +41,16 @@ export class SignalRService {
   public off(nameMethod: string) {
     this.hubConnection.off(nameMethod);
   }
-  public WareHouseBookTrachking() {
-    this.hubConnection.on(this.WareHouseBookTrachkingToCLient, (data: ResultMessageResponse<string>) => {
-      this.changeInward = data;
-      this.msgSignalrSource.next(data);
-    });
-  }
+  // public WareHouseBookTrachking() {
+  //   this.hubConnection.on(this.WareHouseBookTrachkingToCLient, (data: ResultMessageResponse<string>) => {
+  //     this.changeInward = data;
+  //     this.msgSignalrSource.next(data);
+  //   });
+  // }
   public SendWareHouseBookTrachking(id: string) {
-    this.hubConnection.send("wareHouseBookTrachking", id);
+    this.hubConnection.send("WareHouseBookTrachking", id);
+  }
+  public SendCreateWareHouseBookTrachking(type: string) {
+    this.hubConnection.send("CreateWareHouseBookTrachking", type);
   }
 }

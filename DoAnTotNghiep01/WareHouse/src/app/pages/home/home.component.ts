@@ -201,7 +201,14 @@ export class HomeComponent implements OnInit,OnDestroy {
   }
 
   ngOnInit(): void {
+    // lắng nghe khi signalR có sự thay đổi
     this.signalRService.hubConnection.on(this.signalRService.WareHouseBookTrachkingToCLient, (data: ResultMessageResponse<string>) => {
+      if (data.success) {
+        this.notifier.notify('success', data.message);
+        this.GetData();
+      }
+    });
+    this.signalRService.hubConnection.on(this.signalRService.CreateWareHouseBookTrachking, (data: ResultMessageResponse<string>) => {
       if (data.success) {
         this.notifier.notify('success', data.message);
         this.GetData();
@@ -213,6 +220,7 @@ export class HomeComponent implements OnInit,OnDestroy {
   ngOnDestroy(): void {
     // tắt phương thức vừa gọi để tránh bị gọi lại nhiều lần
     this.signalRService.hubConnection.off(this.signalRService.WareHouseBookTrachkingToCLient);
+    this.signalRService.hubConnection.off(this.signalRService.CreateWareHouseBookTrachking);
   }
 
   GetData() {

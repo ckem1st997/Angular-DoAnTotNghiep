@@ -1,4 +1,4 @@
-import { HostListener, OnInit } from '@angular/core';
+import { HostListener, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Guid } from 'src/app/extension/Guid';
@@ -16,12 +16,14 @@ import { UnitDTO } from 'src/app/model/UnitDTO';
 import { BaseSelectDTO } from 'src/app/model/BaseSelectDTO';
 import { InwarDetailsEditComponent } from '../../edit/InwarDetailsEdit/InwarDetailsEdit.component';
 import { InwardValidator } from 'src/app/validator/InwardValidator';
+import { SignalRService } from 'src/app/service/SignalR.service';
+import { ResultMessageResponse } from 'src/app/model/ResultMessageResponse';
 @Component({
   selector: 'app-InwardCreate',
   templateUrl: './InwardCreate.component.html',
   styleUrls: ['./InwardCreate.component.scss']
 })
-export class InwardCreateComponent implements OnInit {
+export class InwardCreateComponent implements OnInit,OnDestroy {
   form!: FormGroup;
   listDetails = Array<InwardDetailDTO>();
   listItem = Array<WareHouseItemDTO>();
@@ -67,7 +69,7 @@ export class InwardCreateComponent implements OnInit {
   @ViewChild(MatTable)
   table!: MatTable<InwardDetailDTO>;
 
-  constructor(private routerde: Router, private serviceBook: WareHouseBookService, notifierService: NotifierService, public dialog: MatDialog, private formBuilder: FormBuilder, private route: ActivatedRoute, private service: InwardService) {
+  constructor(private signalRService: SignalRService,private routerde: Router, private serviceBook: WareHouseBookService, notifierService: NotifierService, public dialog: MatDialog, private formBuilder: FormBuilder, private route: ActivatedRoute, private service: InwardService) {
     this.notifier = notifierService;
   }
   @HostListener('window:resize', ['$event'])
@@ -81,6 +83,8 @@ export class InwardCreateComponent implements OnInit {
     clientHeightForm.style.paddingTop = clientHeight.clientHeight + "px";
   }
   ngOnInit() {
+    // this.signalRService.hubConnection.on(this.signalRService.CreateWareHouseBookTrachking, (data: ResultMessageResponse<string>) => {
+    // });
     this.onWindowResize();
     const whid = this.route.snapshot.paramMap.get('whid');
     this.service.AddIndex(whid).subscribe(x => {
@@ -111,8 +115,12 @@ export class InwardCreateComponent implements OnInit {
       receiverDepartment: null,
       inwardDetails: null
     });
-  }
 
+  }
+  ngOnDestroy(): void {
+    // tắt phương thức vừa gọi để tránh bị gọi lại nhiều lần
+    this.signalRService.hubConnection.off(this.signalRService.CreateWareHouseBookTrachking);
+  }
   getCreate() {
 
 
@@ -219,19 +227,14 @@ export class InwardCreateComponent implements OnInit {
         this.service.Add(this.form.value).subscribe(x => {
           if (x.success) {
             this.notifier.notify('success', 'Thêm thành công');
-            this.routerde.navigate(['/warehouse-book']);
+            this.signalRService.SendCreateWareHouseBookTrachking('nhập kho');
+            this.routerde.navigate(['wh/warehouse-book']);
             //   this.routerde.navigate(['/details-inward', this.form.value["id"]]);
           }
           // commnet vì xử dụng bộ đánh chặn để thông báo thay vì ở đây
           // else
           //   this.notifier.notify('error', x.errors["msg"][0]);
-        }
-          // , error => {
-          //   if (error.error.errors.length === undefined)
-          //     this.notifier.notify('error', error.error.message);
-          //   else
-          //     this.notifier.notify('error', error.error);
-          // }
+        }         
         );
       }
       else {
