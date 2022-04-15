@@ -214,6 +214,12 @@ export class HomeComponent implements OnInit,OnDestroy {
         this.GetData();
       }
     });
+    this.signalRService.hubConnection.on(this.signalRService.DeleteWareHouseBookTrachking, (data: ResultMessageResponse<string>) => {
+      if (data.success) {
+        this.notifier.notify('success', data.message);
+        this.GetData();
+      }
+    });
     this.GetData();
   }
 
@@ -221,6 +227,8 @@ export class HomeComponent implements OnInit,OnDestroy {
     // tắt phương thức vừa gọi để tránh bị gọi lại nhiều lần
     this.signalRService.hubConnection.off(this.signalRService.WareHouseBookTrachkingToCLient);
     this.signalRService.hubConnection.off(this.signalRService.CreateWareHouseBookTrachking);
+    this.signalRService.hubConnection.off(this.signalRService.DeleteWareHouseBookTrachking);
+
   }
 
   GetData() {

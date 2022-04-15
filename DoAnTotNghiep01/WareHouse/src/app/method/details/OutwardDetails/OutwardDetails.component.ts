@@ -69,7 +69,7 @@ export class OutwardDetailsComponent implements OnInit, OnDestroy {
   dataSource = new MatTableDataSource<OutwardDetailDTO>();
   @ViewChild(MatTable)
   table!: MatTable<OutwardDetailDTO>;
-  constructor(public signalRService: SignalRService, private serviceBook: WareHouseBookService, notifierService: NotifierService, public dialog: MatDialog, private formBuilder: FormBuilder, private route: ActivatedRoute, private service: OutwardService) {
+  constructor(private route1: Router,public signalRService: SignalRService, private serviceBook: WareHouseBookService, notifierService: NotifierService, public dialog: MatDialog, private formBuilder: FormBuilder, private route: ActivatedRoute, private service: OutwardService) {
     this.notifier = notifierService;
     // this.route.params.subscribe(param => console.log(param));
 
@@ -77,6 +77,8 @@ export class OutwardDetailsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     // tắt phương thức vừa gọi để tránh bị gọi lại nhiều lần
     this.signalRService.hubConnection.off(this.signalRService.WareHouseBookTrachkingToCLient);
+    this.signalRService.hubConnection.off(this.signalRService.DeleteWareHouseBookTrachking);
+
   }
 
   @HostListener('window:resize', ['$event'])
@@ -105,6 +107,12 @@ export class OutwardDetailsComponent implements OnInit, OnDestroy {
           this.notifier.notify('success', data.message);
           this.getData();
         }
+      }
+    });
+    this.signalRService.hubConnection.on(this.signalRService.DeleteWareHouseBookTrachking, (data: ResultMessageResponse<string>) => {
+      if (data.success && data.data.includes(this.form.value["id"])) {
+        this.notifier.notify('success', "Phiếu đã bị xoá !");
+        this.route1.navigate(['/wh/warehouse-book']);
       }
     });
     this.onWindowResize();

@@ -2,7 +2,7 @@ import { Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource, MatTable } from '@angular/material/table';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NotifierService } from 'angular-notifier';
 import { Guid } from 'src/app/extension/Guid';
 import { BaseSelectDTO } from 'src/app/model/BaseSelectDTO';
@@ -70,7 +70,7 @@ export class InwardEditComponent implements OnInit,OnDestroy {
   @ViewChild(MatTable)
   table!: MatTable<InwardDetailDTO>;
 
-  constructor(public signalRService: SignalRService, private serviceBook: WareHouseBookService, notifierService: NotifierService, public dialog: MatDialog, private formBuilder: FormBuilder, private route: ActivatedRoute, private service: InwardService) {
+  constructor(private route1: Router,public signalRService: SignalRService, private serviceBook: WareHouseBookService, notifierService: NotifierService, public dialog: MatDialog, private formBuilder: FormBuilder, private route: ActivatedRoute, private service: InwardService) {
     this.notifier = notifierService;
   }
   @HostListener('window:resize', ['$event'])
@@ -91,6 +91,12 @@ export class InwardEditComponent implements OnInit,OnDestroy {
           this.notifier.notify('success', data.message);
           this.getData();
         }
+      }
+    });
+    this.signalRService.hubConnection.on(this.signalRService.DeleteWareHouseBookTrachking, (data: ResultMessageResponse<string>) => {
+      if (data.success && data.data.includes(this.form.value["id"])) {
+        this.notifier.notify('success', "Phiếu đã bị xoá !");
+        this.route1.navigate(['/wh/warehouse-book']);
       }
     });
     this.onWindowResize();
@@ -124,6 +130,8 @@ export class InwardEditComponent implements OnInit,OnDestroy {
   ngOnDestroy(): void {
     // tắt phương thức vừa gọi để tránh bị gọi lại nhiều lần
     this.signalRService.hubConnection.off(this.signalRService.WareHouseBookTrachkingToCLient);
+    this.signalRService.hubConnection.off(this.signalRService.DeleteWareHouseBookTrachking);
+
   }
   getData() {
     const id = this.route.snapshot.paramMap.get('id');
@@ -214,12 +222,6 @@ export class InwardEditComponent implements OnInit,OnDestroy {
 
 
       },
-        // error => {
-        //   if (error.error.errors.length === undefined)
-        //     this.notifier.notify('error', error.error.message);
-        //   else
-        //     this.notifier.notify('error', error.error);
-        // }
       );
     }
     else

@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, HostListener, OnDestroy, OnInit, ViewChil
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource, MatTable } from '@angular/material/table';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NotifierService } from 'angular-notifier';
 import { Guid } from 'src/app/extension/Guid';
 import { BaseSelectDTO } from 'src/app/model/BaseSelectDTO';
@@ -73,7 +73,7 @@ export class InwardDetailsComponent implements OnInit,OnDestroy {
   @ViewChild(MatTable)
   table!: MatTable<InwardDetailDTO>;
 
-  constructor(public signalRService: SignalRService, private changeDetectorRefs: ChangeDetectorRef, private serviceBook: WareHouseBookService, notifierService: NotifierService, public dialog: MatDialog, private formBuilder: FormBuilder, private route: ActivatedRoute, private service: InwardService) {
+  constructor(private route1: Router,public signalRService: SignalRService, private changeDetectorRefs: ChangeDetectorRef, private serviceBook: WareHouseBookService, notifierService: NotifierService, public dialog: MatDialog, private formBuilder: FormBuilder, private route: ActivatedRoute, private service: InwardService) {
     this.notifier = notifierService;
     
   }
@@ -90,6 +90,8 @@ export class InwardDetailsComponent implements OnInit,OnDestroy {
   ngOnDestroy(): void {
     // tắt phương thức vừa gọi để tránh bị gọi lại nhiều lần
     this.signalRService.hubConnection.off(this.signalRService.WareHouseBookTrachkingToCLient);
+    this.signalRService.hubConnection.off(this.signalRService.DeleteWareHouseBookTrachking);
+
   }
   ngOnInit() {
     this.signalRService.hubConnection.on(this.signalRService.WareHouseBookTrachkingToCLient, (data: ResultMessageResponse<string>) => {
@@ -98,6 +100,12 @@ export class InwardDetailsComponent implements OnInit,OnDestroy {
           this.notifier.notify('success', data.message);
           this.getData();
         }
+      }
+    });
+    this.signalRService.hubConnection.on(this.signalRService.DeleteWareHouseBookTrachking, (data: ResultMessageResponse<string>) => {
+      if (data.success && data.data.includes(this.form.value["id"])) {
+        this.notifier.notify('success', "Phiếu đã bị xoá !");
+        this.route1.navigate(['/wh/warehouse-book']);
       }
     });
     this.onWindowResize();

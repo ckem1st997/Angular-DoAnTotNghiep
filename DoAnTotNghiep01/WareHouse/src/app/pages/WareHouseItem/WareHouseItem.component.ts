@@ -33,7 +33,7 @@ import { WareHouseItemCategoryService } from 'src/app/service/WareHouseItemCateg
   styleUrls: ['./WareHouseItem.component.scss']
 })
 export class WareHouseItemComponent implements OnInit {
-  //
+  
   //
   modelCreate: WareHouseItemDTO[] = [];
   //

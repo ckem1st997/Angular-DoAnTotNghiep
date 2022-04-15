@@ -108,7 +108,6 @@ export class WareHouseItemCategoryComponent implements OnInit {
     } else {
       this._liveAnnouncer.announce('Sorting cleared');
     }
-
   }
   pageChanged(event: PageEvent) {
     this.pageSize = event.pageSize;

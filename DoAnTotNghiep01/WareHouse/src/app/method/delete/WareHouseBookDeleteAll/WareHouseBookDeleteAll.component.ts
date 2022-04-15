@@ -45,7 +45,6 @@ export class WareHouseBookDeleteAllComponent implements OnInit {
     if (this.data !== undefined && this.data.length > 0) {
       if (this.idsDelete.idsIn.length > 0 || this.idsDelete.idsOut.length > 0) {
         this.service.Delete(this.idsDelete).subscribe(x => {
-          console.log(x);
           if (x.success)
             this.dialogRef.close(x.success);
         },

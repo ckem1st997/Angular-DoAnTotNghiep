@@ -142,6 +142,12 @@ export class WareHouseBookComponent implements OnInit, OnDestroy {
         this.GetData();
       }
     });
+    this.signalRService.hubConnection.on(this.signalRService.DeleteWareHouseBookTrachking, (data: ResultMessageResponse<string>) => {
+      if (data.success) {
+        this.notifier.notify('success', data.message);
+        this.GetData();
+      }
+    });
     this.GetData();
     this.getScreenWidth = window.innerWidth;
     this.getScreenHeight = window.innerHeight;
@@ -152,6 +158,7 @@ export class WareHouseBookComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.signalRService.off(this.signalRService.WareHouseBookTrachkingToCLient);
     this.signalRService.hubConnection.off(this.signalRService.CreateWareHouseBookTrachking);
+    this.signalRService.hubConnection.off(this.signalRService.DeleteWareHouseBookTrachking);
   }
   @HostListener('window:resize', ['$event'])
 
@@ -230,6 +237,12 @@ export class WareHouseBookComponent implements OnInit, OnDestroy {
       var res = result;
       if (res) {
         this.notifier.notify('success', 'Xoá thành công !');
+        if (model.type === this.typeIn)
+          this.signalRService.SendDeleteWareHouseBookTrachking('nhập kho', model.id);
+        else if (model.type === this.typeOut)
+          this.signalRService.SendDeleteWareHouseBookTrachking('xuất kho', model.id);
+
+
         this.GetData();
       }
     });
@@ -242,11 +255,19 @@ export class WareHouseBookComponent implements OnInit, OnDestroy {
         width: '550px',
         data: this.listDelete,
       });
-
+      var ids = "";
+      for (let index = 0; index < this.listDelete.length; index++) {
+        const element = this.listDelete[index];
+        if (index == 0)
+          ids = element.id;
+        else
+          ids = ids + "," + element.id;
+      }
       dialogRef.afterClosed().subscribe(result => {
         var res = result;
         if (res) {
           this.notifier.notify('success', 'Xoá thành công !');
+          this.signalRService.SendDeleteWareHouseBookTrachking('', ids);
           this.GetData();
         }
       });
