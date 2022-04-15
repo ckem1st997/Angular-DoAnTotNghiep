@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource, MatTable } from '@angular/material/table';
@@ -8,6 +8,7 @@ import { Guid } from 'src/app/extension/Guid';
 import { BaseSelectDTO } from 'src/app/model/BaseSelectDTO';
 import { InwardDetailDTO } from 'src/app/model/InwardDetailDTO';
 import { InwardDTO } from 'src/app/model/InwardDTO';
+import { ResultMessageResponse } from 'src/app/model/ResultMessageResponse';
 import { UnitDTO } from 'src/app/model/UnitDTO';
 import { WareHouseItemDTO } from 'src/app/model/WareHouseItemDTO';
 import { InwardService } from 'src/app/service/Inward.service';
@@ -23,7 +24,7 @@ import { InwarDetailsEditByServiceComponent } from '../InwarDetailsEditByService
   templateUrl: './InwardEdit.component.html',
   styleUrls: ['./InwardEdit.component.scss']
 })
-export class InwardEditComponent implements OnInit {
+export class InwardEditComponent implements OnInit,OnDestroy {
   title: string = "";
   form!: FormGroup;
   listDetails = Array<InwardDetailDTO>();
@@ -84,16 +85,14 @@ export class InwardEditComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.signalRService.WareHouseBookTrachking();
-    // this.signalRService.msgReceived$.subscribe(x => {
-    //   if (x.success) {
-    //     if (this.form.value["id"] === x.data)
-    //     {
-    //       this.getData();
-    //       this.notifier.notify('success', x.message);
-    //     }
-    //   }
-    // });
+    this.signalRService.hubConnection.on(this.signalRService.WareHouseBookTrachkingToCLient, (data: ResultMessageResponse<string>) => {
+      if (data.success) {
+        if (this.form.value["id"] === data.data) {
+          this.notifier.notify('success', data.message);
+          this.getData();
+        }
+      }
+    });
     this.onWindowResize();
     this.getData();
     this.form = this.formBuilder.group({
@@ -122,7 +121,10 @@ export class InwardEditComponent implements OnInit {
       inwardDetails: null
     });
   }
-
+  ngOnDestroy(): void {
+    // tắt phương thức vừa gọi để tránh bị gọi lại nhiều lần
+    this.signalRService.hubConnection.off(this.signalRService.WareHouseBookTrachkingToCLient);
+  }
   getData() {
     const id = this.route.snapshot.paramMap.get('id');
     if (id !== null)
@@ -131,31 +133,7 @@ export class InwardEditComponent implements OnInit {
         this.listDetails = this.dt.inwardDetails;
         this.dataSource.data = this.dt.inwardDetails;
         this.table.renderRows();
-        this.form.patchValue({
-          id: this.dt.id,
-          voucherCode: this.dt.voucherCode,
-          voucher: this.dt.voucher,
-          voucherDate: this.dt.voucherDate,
-          wareHouseId: this.dt.wareHouseId,
-          deliver: this.dt.deliver,
-          receiver: this.dt.receiver,
-          vendorId: this.dt.vendorId,
-          reason: this.dt.reason,
-          reasonDescription: this.dt.reasonDescription,
-          description: this.dt.description,
-          reference: null,
-          createdDate: this.dt.createdDate,
-          createdBy: this.dt.createdBy,
-          modifiedDate: this.dt.modifiedDate,
-          modifiedBy: this.dt.modifiedBy,
-          deliverPhone: this.dt.deliverPhone,
-          deliverAddress: this.dt.deliverAddress,
-          deliverDepartment: this.dt.deliverDepartment,
-          receiverPhone: this.dt.receiverPhone,
-          receiverAddress: this.dt.receiverAddress,
-          receiverDepartment: this.dt.receiverDepartment,
-          inwardDetails: null
-        });
+        this.form.patchValue(x.data);
       });
 
     this.serviceBook.AddInwarDetailsIndex().subscribe(x => {

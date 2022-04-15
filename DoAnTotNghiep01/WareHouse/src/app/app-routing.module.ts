@@ -73,6 +73,7 @@ const routes: Routes = [
   { path: '403', component: PagesForbieComponent, data: { state: '403' } },
   { path: 'page', component: PagesOptionComponent, data: { state: 'page' }, canActivate: [AuthGuard]},
   { path: 'center', component: PagesHomeCenterComponent, data: { state: 'center' },pathMatch: 'full'},
+  { path: '', redirectTo: '/wh', pathMatch: 'full' },
   { path: '**', redirectTo: '/404' },
 ];
 

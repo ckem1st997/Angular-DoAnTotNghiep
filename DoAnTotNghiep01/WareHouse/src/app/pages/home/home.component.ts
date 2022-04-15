@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Unit } from 'src/app/entity/Unit';
 import { DashBoardSelectTopInAndOutDTO } from 'src/app/model/DashBoardSelectTopInAndOutDTO';
@@ -15,6 +15,7 @@ import { SelectTopWareHouseDTO } from 'src/app/model/SelectTopWareHouseDTO';
 import { NotifierService } from 'angular-notifier';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/extension/Authentication.service';
+import { SignalRService } from 'src/app/service/SignalR.service';
 
 
 interface ChartPhieu {
@@ -37,7 +38,7 @@ interface DataChart {
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit,OnDestroy {
 
   //
   private readonly notifier!: NotifierService;
@@ -181,7 +182,7 @@ export class HomeComponent implements OnInit {
     { value: 11, viewValue: 'Tháng 11' },
     { value: 12, viewValue: 'Tháng 12' }
   ];
-  constructor(private route: Router,private dashboard: DashBoardService, private warehouseBook: WareHouseBookService, notifierService: NotifierService) {
+  constructor(public signalRService: SignalRService, private route: Router, private dashboard: DashBoardService, private warehouseBook: WareHouseBookService, notifierService: NotifierService) {
     this.notifier = notifierService;
 
   }
@@ -200,6 +201,21 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.signalRService.hubConnection.on(this.signalRService.WareHouseBookTrachkingToCLient, (data: ResultMessageResponse<string>) => {
+      if (data.success) {
+        this.notifier.notify('success', data.message);
+        this.GetData();
+      }
+    });
+    this.GetData();
+  }
+
+  ngOnDestroy(): void {
+    // tắt phương thức vừa gọi để tránh bị gọi lại nhiều lần
+    this.signalRService.hubConnection.off(this.signalRService.WareHouseBookTrachkingToCLient);
+  }
+
+  GetData() {
     this.SetHeightDashboard();
     this.getIn();
     this.getOut();
@@ -208,7 +224,6 @@ export class HomeComponent implements OnInit {
     this.getChartToYear(2021);
     this.getChartToWarehouse();
   }
-
   getIn() {
     this.dashboard.getTopInward().subscribe(
       (data) => {
@@ -385,6 +400,7 @@ export class HomeComponent implements OnInit {
   }
 
   getChartToWarehouse() {
+    this.dataChart= [];
     this.dashboard.getChartByWareHouse().subscribe(
       (data) => {
         if (data.data !== undefined && data.data !== null) {
@@ -446,7 +462,7 @@ export class HomeComponent implements OnInit {
   ConvertStringToNumber(input: string) {
     var numeric = Number(input);
     return numeric;
-}
+  }
   daysInMonth(month: number, year: number) {
     return new Date(year, month, 0).getDate();
   }

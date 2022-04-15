@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource, MatTable } from '@angular/material/table';
@@ -8,6 +8,7 @@ import { Guid } from 'src/app/extension/Guid';
 import { BaseSelectDTO } from 'src/app/model/BaseSelectDTO';
 import { OutwardDetailDTO } from 'src/app/model/OutwardDetailDTO';
 import { OutwardDTO } from 'src/app/model/OutwardDTO';
+import { ResultMessageResponse } from 'src/app/model/ResultMessageResponse';
 import { UnitDTO } from 'src/app/model/UnitDTO';
 import { WareHouseItemDTO } from 'src/app/model/WareHouseItemDTO';
 import { OutwardService } from 'src/app/service/Outward.service';
@@ -22,7 +23,7 @@ import { OutwardetailsEditByServiceComponent } from '../OutwardetailsEditByServi
   templateUrl: './OutwardEdit.component.html',
   styleUrls: ['./OutwardEdit.component.scss']
 })
-export class OutwardEditComponent implements OnInit {
+export class OutwardEditComponent implements OnInit,OnDestroy {
   form!: FormGroup;
   listDetails = Array<OutwardDetailDTO>();
   listItem = Array<WareHouseItemDTO>();
@@ -81,16 +82,14 @@ export class OutwardEditComponent implements OnInit {
     clientHeightForm.style.paddingTop = clientHeight.clientHeight + "px";
   }
   ngOnInit() {
-   // this.signalRService.WareHouseBookTrachking(this.getData());
-    // this.signalRService.msgReceived$.subscribe(x => {
-    //   if (x.success) {
-    //     if (this.form.value["id"] === x.data)
-    //     {
-    //       this.getData();
-    //       this.notifier.notify('success', x.message);
-    //     }
-    //   }
-    // });
+    this.signalRService.hubConnection.on(this.signalRService.WareHouseBookTrachkingToCLient, (data: ResultMessageResponse<string>) => {
+      if (data.success) {
+        if (this.form.value["id"] === data.data) {
+          this.notifier.notify('success', data.message);
+          this.getData();
+        }
+      }
+    });
     this.onWindowResize();
     this.getData();
     this.form = this.formBuilder.group({
@@ -120,7 +119,10 @@ export class OutwardEditComponent implements OnInit {
       toWareHouseId: null,
     });
   }
-
+  ngOnDestroy(): void {
+    // tắt phương thức vừa gọi để tránh bị gọi lại nhiều lần
+    this.signalRService.hubConnection.off(this.signalRService.WareHouseBookTrachkingToCLient);
+  }
   getData() {
     const id = this.route.snapshot.paramMap.get('id');
     if (id !== null)

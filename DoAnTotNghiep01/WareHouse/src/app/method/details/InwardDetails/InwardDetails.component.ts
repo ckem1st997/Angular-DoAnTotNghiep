@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource, MatTable } from '@angular/material/table';
@@ -18,13 +18,14 @@ import { InwarDetailsEditByServiceComponent } from '../../edit/InwarDetailsEditB
 import { InwardDetailDetailsComponent } from '../InwardDetailDetails/InwardDetailDetails.component';
 import { environment } from 'src/environments/environment';
 import { SignalRService } from 'src/app/service/SignalR.service';
+import { ResultMessageResponse } from 'src/app/model/ResultMessageResponse';
 
 @Component({
   selector: 'app-InwardDetails',
   templateUrl: './InwardDetails.component.html',
   styleUrls: ['./InwardDetails.component.scss']
 })
-export class InwardDetailsComponent implements OnInit {
+export class InwardDetailsComponent implements OnInit,OnDestroy {
   baseAPI: string = environment.baseApi;
 
 
@@ -86,9 +87,19 @@ export class InwardDetailsComponent implements OnInit {
     table.style.height = getScreenHeight - 75 - clientHeight.clientHeight + "px";
     clientHeightForm.style.paddingTop = clientHeight.clientHeight + "px";
   }
-
+  ngOnDestroy(): void {
+    // tắt phương thức vừa gọi để tránh bị gọi lại nhiều lần
+    this.signalRService.hubConnection.off(this.signalRService.WareHouseBookTrachkingToCLient);
+  }
   ngOnInit() {
-  
+    this.signalRService.hubConnection.on(this.signalRService.WareHouseBookTrachkingToCLient, (data: ResultMessageResponse<string>) => {
+      if (data.success) {
+        if (this.form.value["id"] === data.data) {
+          this.notifier.notify('success', data.message);
+          this.getData();
+        }
+      }
+    });
     this.onWindowResize();
     this.getData();
     this.form = this.formBuilder.group({
@@ -129,31 +140,7 @@ export class InwardDetailsComponent implements OnInit {
           this.removeData();
           this.dataSource.data = x.data.inwardDetails;
           this.table.renderRows();
-          this.form.patchValue({
-            id: this.dt.id,
-            voucherCode: this.dt.voucherCode,
-            voucher: this.dt.voucher,
-            voucherDate: this.dt.voucherDate,
-            wareHouseId: this.dt.wareHouseId,
-            deliver: this.dt.deliver,
-            receiver: this.dt.receiver,
-            vendorId: this.dt.vendorId,
-            reason: this.dt.reason,
-            reasonDescription: this.dt.reasonDescription,
-            description: this.dt.description,
-            reference: null,
-            createdDate: this.dt.createdDate,
-            createdBy: this.dt.createdBy,
-            modifiedDate: this.dt.modifiedDate,
-            modifiedBy: this.dt.modifiedBy,
-            deliverPhone: this.dt.deliverPhone,
-            deliverAddress: this.dt.deliverAddress,
-            deliverDepartment: this.dt.deliverDepartment,
-            receiverPhone: this.dt.receiverPhone,
-            receiverAddress: this.dt.receiverAddress,
-            receiverDepartment: this.dt.receiverDepartment,
-            inwardDetails: null
-          });
+          this.form.patchValue(x.data);
           this.changeDetectorRefs.detectChanges();
         }
 
