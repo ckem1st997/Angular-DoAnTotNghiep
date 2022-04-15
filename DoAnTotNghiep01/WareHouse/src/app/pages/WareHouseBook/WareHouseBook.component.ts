@@ -43,7 +43,7 @@ interface ExampleFlatNode {
   templateUrl: './WareHouseBook.component.html',
   styleUrls: ['./WareHouseBook.component.scss']
 })
-export class WareHouseBookComponent implements OnInit,OnDestroy {
+export class WareHouseBookComponent implements OnInit, OnDestroy {
   listACccount: BaseSelectDTO[] = [];
   //
   typeIn = "Phiếu nhập";
@@ -119,7 +119,7 @@ export class WareHouseBookComponent implements OnInit,OnDestroy {
 
   dataSourceTreee = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
-  constructor(public signalRService: SignalRService,private serviceInward: InwardService, private serviceOutward: OutwardService, private getDataToGprc: GetDataToGprcService, private route: Router, private service: WareHouseBookService, private serviceW: WarehouseService, private _liveAnnouncer: LiveAnnouncer, public dialog: MatDialog, notifierService: NotifierService) {
+  constructor(public signalRService: SignalRService, private serviceInward: InwardService, private serviceOutward: OutwardService, private getDataToGprc: GetDataToGprcService, private route: Router, private service: WareHouseBookService, private serviceW: WarehouseService, private _liveAnnouncer: LiveAnnouncer, public dialog: MatDialog, notifierService: NotifierService) {
     this.notifier = notifierService;
   }
 
@@ -130,13 +130,12 @@ export class WareHouseBookComponent implements OnInit,OnDestroy {
     this.dataSource.sort = this.sort;
   }
   ngOnInit() {
-  //   this.signalRService.WareHouseBookTrachking(this.GetData);
-    // this.signalRService.msgReceived$.subscribe(x => {
-    //   if (x.success) {
-    //       this.GetData();
-    //       this.notifier.notify('success', x.message);
-    //   }
-    // });
+    this.signalRService.hubConnection.on(this.signalRService.WareHouseBookTrachkingToCLient, (data: ResultMessageResponse<string>) => {
+      if (data.success) {
+        this.notifier.notify('success', data.message);
+        this.GetData();
+      }
+    });
     this.GetData();
     this.getScreenWidth = window.innerWidth;
     this.getScreenHeight = window.innerHeight;
@@ -147,7 +146,7 @@ export class WareHouseBookComponent implements OnInit,OnDestroy {
 
   @HostListener('unloaded')
   ngOnDestroy() {
-    console.log('Items destroyed');
+    this.signalRService.off(this.signalRService.WareHouseBookTrachkingToCLient);
   }
   @HostListener('window:resize', ['$event'])
 
@@ -159,7 +158,7 @@ export class WareHouseBookComponent implements OnInit,OnDestroy {
     else
       this.checkSizeWindows = true;
   }
- GetData():void {
+  GetData(): void {
     this.service.getList(this.model).subscribe(list => {
       this.dataSource.data = list.data; setTimeout(() => {
         this.paginator.pageIndex = this.currentPage;
@@ -281,7 +280,7 @@ export class WareHouseBookComponent implements OnInit,OnDestroy {
     if (idCheck !== null) {
       this.serviceOutward.AddIndex(idCheck).subscribe(x => {
         if (x.success)
-        this.route.navigate(['/wh/create-outward', idCheck]);
+          this.route.navigate(['/wh/create-outward', idCheck]);
       });
     }
     else
@@ -306,7 +305,7 @@ export class WareHouseBookComponent implements OnInit,OnDestroy {
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length==null?0:this.dataSource.data.length;
+    const numRows = this.dataSource.data.length == null ? 0 : this.dataSource.data.length;
     return numSelected === numRows;
   }
 

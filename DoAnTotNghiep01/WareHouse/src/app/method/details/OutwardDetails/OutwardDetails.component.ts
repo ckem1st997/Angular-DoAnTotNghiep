@@ -97,12 +97,9 @@ export class OutwardDetailsComponent implements OnInit, OnDestroy {
     //    console.log(event)
     //   }
     // })
-
-
     // call signalR
 
     this.signalRService.hubConnection.on(this.signalRService.WareHouseBookTrachkingToCLient, (data: ResultMessageResponse<string>) => {
-      console.log(data);
       if (data.success) {
         if (this.form.value["id"] === data.data) {
           this.notifier.notify('success', data.message);
@@ -110,16 +107,6 @@ export class OutwardDetailsComponent implements OnInit, OnDestroy {
         }
       }
     });
-    // this.signalRService.WareHouseBookTrachking();
-    // this.signalRService.msgReceived$.subscribe(x => {
-    //   if (x.success) {
-    //     if (this.form.value["id"] === x.data)
-    //     {
-    //       this.notifier.notify('success', x.message);
-    //       this.getData();
-    //     }
-    //   }
-    // });
     this.onWindowResize();
     this.getData();
     this.form = this.formBuilder.group({
