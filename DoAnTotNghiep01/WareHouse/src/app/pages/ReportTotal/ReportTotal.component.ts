@@ -1,7 +1,7 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { SelectionModel } from '@angular/cdk/collections';
 import { FlatTreeControl } from '@angular/cdk/tree';
-import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
@@ -22,6 +22,7 @@ import { GetDataToGprcService } from 'src/app/service/GetDataToGprc.service';
 import { ReportService } from 'src/app/service/Report.service';
 import { WarehouseService } from 'src/app/service/warehouse.service';
 import { WareHouseBookService } from 'src/app/service/WareHouseBook.service';
+import { SignalRService } from 'src/app/service/SignalR.service';
 
 
 
@@ -38,7 +39,7 @@ interface ExampleFlatNode {
   templateUrl: './ReportTotal.component.html',
   styleUrls: ['./ReportTotal.component.scss']
 })
-export class ReportTotalComponent implements OnInit {
+export class ReportTotalComponent implements OnInit,OnDestroy {
   //select
   selection = new SelectionModel<ReportValueTotalDT0>(true, []);
   //noti
@@ -107,7 +108,7 @@ export class ReportTotalComponent implements OnInit {
 
   dataSourceTreee = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
-  constructor(private getDataToGprc: GetDataToGprcService, private route: Router, private service: ReportService, private _liveAnnouncer: LiveAnnouncer, public dialog: MatDialog, notifierService: NotifierService) {
+  constructor(public signalRService: SignalRService,private getDataToGprc: GetDataToGprcService, private route: Router, private service: ReportService, private _liveAnnouncer: LiveAnnouncer, public dialog: MatDialog, notifierService: NotifierService) {
     this.notifier = notifierService;
   }
 
@@ -118,10 +119,23 @@ export class ReportTotalComponent implements OnInit {
     this.dataSource.sort = this.sort;
   }
   ngOnInit() {
+    this.signalRService.hubConnection.on(this.signalRService.WareHouseBookTrachkingToCLient, (data: ResultMessageResponse<string>) => {
+      if (data.success) {
+        this.notifier.notify('success', data.message);
+        this.GetData();
+      }
+    });
     this.getScreenWidth = window.innerWidth;
     this.getScreenHeight = window.innerHeight;
     this.service.getTreeView().subscribe(x => this.dataSourceTreee.data = x.data);
   }
+
+  ngOnDestroy(): void {
+    // tắt phương thức vừa gọi để tránh bị gọi lại nhiều lần
+    this.signalRService.hubConnection.off(this.signalRService.WareHouseBookTrachkingToCLient);
+  }
+
+
   @HostListener('window:resize', ['$event'])
 
   onWindowResize() {
@@ -144,22 +158,10 @@ export class ReportTotalComponent implements OnInit {
         }
         else {
           this.notifier.notify('error', list.message);
-
-          // if (list.errors)
-          //   this.notifier.notify('error', list.errors['msg'][0]);
-          // else
-          //   this.notifier.notify('error', list.message);
-
         }
 
 
-      },
-      //  error => {
-      //   if (error.error.errors.length === undefined)
-      //     this.notifier.notify('error', error.error.message);
-      //   else
-      //     this.notifier.notify('error', error.error);
-      // }
+      },      
       );
     else
       this.notifier.notify('error', 'Bạn chưa chọn ngày !');
@@ -211,7 +213,7 @@ export class ReportTotalComponent implements OnInit {
     });
     select.className += " activeButtonTreeView";
     this.model.wareHouseId = e.key;
-    this.route.navigate([e.key]);
+    this.route.navigate(["/"+e.key]);
   }
 
 
