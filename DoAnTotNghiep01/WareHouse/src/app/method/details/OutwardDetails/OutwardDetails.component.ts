@@ -23,7 +23,7 @@ import { OutwardDetailDetailsComponent } from '../OutwardDetailDetails/OutwardDe
   templateUrl: './OutwardDetails.component.html',
   styleUrls: ['./OutwardDetails.component.scss']
 })
-export class OutwardDetailsComponent implements OnInit  {
+export class OutwardDetailsComponent implements OnInit, OnDestroy {
   baseAPI: string = environment.baseApi;
 
   form!: FormGroup;
@@ -69,10 +69,14 @@ export class OutwardDetailsComponent implements OnInit  {
   dataSource = new MatTableDataSource<OutwardDetailDTO>();
   @ViewChild(MatTable)
   table!: MatTable<OutwardDetailDTO>;
-  private subscriptions = new Subscription();
-  constructor(private router1:Router,public signalRService: SignalRService, private serviceBook: WareHouseBookService, notifierService: NotifierService, public dialog: MatDialog, private formBuilder: FormBuilder, private route: ActivatedRoute, private service: OutwardService) {
+  constructor(public signalRService: SignalRService, private serviceBook: WareHouseBookService, notifierService: NotifierService, public dialog: MatDialog, private formBuilder: FormBuilder, private route: ActivatedRoute, private service: OutwardService) {
     this.notifier = notifierService;
-    this.route.params.subscribe(param =>console.log(param));
+    // this.route.params.subscribe(param => console.log(param));
+
+  }
+  ngOnDestroy(): void {
+    // tắt phương thức vừa gọi để tránh bị gọi lại nhiều lần
+    this.signalRService.hubConnection.off(this.signalRService.WareHouseBookTrachkingToCLient);
   }
 
   @HostListener('window:resize', ['$event'])
@@ -93,17 +97,29 @@ export class OutwardDetailsComponent implements OnInit  {
     //    console.log(event)
     //   }
     // })
-    this.signalRService.WareHouseBookTrachking();
-    this.signalRService.msgReceived$.pipe(first()).subscribe(x => {
-      console.log(this.signalRService.msgReceived$);
-      if (x.success) {
-        if (this.form.value["id"] === x.data)
-        {
+
+
+    // call signalR
+
+    this.signalRService.hubConnection.on(this.signalRService.WareHouseBookTrachkingToCLient, (data: ResultMessageResponse<string>) => {
+      console.log(data);
+      if (data.success) {
+        if (this.form.value["id"] === data.data) {
+          this.notifier.notify('success', data.message);
           this.getData();
-          this.notifier.notify('success', x.message);
         }
       }
     });
+    // this.signalRService.WareHouseBookTrachking();
+    // this.signalRService.msgReceived$.subscribe(x => {
+    //   if (x.success) {
+    //     if (this.form.value["id"] === x.data)
+    //     {
+    //       this.notifier.notify('success', x.message);
+    //       this.getData();
+    //     }
+    //   }
+    // });
     this.onWindowResize();
     this.getData();
     this.form = this.formBuilder.group({
@@ -133,15 +149,17 @@ export class OutwardDetailsComponent implements OnInit  {
       toWareHouseId: null
 
     });
-    this.signalRService.WareHouseBookTrachking();
-    this.signalRService.msgReceived$.subscribe(x => {
-      if (x.success) {
-        if (this.form.value["id"] === x.data) {
-          this.getData();
-          this.notifier.notify('success', x.message);
-        }
-      }
-    });
+
+
+    //  this.signalRService.WareHouseBookTrachking(this.getData());
+    //  this.signalRService.msgReceived$.subscribe(x => {
+    // //   if (x.success) {
+    // //     if (this.form.value["id"] === x.data) {
+    //        this.getData();
+    //        this.notifier.notify('success', "x.message");
+    // //     }
+    // //   }
+    //  });
   }
 
   getData() {

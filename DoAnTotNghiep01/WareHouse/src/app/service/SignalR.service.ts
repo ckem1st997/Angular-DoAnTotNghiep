@@ -12,12 +12,13 @@ import { ResultMessageResponse } from '../model/ResultMessageResponse';
 })
 export class SignalRService {
   private baseUrl = environment.baseSignalr + "signalr";
-  private hubConnection!: signalR.HubConnection;
-  changeInward: string = "";
+  public hubConnection!: signalR.HubConnection;
+  changeInward!: ResultMessageResponse<string>;
   private msgSignalrSource = new Subject<ResultMessageResponse<string>>();
   msgReceived$ = this.msgSignalrSource.asObservable();
-
-  public constructor(){
+  //name method call
+  public WareHouseBookTrachkingToCLient: string = "WareHouseBookTrachkingToCLient";
+  public constructor() {
 
   }
   public startConnection = () => {
@@ -31,13 +32,19 @@ export class SignalRService {
       .then(() => console.log('Connection started'))
       .catch(err => console.log('Error while starting connection: ' + err))
   }
+  public stop() {
+    this.hubConnection.stop();
+  }
+  public off(nameMethod: string) {
+    this.hubConnection.off(nameMethod);
+  }
   public WareHouseBookTrachking() {
-    this.hubConnection.on("WareHouseBookTrachkingToCLient", (data:ResultMessageResponse<string>) => {
-    //  this.changeInward = data;
+    this.hubConnection.on(this.WareHouseBookTrachkingToCLient, (data: ResultMessageResponse<string>) => {
+      this.changeInward = data;
       this.msgSignalrSource.next(data);
     });
   }
-  public SendWareHouseBookTrachking(id:string) {
+  public SendWareHouseBookTrachking(id: string) {
     this.hubConnection.send("wareHouseBookTrachking", id);
   }
 }

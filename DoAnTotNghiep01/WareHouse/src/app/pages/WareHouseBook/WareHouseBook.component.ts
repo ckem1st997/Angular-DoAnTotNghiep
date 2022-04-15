@@ -130,7 +130,7 @@ export class WareHouseBookComponent implements OnInit,OnDestroy {
     this.dataSource.sort = this.sort;
   }
   ngOnInit() {
-    // this.signalRService.WareHouseBookTrachking();
+  //   this.signalRService.WareHouseBookTrachking(this.GetData);
     // this.signalRService.msgReceived$.subscribe(x => {
     //   if (x.success) {
     //       this.GetData();
@@ -159,7 +159,7 @@ export class WareHouseBookComponent implements OnInit,OnDestroy {
     else
       this.checkSizeWindows = true;
   }
-  GetData() {
+ GetData():void {
     this.service.getList(this.model).subscribe(list => {
       this.dataSource.data = list.data; setTimeout(() => {
         this.paginator.pageIndex = this.currentPage;
@@ -241,7 +241,6 @@ export class WareHouseBookComponent implements OnInit,OnDestroy {
 
       dialogRef.afterClosed().subscribe(result => {
         var res = result;
-        console.log(res);
         if (res) {
           this.notifier.notify('success', 'Xoá thành công !');
           this.GetData();

@@ -81,7 +81,7 @@ export class OutwardEditComponent implements OnInit {
     clientHeightForm.style.paddingTop = clientHeight.clientHeight + "px";
   }
   ngOnInit() {
-    this.signalRService.WareHouseBookTrachking();
+   // this.signalRService.WareHouseBookTrachking(this.getData());
     // this.signalRService.msgReceived$.subscribe(x => {
     //   if (x.success) {
     //     if (this.form.value["id"] === x.data)
