@@ -6,8 +6,8 @@
       <input type="text" formControlName="id" class="form-control" />
     </div>
     <div class="form-group d-none">
-      <mat-label class="form-label">inwardId</mat-label>
-      <input type="text" formControlName="inwardId" class="form-control" />
+      <mat-label class="form-label">outwardId</mat-label>
+      <input type="text" formControlName="outwardId" class="form-control" />
     </div>
     <div class="form-group row mb-1" style="position: relative;">
       <mat-label class="form-label col-3">Vật tư</mat-label>
@@ -28,11 +28,11 @@
     </div>
     <div class="form-group row mb-1">
       <mat-label class="form-label col-3">Số lượng</mat-label>
-      <input (keyup)="changAmount()" (change)="changAmount()" type="number" formControlName="uiquantity" class="form-control col" aria-required="true"/>
+      <input (keyup)="changAmount()"  type="number" formControlName="uiquantity" class="form-control col" aria-required="true"/>
     </div>
     <div class="form-group row mb-1">
       <mat-label class="form-label col-3">Đơn giá</mat-label>
-      <input (change)="changAmount()" (keyup)="changAmount()" type="number" formControlName="uiprice" class="form-control col" />
+      <input  type="number" formControlName="uiprice" class="form-control col" />
     </div>
     <div class="form-group row mb-1">
       <mat-label class="form-label col-3">Thành tiền</mat-label>
@@ -83,7 +83,7 @@
       </select>
 
     </div>
-    <div class="form-group row mb-1" style="position: relative;">
+    <!-- <div class="form-group row mb-1" style="position: relative;">
       <mat-label class="form-label col-3">Tài khoản nợ</mat-label>
       <select formControlName="accountMore" class="form-select col">
         <option class="s-c option" *ngFor="let state of dt.getAccountDTO" [ngValue]="state.id">
@@ -100,7 +100,7 @@
         </option>
       </select>
 
-    </div>
+    </div> -->
     <div class="form-group row">
       <mat-label class="form-label col-3">Serial</mat-label>
       <tag-input [ngModel]="serialWareHousesShow" style="padding-left: 0;" theme='bootstrap' class="col" formControlName="serialWareHouses" [identifyBy]="'id'" [displayBy]="'serial'" [maxItems]='5'>

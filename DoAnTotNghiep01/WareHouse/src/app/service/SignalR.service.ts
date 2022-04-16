@@ -23,12 +23,14 @@ export class SignalRService {
   public CreateWareHouseBookTrachking: string = "CreateWareHouseBookTrachkingToCLient";
   public DeleteWareHouseBookTrachking: string = "DeleteWareHouseBookTrachkingToCLient";
 
-  public constructor(private auth:AuthenticationService) {
+  public constructor(private auth: AuthenticationService) {
 
   }
+
+  // connect to hub
   public startConnection = () => {
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl(this.baseUrl,{ accessTokenFactory: () => ''+this.auth.userValue.token+'' })
+      .withUrl(this.baseUrl, { accessTokenFactory: () => '' + this.auth.userValue.token + '' })
       .configureLogging(signalR.LogLevel.Information)
       .withAutomaticReconnect()
       .build();
@@ -49,13 +51,16 @@ export class SignalRService {
   //     this.msgSignalrSource.next(data);
   //   });
   // }
+
+  // send message to server
+
   public SendWareHouseBookTrachking(id: string) {
     this.hubConnection.send("WareHouseBookTrachking", id);
   }
   public SendCreateWareHouseBookTrachking(type: string) {
     this.hubConnection.send("CreateWareHouseBookTrachking", type);
   }
-  public SendDeleteWareHouseBookTrachking(type: string,id:string) {
-    this.hubConnection.send("DeleteWareHouseBookTrachking", type,id);
+  public SendDeleteWareHouseBookTrachking(type: string, id: string) {
+    this.hubConnection.send("DeleteWareHouseBookTrachking", type, id);
   }
 }

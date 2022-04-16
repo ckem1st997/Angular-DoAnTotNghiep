@@ -68,7 +68,7 @@ export class OutwarDetailsCreateComponent implements OnInit {
     var getUiPrice = this.form.value['uiprice'];
     this.form.patchValue({ amount: getUiPrice * getUiQuantity });
     var idSelect = this.form.value['itemId'];
-    if (this.data.outward != null && this.data.outward.wareHouseId)
+    if (this.data.outward != null && this.data.outward.wareHouseId && idSelect)
       this.service.CheckQuantityIdItem(idSelect, this.data.outward?.wareHouseId).subscribe(
         (data) => {
           if (data) {
@@ -84,7 +84,7 @@ export class OutwarDetailsCreateComponent implements OnInit {
   }
   changItem(e: any) {
     var idSelect = e.target.value.split(" ")[1];
-    if (this.data.outward != null && this.data.outward.wareHouseId)
+    if (this.data.outward != null && this.data.outward.wareHouseId && idSelect)
       this.serviceIn.CheckItemExist(idSelect, this.data.outward?.wareHouseId).subscribe(
         (data) => {
           if (data.success) {

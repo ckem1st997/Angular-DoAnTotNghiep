@@ -6,6 +6,7 @@ import { NotifierService } from 'angular-notifier';
 import { Guid } from 'src/app/extension/Guid';
 import { OutwardDetailDTO } from 'src/app/model/OutwardDetailDTO';
 import { OutwardDetailsValidator } from 'src/app/validator/OutwardDetailsValidator';
+import { InwardService } from 'src/app/service/Inward.service';
 
 @Component({
   selector: 'app-OutwarDetailsEdit',
@@ -25,7 +26,8 @@ export class OutwarDetailsEditComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: OutwardDetailDTO,
     private formBuilder: FormBuilder,
     notifierService: NotifierService,
-    private service: WareHouseBookService
+    private service: WareHouseBookService,
+    private serviceIn: InwardService
   ) { this.notifier = notifierService; }
   ngOnInit() {
     this.dt = this.data;
@@ -60,17 +62,59 @@ export class OutwarDetailsEditComponent implements OnInit {
   onNoClick(): void {
     this.dialogRef.close(false);
   }
+  // changAmount() {
+  //   var getUiQuantity = this.form.value['uiquantity'];
+  //   var getUiPrice = this.form.value['uiprice'];
+  //   this.form.patchValue({ amount: getUiPrice * getUiQuantity });
+  // }
+  // changItem(e: any) {
+  //   var idSelect = e.target.value.split(" ")[1];
+  //   this.service.GetUnitByIdItem(idSelect).subscribe(res => {
+  //     this.dt.unitDTO = res.data;
+  //     this.form.patchValue({ unitId: this.dt.wareHouseItemDTO?.find(x => x.id === idSelect)?.unitId ?? null });
+  //   })
+  // }
+
   changAmount() {
     var getUiQuantity = this.form.value['uiquantity'];
     var getUiPrice = this.form.value['uiprice'];
     this.form.patchValue({ amount: getUiPrice * getUiQuantity });
+    var idSelect = this.form.value['itemId'];
+    if (this.data.outward != null && this.data.outward.wareHouseId && idSelect)
+      this.service.CheckQuantityIdItem(idSelect, this.data.outward?.wareHouseId).subscribe(
+        (data) => {
+          if (data) {
+            if (data.data < getUiQuantity)
+              this.notifier.notify("error", "Số lượng xuất ra đang quá số lượng tồn kho !");
+          }
+        }
+      );
+    else {
+      this.notifier.notify("error", "Vui lòng chọn kho hoặc vật tư !");
+    }
+
   }
   changItem(e: any) {
     var idSelect = e.target.value.split(" ")[1];
-    this.service.GetUnitByIdItem(idSelect).subscribe(res => {
-      this.dt.unitDTO = res.data;
-      this.form.patchValue({ unitId: this.dt.wareHouseItemDTO?.find(x => x.id === idSelect)?.unitId ?? null });
-    })
+    if (this.data.outward != null && this.data.outward.wareHouseId && idSelect)
+      this.serviceIn.CheckItemExist(idSelect, this.data.outward?.wareHouseId).subscribe(
+        (data) => {
+          if (data.success) {
+            this.service.GetUnitByIdItem(idSelect).subscribe(res => {
+              this.dt.unitDTO = res.data;
+              this.form.patchValue({ unitId: this.dt.wareHouseItemDTO?.find(x => x.id === idSelect)?.unitId ?? null });
+            })
+          }
+          else {
+            this.notifier.notify("error", "Vật tư chưa có trong kho !");
+          }
+        }
+      );
+    else {
+      this.notifier.notify("error", "Vui lòng chọn kho hoặc vật tư !");
+    }
+
+
   }
   onSubmit() {
     var test = new OutwardDetailsValidator();

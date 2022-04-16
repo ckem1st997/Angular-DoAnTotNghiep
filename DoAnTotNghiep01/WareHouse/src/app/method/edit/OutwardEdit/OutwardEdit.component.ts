@@ -166,6 +166,7 @@ export class OutwardEditComponent implements OnInit,OnDestroy {
       this.getProjectDTO = x.data.getProjectDTO;
       this.getStationDTO = x.data.getStationDTO;
       model.outwardId = this.form.value["id"];
+      model.outward=this.form.value;
       const dialogRef = this.dialog.open(OutwarDetailsCreateComponent, {
         width: '450px',
         data: model
@@ -194,8 +195,8 @@ export class OutwardEditComponent implements OnInit,OnDestroy {
           // }
           );
         }
-        else
-          this.notifier.notify('ward', 'Thêm thất bại');
+        // else
+        //   this.notifier.notify('ward', 'Thêm thất bại');
 
       });
 
@@ -237,6 +238,7 @@ export class OutwardEditComponent implements OnInit,OnDestroy {
 
   openDialogedit(id: string): void {
     this.serviceBook.EditOutwarDetailsIndex(id).subscribe(x => {
+      x.data.outward = this.form.value;
       const dialogRef = this.dialog.open(OutwardetailsEditByServiceComponent, {
         width: '550px',
         data: x.data,

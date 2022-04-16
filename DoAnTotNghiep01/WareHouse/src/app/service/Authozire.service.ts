@@ -21,12 +21,12 @@ export class AuthozireService {
     this.notifier = notifierService;
   }
 
-
-  getList(key:string, whId:string, pages:number, num:number): Observable<ResultMessageResponse<UserMaster>> {
-    var url = this.baseUrlMaster + `AuthorizeMaster/get-list?Number=`+num+`&Pages=`+pages+`&Key=`+key+`&Id=`+whId+``;
+  //get list user master
+  getList(key: string, whId: string, pages: number, num: number): Observable<ResultMessageResponse<UserMaster>> {
+    var url = this.baseUrlMaster + `AuthorizeMaster/get-list?Number=` + num + `&Pages=` + pages + `&Key=` + key + `&Id=` + whId + ``;
     return this.http.get<ResultMessageResponse<UserMaster>>(url, this.httpOptions).pipe(
       retry(1), // retry a failed request up to 3 times
-     
+
     );
   }
 
@@ -37,9 +37,9 @@ export class AuthozireService {
     );
   }
 
-  Edit(model:UserMaster): Observable<ResultDataResponse<UserMaster>> {
+  Edit(model: UserMaster): Observable<ResultDataResponse<UserMaster>> {
     var url = this.baseUrlMaster + `AuthorizeMaster/role-edit`;
-    return this.http.post<ResultDataResponse<UserMaster>>(url,model, this.httpOptions).pipe(
+    return this.http.post<ResultDataResponse<UserMaster>>(url, model, this.httpOptions).pipe(
       tap(_ => console.log(`create`)),
     );
   }

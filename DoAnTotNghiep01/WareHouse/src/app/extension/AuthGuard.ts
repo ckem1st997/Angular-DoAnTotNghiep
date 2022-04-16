@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { AuthenticationService } from './Authentication.service';
 
-
+// check if user is logged in
 @Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate {
     constructor(

@@ -196,8 +196,8 @@ export class InwardEditComponent implements OnInit,OnDestroy {
             // }
           );
         }
-        else
-          this.notifier.notify('ward', 'Thêm thất bại');
+        // else
+        //   this.notifier.notify('ward', 'Thêm thất bại');
 
       });
 
