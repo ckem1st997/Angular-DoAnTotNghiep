@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { number } from 'echarts';
 import { AuthenticationService } from 'src/app/extension/Authentication.service';
+import { AuthozireService } from 'src/app/service/Authozire.service';
 
 @Component({
   selector: 'app-header',
@@ -8,12 +10,12 @@ import { AuthenticationService } from 'src/app/extension/Authentication.service'
 })
 export class HeaderComponent implements OnInit {
   userName: string | undefined;
-  activeNoticaonList: boolean = true;
-  constructor(private service: AuthenticationService) { }
+  activeNoticaonList: boolean = false;
+  constructor(private service: AuthenticationService, private serviceAuthozire: AuthozireService) { }
 
   ngOnInit() {
     this.userName = this.service.userValue.username;
-
+    this.serviceAuthozire.getListHistoryByUser().subscribe(res => { console.log(res) });
   }
 
   /// active to click
@@ -53,6 +55,6 @@ export class HeaderComponent implements OnInit {
     this.service.logout();
   }
   showNotication() {
-    this.activeNoticaonList=!this.activeNoticaonList;
+    this.activeNoticaonList = !this.activeNoticaonList;
   }
 }

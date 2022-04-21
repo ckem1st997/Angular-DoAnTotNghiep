@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { NotifierService } from 'angular-notifier';
 import { Observable, retry, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { HistoryNoticationDT0 } from '../model/HistoryNoticationDT0';
 import { ResultDataResponse } from '../model/ResultDataResponse';
 import { ResultMessageResponse } from '../model/ResultMessageResponse';
 import { UserMaster } from '../model/UserMaster';
@@ -30,6 +31,14 @@ export class AuthozireService {
     );
   }
 
+  getListHistoryByUser(): Observable<ResultMessageResponse<HistoryNoticationDT0>> {
+    var url = this.baseUrlMaster + `ListHistory/get-list-by-user`;
+    return this.http.get<ResultMessageResponse<HistoryNoticationDT0>>(url, this.httpOptions).pipe(
+      retry(1), // retry a failed request up to 3 times
+
+    );
+  }
+
   EditIndex(iduser: string | null): Observable<ResultDataResponse<UserMaster>> {
     var url = this.baseUrlMaster + `AuthorizeMaster/role-edit?id=` + iduser;
     return this.http.get<ResultDataResponse<UserMaster>>(url, this.httpOptions).pipe(
@@ -44,3 +53,4 @@ export class AuthozireService {
     );
   }
 }
+
