@@ -102,11 +102,11 @@ line-height: 25px;
   top: 68px;
   width: 360px;
   height: 90vh;
-  z-index: 0;
+  z-index: 1;
   background-color: antiquewhite;
   right: 10px;
   border-radius: 8px;
-
+overflow: auto;
 }
 .notication-title{
   line-height: 1.1667;
@@ -119,4 +119,37 @@ background-color: aqua;
 .notication-icon{
   font-size: 28px;
 }
-
+.margin-left-10{
+  margin-left: 10px;
+}
+.margin-left-18{
+  margin-left: 18px;
+}
+.notication-card{
+  display: flex;
+}
+.notication-list-card{
+  padding-left: 20px;
+}
+.notication-list-card-title{
+  font-weight: 500;
+}
+.notication-after .notication-card{
+  margin-top: 15px;
+}
+.notication-list-card-time{
+ color:hsl(214, 89%, 52%);
+ font-weight: 500;
+}
+.color-new{
+  color: darkorchid;
+}
+.color-create{
+  color: chocolate;
+}
+.color-update{
+  color: green;
+}
+.color-delete{
+  color: red;
+}
