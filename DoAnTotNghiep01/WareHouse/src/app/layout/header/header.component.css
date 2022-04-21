@@ -83,4 +83,40 @@ line-height: 25px;
   margin: 0;
   float: left;
 }
+.count-notication{
+  position: absolute;
+  background: red;
+  height: 18px;
+  width: 25px;
+  border-radius: 7px;
+  font-weight: 500;
+  top: 3px;
+  right: 10px;
+  z-index: 9;
+  padding-top: 3px;
+  font-size: .8125rem;
+    line-height: 1;
+}
+.notication-list{
+  position: absolute;
+  top: 68px;
+  width: 360px;
+  height: 90vh;
+  z-index: 0;
+  background-color: antiquewhite;
+  right: 10px;
+  border-radius: 8px;
+
+}
+.notication-title{
+  line-height: 1.1667;
+  font-weight: 500;
+  margin-top: 10px;
+}
+/* a.notication-a:hover .notication-list{
+background-color: aqua;
+} */
+.notication-icon{
+  font-size: 28px;
+}
 

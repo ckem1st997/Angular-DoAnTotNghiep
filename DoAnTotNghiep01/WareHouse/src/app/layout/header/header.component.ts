@@ -7,28 +7,27 @@ import { AuthenticationService } from 'src/app/extension/Authentication.service'
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  userName: string |undefined;
-
-  constructor(private service:AuthenticationService) { }
+  userName: string | undefined;
+  activeNoticaonList: boolean = true;
+  constructor(private service: AuthenticationService) { }
 
   ngOnInit() {
-    this.userName=this.service.userValue.username;
+    this.userName = this.service.userValue.username;
 
   }
 
   /// active to click
   changActive(e: any): number {
 
-    var activeMenu=e.target.parentElement.getAttribute("data-active");
-    if(activeMenu !=null && activeMenu !=undefined && activeMenu.length >0 )
-    {
+    var activeMenu = e.target.parentElement.getAttribute("data-active");
+    if (activeMenu != null && activeMenu != undefined && activeMenu.length > 0) {
       var elementA = DeleteActiveAll();
       document.getElementById(activeMenu)?.classList.add("active");
       return 1;
     }
     var check = e.target.className;
     if (check.includes("mat-icon")) {
-      check=e.target.parentElement.className;
+      check = e.target.parentElement.className;
       if (check !== undefined && !check.includes("active")) {
         var elementA = DeleteActiveAll();
         e.target.parentElement.classList.add("active");
@@ -39,7 +38,7 @@ export class HeaderComponent implements OnInit {
         var elementA = DeleteActiveAll();
         e.target.classList.add("active");
       }
-      return 1;
+    return 1;
 
     function DeleteActiveAll() {
       var elementA = document.getElementsByClassName("header-a");
@@ -50,7 +49,10 @@ export class HeaderComponent implements OnInit {
       return elementA;
     }
   }
-  logout(){
+  logout() {
     this.service.logout();
+  }
+  showNotication() {
+    this.activeNoticaonList=!this.activeNoticaonList;
   }
 }

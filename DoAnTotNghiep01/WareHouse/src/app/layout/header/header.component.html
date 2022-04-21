@@ -60,6 +60,11 @@
 
       </div>
       <div class="d-flex menu-left h-100">
+        <a class="link-icon notication-a" style="position: relative;" (click)="showNotication()">
+          <span class="count-notication ">9+</span>
+          <mat-icon class="icon-link" aria-hidden="false" aria-label="Example home icon">notifications_none</mat-icon>
+          Thông báo
+        </a>
         <a class="link-icon" target="_blank" href="https://github.com/ckem1st997/Angular-DoAnTotNghiep">
           <i class="bi bi-github icon-link"></i>
           GitHub
@@ -70,7 +75,7 @@
           Tài khoản
           <mat-menu #menuLogin="matMenu">
             <span data-active="QuanLyDanhMucLinkTwo" (click)="createPlanmenuTriggerLogin.closeMenu()">
-              <a  mat-menu-item>{{userName}}</a>
+              <a mat-menu-item>{{userName}}</a>
               <a (click)="changActive($event)" (click)="logout()" mat-menu-item>Đăng xuất</a>
             </span>
 
@@ -80,7 +85,27 @@
       </div>
 
     </mat-toolbar-row>
-
-
   </mat-toolbar>
+
+  <div *ngIf="activeNoticaonList" class="notication-list">
+    <h1 class="notication-title">Thông báo</h1>
+    <div class="notication-button-select">
+      <button style="    margin-left: 18px;" mat-raised-button color="primary">Tất cả</button>
+      <button style="margin-left: 10px;" mat-raised-button color="accent">Chưa đọc</button>
+    </div>
+    <div class="notication-list-show">
+      <div class="notication-before">
+        <h2>Mới</h2>
+        <div>
+
+        </div>
+      </div>
+      <div class="notication-after">
+        <h2>Trước đó</h2>
+        <div class="notication-card">
+          <i class="bi bi-terminal notication-icon"></i>
+        </div>
+      </div>
+    </div>
+  </div>
 </header>
