@@ -4,7 +4,7 @@ export interface HistoryNoticationDT0 extends BaseEntity {
     userName: string;
     method: string;
     body: string;
-    createDate: string;
+    createDate: Date;
     read: boolean;
     link: string;
 }
