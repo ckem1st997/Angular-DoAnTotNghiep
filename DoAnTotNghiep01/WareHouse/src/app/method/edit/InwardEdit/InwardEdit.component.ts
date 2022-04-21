@@ -285,7 +285,6 @@ export class InwardEditComponent implements OnInit, OnDestroy {
         this.notifier.notify('error', 'Vui lòng nhập chi tiết phiếu nhập');
       }
 
-
     }
 
     else {
