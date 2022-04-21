@@ -22,7 +22,7 @@ export class SignalRService {
   public WareHouseBookTrachkingToCLient: string = "WareHouseBookTrachkingToCLient";
   public CreateWareHouseBookTrachking: string = "CreateWareHouseBookTrachkingToCLient";
   public DeleteWareHouseBookTrachking: string = "DeleteWareHouseBookTrachkingToCLient";
-
+  public HistoryTrachking: string = "HistoryTrachkingToCLient";
   public constructor(private auth: AuthenticationService) {
 
   }
@@ -62,5 +62,8 @@ export class SignalRService {
   }
   public SendDeleteWareHouseBookTrachking(type: string, id: string) {
     this.hubConnection.send("DeleteWareHouseBookTrachking", type, id);
+  }
+  public SendHistoryTrachking() {
+    this.hubConnection.send("HistoryTrachking");
   }
 }

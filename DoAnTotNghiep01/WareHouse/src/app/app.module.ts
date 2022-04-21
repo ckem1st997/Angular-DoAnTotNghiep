@@ -275,7 +275,7 @@ const customNotifierOptions: NotifierOptions = {
     provide: HTTP_INTERCEPTORS,
     useClass: ErrorIntercept,
     multi: true
-  }],
+  },HeaderComponent],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

@@ -24,7 +24,7 @@ import { InwarDetailsEditByServiceComponent } from '../InwarDetailsEditByService
   templateUrl: './InwardEdit.component.html',
   styleUrls: ['./InwardEdit.component.scss']
 })
-export class InwardEditComponent implements OnInit,OnDestroy {
+export class InwardEditComponent implements OnInit, OnDestroy {
   title: string = "";
   form!: FormGroup;
   listDetails = Array<InwardDetailDTO>();
@@ -70,7 +70,7 @@ export class InwardEditComponent implements OnInit,OnDestroy {
   @ViewChild(MatTable)
   table!: MatTable<InwardDetailDTO>;
 
-  constructor(private route1: Router,public signalRService: SignalRService, private serviceBook: WareHouseBookService, notifierService: NotifierService, public dialog: MatDialog, private formBuilder: FormBuilder, private route: ActivatedRoute, private service: InwardService) {
+  constructor(private route1: Router, public signalRService: SignalRService, private serviceBook: WareHouseBookService, notifierService: NotifierService, public dialog: MatDialog, private formBuilder: FormBuilder, private route: ActivatedRoute, private service: InwardService) {
     this.notifier = notifierService;
   }
   @HostListener('window:resize', ['$event'])
@@ -183,22 +183,16 @@ export class InwardEditComponent implements OnInit,OnDestroy {
               this.table.renderRows();
               this.notifier.notify('success', 'Thêm thành công');
               this.signalRService.SendWareHouseBookTrachking(this.form.value["id"]);
+              if (x.data)
+                this.signalRService.SendHistoryTrachking();
             }
             else
               this.notifier.notify('ward', 'Thêm thất bại');
 
           },
-            //  error => {
-            //   if (error.error.errors.length === undefined)
-            //     this.notifier.notify('error', error.error.message);
-            //   else
-            //     this.notifier.notify('error', error.error);
-            // }
+
           );
         }
-        // else
-        //   this.notifier.notify('ward', 'Thêm thất bại');
-
       });
 
     });
@@ -216,6 +210,8 @@ export class InwardEditComponent implements OnInit,OnDestroy {
           this.table.renderRows();
           this.notifier.notify('success', 'Xóa thành công');
           this.signalRService.SendWareHouseBookTrachking(this.form.value["id"]);
+          if (x.data)
+            this.signalRService.SendHistoryTrachking();
         }
         else
           this.notifier.notify('error', 'Xóa thất bại');
@@ -248,15 +244,11 @@ export class InwardEditComponent implements OnInit,OnDestroy {
               this.table.renderRows();
               this.notifier.notify('success', 'Sửa thành công');
               this.signalRService.SendWareHouseBookTrachking(this.form.value["id"]);
+              if (x.data)
+                this.signalRService.SendHistoryTrachking();
             }
 
           },
-            //  error => {
-            //   if (error.error.errors.length === undefined)
-            //     this.notifier.notify('error', error.error.message);
-            //   else
-            //     this.notifier.notify('error', error.error);
-            // }
           );
 
         }
@@ -283,6 +275,8 @@ export class InwardEditComponent implements OnInit,OnDestroy {
           if (x.success) {
             this.notifier.notify('success', 'Chỉnh sửa thành công');
             this.signalRService.SendWareHouseBookTrachking(this.form.value["id"]);
+            if (x.data)
+              this.signalRService.SendHistoryTrachking();
           }
         },
         );

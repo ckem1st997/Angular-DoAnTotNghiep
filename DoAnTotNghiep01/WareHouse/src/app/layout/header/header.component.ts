@@ -1,16 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { number } from 'echarts';
 import { AuthenticationService } from 'src/app/extension/Authentication.service';
 import { HistoryNoticationDT0 } from 'src/app/model/HistoryNoticationDT0';
+import { ResultDataResponse } from 'src/app/model/ResultDataResponse';
 import { ResultMessageResponse } from 'src/app/model/ResultMessageResponse';
 import { AuthozireService } from 'src/app/service/Authozire.service';
+import { SignalRService } from 'src/app/service/SignalR.service';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
   userName: string | undefined;
   activeNoticaonList: boolean = false;
   listBefor!: HistoryNoticationDT0;
@@ -28,17 +30,31 @@ export class HeaderComponent implements OnInit {
     redirectUrl: '',
     errors: {}
   };
-  constructor(private service: AuthenticationService, private serviceAuthozire: AuthozireService) { }
+  constructor(public signalRService: SignalRService, private service: AuthenticationService, private serviceAuthozire: AuthozireService) { }
 
   ngOnInit() {
     this.userName = this.service.userValue.username;
+    this.getHistory();
+    this.signalRService.hubConnection.on(this.signalRService.HistoryTrachking, (data: ResultDataResponse<string>) => {
+      if (data.success) {
+        if (this.service.userValue.id === data.data || this.service.userValue.role === 3) {
+          this.getHistory();
+        }
+      }
+    });
+  }
+  ngOnDestroy(): void {
+    // tắt phương thức vừa gọi để tránh bị gọi lại nhiều lần
+    this.signalRService.hubConnection.off(this.signalRService.HistoryTrachking);
+  }
+  getHistory() {
     this.serviceAuthozire.getListHistoryByUser().subscribe(res => { this.listHistory = res; this.listBefor = res.data[0]; this.listAfter = res.data.slice(1); this.countHistory = res.data.filter(x => x.read == false).length; });
+
   }
 
-
   getCount() {
-    if (this.countHistory > 10)
-      return '9+';
+    if (this.countHistory > 99)
+      return '99+';
     else
       return this.countHistory.toString();
   }
@@ -81,12 +97,11 @@ export class HeaderComponent implements OnInit {
   }
   showNotication() {
     this.activeNoticaonList = !this.activeNoticaonList;
-    // if (this.activeNoticaonList)
-    //   this.serviceAuthozire.getListHistoryByUser().subscribe(res => { this.listHistory = res; this.listBefor = res.data[0]; this.listAfter = res.data.slice(1); });
+    //    if (this.activeNoticaonList)
+    //     this.serviceAuthozire.getListHistoryByUser().subscribe(res => { this.listHistory = res; this.listBefor = res.data[0]; this.listAfter = res.data.slice(1); });
   }
 
   GetDateTime(e: Date) {
-    console.log(e);
     return e;
   }
 

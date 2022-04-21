@@ -31,8 +31,15 @@ export class AuthozireService {
     );
   }
 
+  getUser(): Observable<ResultDataResponse<UserMaster>> {
+    var url = this.baseUrlMaster + `ApiPublic/get-user`;
+    return this.http.get<ResultDataResponse<UserMaster>>(url, this.httpOptions).pipe(
+      retry(1), // retry a failed request up to 3 times
+    );
+  }
+
   getListHistoryByUser(): Observable<ResultMessageResponse<HistoryNoticationDT0>> {
-    var url = this.baseUrlMaster + `ListHistory/get-list-by-user`;
+    var url = this.baseUrlMaster + `ApiPublic/get-list-by-user`;
     return this.http.get<ResultMessageResponse<HistoryNoticationDT0>>(url, this.httpOptions).pipe(
       retry(1), // retry a failed request up to 3 times
 

@@ -23,7 +23,7 @@ import { OutwardetailsEditByServiceComponent } from '../OutwardetailsEditByServi
   templateUrl: './OutwardEdit.component.html',
   styleUrls: ['./OutwardEdit.component.scss']
 })
-export class OutwardEditComponent implements OnInit,OnDestroy {
+export class OutwardEditComponent implements OnInit, OnDestroy {
   form!: FormGroup;
   listDetails = Array<OutwardDetailDTO>();
   listItem = Array<WareHouseItemDTO>();
@@ -68,7 +68,7 @@ export class OutwardEditComponent implements OnInit,OnDestroy {
   @ViewChild(MatTable)
   table!: MatTable<OutwardDetailDTO>;
 
-  constructor(private route1: Router,public signalRService: SignalRService,private serviceBook: WareHouseBookService, notifierService: NotifierService, public dialog: MatDialog, private formBuilder: FormBuilder, private route: ActivatedRoute, private service: OutwardService) {
+  constructor(private route1: Router, public signalRService: SignalRService, private serviceBook: WareHouseBookService, notifierService: NotifierService, public dialog: MatDialog, private formBuilder: FormBuilder, private route: ActivatedRoute, private service: OutwardService) {
     this.notifier = notifierService;
   }
   @HostListener('window:resize', ['$event'])
@@ -166,7 +166,7 @@ export class OutwardEditComponent implements OnInit,OnDestroy {
       this.getProjectDTO = x.data.getProjectDTO;
       this.getStationDTO = x.data.getStationDTO;
       model.outwardId = this.form.value["id"];
-      model.outward=this.form.value;
+      model.outward = this.form.value;
       const dialogRef = this.dialog.open(OutwarDetailsCreateComponent, {
         width: '450px',
         data: model
@@ -182,17 +182,19 @@ export class OutwardEditComponent implements OnInit,OnDestroy {
               this.table.renderRows();
               this.notifier.notify('success', 'Thêm thành công');
               this.signalRService.SendWareHouseBookTrachking(this.form.value["id"]);
+              if (x.data)
+                this.signalRService.SendHistoryTrachking();
             }
             else
               this.notifier.notify('ward', 'Thêm thất bại');
 
           },
-          //  error => {
-          //   if (error.error.errors.length === undefined)
-          //     this.notifier.notify('error', error.error.message);
-          //   else
-          //     this.notifier.notify('error', error.error);
-          // }
+            //  error => {
+            //   if (error.error.errors.length === undefined)
+            //     this.notifier.notify('error', error.error.message);
+            //   else
+            //     this.notifier.notify('error', error.error);
+            // }
           );
         }
         // else
@@ -206,7 +208,7 @@ export class OutwardEditComponent implements OnInit,OnDestroy {
   openDialogDelelte(id: string): void {
     const model = this.listDetails.find(x => x.id === id);
     if (model !== undefined) {
-      var ids=new Array<string>();
+      var ids = new Array<string>();
       ids.push(id);
       this.serviceBook.DeleteOutwarDetails(ids).subscribe(x => {
         if (x.success) {
@@ -215,19 +217,20 @@ export class OutwardEditComponent implements OnInit,OnDestroy {
           this.table.renderRows();
           this.notifier.notify('success', 'Xóa thành công');
           this.signalRService.SendWareHouseBookTrachking(this.form.value["id"]);
-
+          if (x.data)
+            this.signalRService.SendHistoryTrachking();
         }
         else
           this.notifier.notify('error', 'Xóa thất bại');
 
 
       },
-      //  error => {
-      //   if (error.error.errors.length === undefined)
-      //     this.notifier.notify('error', error.error.message);
-      //   else
-      //     this.notifier.notify('error', error.error);
-      // }
+        //  error => {
+        //   if (error.error.errors.length === undefined)
+        //     this.notifier.notify('error', error.error.message);
+        //   else
+        //     this.notifier.notify('error', error.error);
+        // }
       );
     }
     else
@@ -255,16 +258,17 @@ export class OutwardEditComponent implements OnInit,OnDestroy {
               this.table.renderRows();
               this.notifier.notify('success', 'Sửa thành công');
               this.signalRService.SendWareHouseBookTrachking(this.form.value["id"]);
-
+              if (x.data)
+                this.signalRService.SendHistoryTrachking();
             }
 
           },
-          //  error => {
-          //   if (error.error.errors.length === undefined)
-          //     this.notifier.notify('error', error.error.message);
-          //   else
-          //     this.notifier.notify('error', error.error);
-          // }
+            //  error => {
+            //   if (error.error.errors.length === undefined)
+            //     this.notifier.notify('error', error.error.message);
+            //   else
+            //     this.notifier.notify('error', error.error);
+            // }
           );
 
         }
@@ -288,10 +292,11 @@ export class OutwardEditComponent implements OnInit,OnDestroy {
       if (checkDetails == true) {
         this.form.value["OutwardDetails"] = this.listDetails;
         this.service.Edit(this.form.value).subscribe(x => {
-          if (x.success)
-          {
+          if (x.success) {
             this.signalRService.SendWareHouseBookTrachking(this.form.value["id"]);
             this.notifier.notify('success', 'Chỉnh sửa thành công');
+            if (x.data)
+              this.signalRService.SendHistoryTrachking();
           }
           // else {
           //   if (x.errors["msg"] !== undefined && x.errors["msg"].length !== undefined)

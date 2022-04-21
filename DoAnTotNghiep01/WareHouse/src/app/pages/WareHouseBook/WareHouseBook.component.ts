@@ -206,10 +206,17 @@ export class WareHouseBookComponent implements OnInit, OnDestroy {
   }
   openDialog(model: WareHouseBookDTO): void {
     if (model.id !== null) {
-      if (model.type === this.typeIn)
-        this.route.navigate(['/wh/edit-inward', model.id]);
-      else if (model.type === this.typeOut)
-        this.route.navigate(['/wh/edit-outward', model.id]);
+      if (model.type === this.typeIn) {
+        this.serviceInward.EditIndex(model.id).subscribe(x => {
+          this.route.navigate(['/wh/edit-inward', model.id]);
+        })
+
+      }
+      else if (model.type === this.typeOut) {
+        this.serviceOutward.EditIndex(model.id).subscribe(x => {
+          this.route.navigate(['/wh/edit-outward', model.id]);
+        })
+      }
     }
     else
       this.notifier.notify('warning', "Xin vui lòng thử lại !");
