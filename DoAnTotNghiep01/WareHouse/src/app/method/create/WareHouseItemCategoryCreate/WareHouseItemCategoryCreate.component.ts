@@ -53,6 +53,8 @@ export class WareHouseItemCategoryCreateComponent implements OnInit {
       path: null,
       inactive: true,
     });
+    this.form.patchValue(this.data);
+
     this.getDropDown();
   }
   get f() { return this.form.controls; }

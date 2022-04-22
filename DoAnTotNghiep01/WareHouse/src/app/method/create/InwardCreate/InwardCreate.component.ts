@@ -89,10 +89,11 @@ export class InwardCreateComponent implements OnInit,OnDestroy {
     const whid = this.route.snapshot.paramMap.get('whid');
     this.service.AddIndex(whid).subscribe(x => {
       this.dt = x.data;
+      this.form.patchValue(x.data);
     });
     this.form = this.formBuilder.group({
-      id: Guid.newGuid(),
-      voucherCode: null,
+      id:null,
+      voucherCode: this.dt.voucherCode,
       voucher: this.dt.voucher,
       voucherDate: new Date().toISOString().slice(0, 16),
       wareHouseId: this.route.snapshot.paramMap.get('whid'),

@@ -52,6 +52,7 @@ export class WareHouseItemCreateComponent implements OnInit {
       path: null,
       inactive: true,
     });
+    this.form.patchValue(this.data);
 
   }
   get f() { return this.form.controls; }

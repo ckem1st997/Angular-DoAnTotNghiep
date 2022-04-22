@@ -30,7 +30,7 @@ export class VendorCreateComponent implements OnInit {
     this.dt = this.data;
     this.form = this.formBuilder.group({
       id: Guid.newGuid(),
-      code: '',
+      code:'',
       name: '',
       address: '',
       phone: '',
@@ -38,6 +38,8 @@ export class VendorCreateComponent implements OnInit {
       contactPerson: '',
       inactive: true,
     });
+    this.form.patchValue(this.data);
+
   }
   get f() { return this.form.controls; }
   onNoClick(): void {

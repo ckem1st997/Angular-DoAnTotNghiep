@@ -89,6 +89,8 @@ export class OutwardCreateComponent implements OnInit,OnDestroy {
     const whid = this.route.snapshot.paramMap.get('whid');
     this.service.AddIndex(whid).subscribe(x => {
       this.dt = x.data;
+      this.form.patchValue(x.data);
+
     });
     this.form = this.formBuilder.group({
       id: Guid.newGuid(),
