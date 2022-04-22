@@ -111,6 +111,7 @@ import { RoleEditComponent } from './method/edit/RoleEdit/RoleEdit.component';
 import { SelectWareHouseComponent } from './method/edit/selectWareHouse/selectWareHouse.component';
 import { PagesHomeCenterComponent } from './pages/PagesHomeCenter/PagesHomeCenter.component';
 import { RegistrationComponent } from './pages/registration/registration.component';
+import { SignalRService } from './service/SignalR.service';
 const customNotifierOptions: NotifierOptions = {
   position: {
     horizontal: {
@@ -275,7 +276,7 @@ const customNotifierOptions: NotifierOptions = {
     provide: HTTP_INTERCEPTORS,
     useClass: ErrorIntercept,
     multi: true
-  },HeaderComponent],
+  },HeaderComponent,SignalRService],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

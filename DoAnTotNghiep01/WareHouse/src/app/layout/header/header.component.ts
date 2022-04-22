@@ -48,7 +48,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.signalRService.hubConnection.off(this.signalRService.HistoryTrachking);
   }
   getHistory() {
-    this.serviceAuthozire.getListHistoryByUser().subscribe(res => { this.listHistory = res; this.listBefor = res.data[0]; this.listAfter = res.data.slice(1); this.countHistory = res.data.filter(x => x.read == false).length; });
+    this.serviceAuthozire.getListHistoryByUser().subscribe(res => { this.listHistory = res; this.listBefor = res.data[0]; this.listAfter = res.data.slice(1); this.countHistory = res.data.filter(x => x.userNameRead==null || !x.userNameRead.includes(this.service.userValue.username)).length; });
 
   }
 
@@ -93,12 +93,27 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
   }
   logout() {
+    this.signalRService.stop();
     this.service.logout();
   }
   showNotication() {
     this.activeNoticaonList = !this.activeNoticaonList;
-    //    if (this.activeNoticaonList)
-    //     this.serviceAuthozire.getListHistoryByUser().subscribe(res => { this.listHistory = res; this.listBefor = res.data[0]; this.listAfter = res.data.slice(1); });
+    if (this.service.userCheck) {
+      var listActive = this.listHistory.data.filter(x => x.userNameRead == null || !x.userNameRead.includes(this.service.userValue.username));
+      if (listActive.length > 0) {
+        var ids = new Array<string>();
+        for (let index = 0; index < listActive.length; index++) {
+          const element = listActive[index];
+          ids.push(element.id);
+        }
+        this.serviceAuthozire.ActiveRead(ids).subscribe(res => {
+          if(res)
+          this.getHistory();
+        });
+    }
+      //    if (this.activeNoticaonList)
+      //     this.serviceAuthozire.getListHistoryByUser().subscribe(res => { this.listHistory = res; this.listBefor = res.data[0]; this.listAfter = res.data.slice(1); });
+    }
   }
 
   GetDateTime(e: Date) {

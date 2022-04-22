@@ -26,7 +26,7 @@ export class AuthenticationService {
     }
     public get userCheck(): boolean {
         var check = JSON.parse(sessionStorage.getItem('user') || '{}');
-        return check.username !== null && check.token !== undefined;
+        return check.username !== null && check.token !== undefined && check.role !== null;
     }
     login(username: string, password: string, remember: boolean) {
         return this.http.post<any>(`${environment.authorizeApi}AuthorizeMaster/login`, { username, password, remember })
@@ -38,6 +38,7 @@ export class AuthenticationService {
                     save.role = user.data.user.roleNumber;
                     save.id = user.data.user.id;
                     sessionStorage.setItem('user', JSON.stringify(save));
+                    
                 }
                 return user;
 

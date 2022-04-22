@@ -59,5 +59,14 @@ export class AuthozireService {
       tap(_ => console.log(`create`)),
     );
   }
+
+
+  ActiveRead(ids:string[]): Observable<ResultMessageResponse<HistoryNoticationDT0>> {
+    var url = this.baseUrlMaster + `ApiPublic/active-read`;
+    return this.http.post<ResultMessageResponse<HistoryNoticationDT0>>(url,ids, this.httpOptions).pipe(
+      retry(1), // retry a failed request up to 3 times
+
+    );
+  }
 }
 

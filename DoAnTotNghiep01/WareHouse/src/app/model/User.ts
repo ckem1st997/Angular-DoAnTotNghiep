@@ -1,7 +1,7 @@
 export class User {
-    id: string | undefined;
-    username: string| undefined;
-    role: number | undefined;
+    id!: string ;
+    username!: string;
+    role!: number;
     token?: string;
 }
 export enum Role {

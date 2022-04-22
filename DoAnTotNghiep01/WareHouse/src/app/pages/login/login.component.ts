@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NotifierService } from 'angular-notifier';
 import { first } from 'rxjs';
 import { AuthenticationService } from 'src/app/extension/Authentication.service';
+import { SignalRService } from 'src/app/service/SignalR.service';
 import { LoginValidator } from 'src/app/validator/LoginValidator';
 
 @Component({
@@ -22,7 +23,8 @@ export class LoginComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private authenticationService: AuthenticationService,
-    private notifierService: NotifierService
+    private notifierService: NotifierService,
+    private signalRService: SignalRService
   ) {
     // redirect to home if already logged in
     if (this.authenticationService.userCheck) {
@@ -61,6 +63,7 @@ export class LoginComponent implements OnInit {
               //  this.notifierService.notify('warning', x.message);
               //  const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
               this.notifierService.notify('success', 'Đăng nhập thành công !');
+              this.signalRService.startConnection();
 
               //   this.router.navigate([returnUrl]);
               this.router.navigate(['page']);

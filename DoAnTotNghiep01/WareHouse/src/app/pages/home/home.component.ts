@@ -201,6 +201,8 @@ export class HomeComponent implements OnInit,OnDestroy {
   }
 
   ngOnInit(): void {
+
+
     // lắng nghe khi signalR có sự thay đổi
     this.signalRService.hubConnection.on(this.signalRService.WareHouseBookTrachkingToCLient, (data: ResultMessageResponse<string>) => {
       if (data.success) {
@@ -483,3 +485,7 @@ export class HomeComponent implements OnInit,OnDestroy {
     return new Date(year, month, 0).getDate();
   }
 }
+function moment(arg0: string, arg1: string) {
+  throw new Error('Function not implemented.');
+}
+
