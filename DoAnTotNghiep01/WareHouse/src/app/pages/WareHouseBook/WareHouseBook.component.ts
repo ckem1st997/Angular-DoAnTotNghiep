@@ -248,8 +248,7 @@ export class WareHouseBookComponent implements OnInit, OnDestroy {
           this.signalRService.SendDeleteWareHouseBookTrachking('nhập kho', model.id);
         else if (model.type === this.typeOut)
           this.signalRService.SendDeleteWareHouseBookTrachking('xuất kho', model.id);
-
-
+        this.signalRService.SendHistoryTrachking();
         this.GetData();
       }
     });
@@ -275,6 +274,7 @@ export class WareHouseBookComponent implements OnInit, OnDestroy {
         if (res) {
           this.notifier.notify('success', 'Xoá thành công !');
           this.signalRService.SendDeleteWareHouseBookTrachking('', ids);
+          this.signalRService.SendHistoryTrachking();
           this.GetData();
         }
       });

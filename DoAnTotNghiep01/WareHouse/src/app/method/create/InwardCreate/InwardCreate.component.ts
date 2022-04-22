@@ -230,6 +230,8 @@ export class InwardCreateComponent implements OnInit,OnDestroy {
             this.signalRService.SendCreateWareHouseBookTrachking('nhập kho');
             this.notifier.notify('success', 'Thêm thành công');
             this.routerde.navigate(['wh/warehouse-book']);
+            if (x.data)
+              this.signalRService.SendHistoryTrachking();
             //   this.routerde.navigate(['/details-inward', this.form.value["id"]]);
           }
           // commnet vì xử dụng bộ đánh chặn để thông báo thay vì ở đây

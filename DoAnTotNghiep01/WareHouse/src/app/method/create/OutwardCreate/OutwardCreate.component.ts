@@ -228,6 +228,8 @@ export class OutwardCreateComponent implements OnInit,OnDestroy {
             this.signalRService.SendCreateWareHouseBookTrachking('xuất kho');
             this.notifier.notify('success', 'Thêm thành công');
             this.routerde.navigate(['wh/warehouse-book']);
+            if (x.data)
+              this.signalRService.SendHistoryTrachking();
           }
         },
         );
