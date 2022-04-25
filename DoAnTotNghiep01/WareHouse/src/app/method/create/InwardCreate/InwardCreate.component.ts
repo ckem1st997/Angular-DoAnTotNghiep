@@ -18,6 +18,7 @@ import { InwarDetailsEditComponent } from '../../edit/InwarDetailsEdit/InwarDeta
 import { InwardValidator } from 'src/app/validator/InwardValidator';
 import { SignalRService } from 'src/app/service/SignalR.service';
 import { ResultMessageResponse } from 'src/app/model/ResultMessageResponse';
+import { KafKaService } from 'src/app/service/KafKa.service';
 @Component({
   selector: 'app-InwardCreate',
   templateUrl: './InwardCreate.component.html',
@@ -69,7 +70,7 @@ export class InwardCreateComponent implements OnInit,OnDestroy {
   @ViewChild(MatTable)
   table!: MatTable<InwardDetailDTO>;
 
-  constructor(private signalRService: SignalRService,private routerde: Router, private serviceBook: WareHouseBookService, notifierService: NotifierService, public dialog: MatDialog, private formBuilder: FormBuilder, private route: ActivatedRoute, private service: InwardService) {
+  constructor(private kafka:KafKaService,private signalRService: SignalRService,private routerde: Router, private serviceBook: WareHouseBookService, notifierService: NotifierService, public dialog: MatDialog, private formBuilder: FormBuilder, private route: ActivatedRoute, private service: InwardService) {
     this.notifier = notifierService;
   }
   @HostListener('window:resize', ['$event'])
@@ -90,6 +91,11 @@ export class InwardCreateComponent implements OnInit,OnDestroy {
     this.service.AddIndex(whid).subscribe(x => {
       this.dt = x.data;
       this.form.patchValue(x.data);
+      this.form.patchValue({
+        voucherDate: new Date().toISOString().slice(0, 16),
+        createdDate: new Date().toISOString().slice(0, 16),
+        modifiedDate: new Date().toISOString().slice(0, 16),
+      })
     });
     this.form = this.formBuilder.group({
       id:null,
@@ -215,7 +221,39 @@ export class InwardCreateComponent implements OnInit,OnDestroy {
     this.dataSource.data.pop();
     this.table.renderRows();
   }
-
+  saveKafka()
+  {
+    this.form.value["voucher"] = this.dt.voucher;
+    var test = new InwardValidator();
+    var msg = test.validate(this.form.value);
+    var check = JSON.stringify(msg) == '{}';
+    if (check == true) {
+      var checkDetails = this.listDetails.length > 0;
+      if (checkDetails == true) {
+        this.form.value["inwardDetails"] = this.listDetails;
+        this.kafka.Add(this.form.value).subscribe(x => {
+          if (x.success) {
+            this.notifier.notify('success', x.message);
+          }
+        }         
+        );
+      }
+      else {
+        this.notifier.notify('error', 'Vui lòng nhập chi tiết phiếu nhập');
+      }
+ 
+ 
+    }
+ 
+    else {
+      var message = '';
+      for (const [key, value] of Object.entries(msg)) {
+        message = message + " " + value;
+      }
+      this.notifier.notify('error', message);
+    }
+ 
+  }
   onSubmit() {
    // this.signalRService.SendCreateWareHouseBookTrachking('nhập kho');
     this.form.value["voucher"] = this.dt.voucher;

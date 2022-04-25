@@ -31,9 +31,8 @@ export class InwarDetailsCreateComponent implements OnInit {
   ) { this.notifier = notifierService; }
   ngOnInit() {
     this.dt = this.data;
-
     this.form = this.formBuilder.group({
-      id: Guid.newGuid(),
+      id: this.dt.id,
       inwardId: this.dt.inwardId,
       itemId: null,
       unitId: null,
@@ -76,6 +75,7 @@ export class InwarDetailsCreateComponent implements OnInit {
 
   }
   onSubmit() {
+    console.log(this.form.value);
 
     var test = new InwardDetailsValidator();
     var msg = test.validate(this.form.value);

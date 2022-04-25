@@ -7,6 +7,7 @@ export const environment = {
   baseApi:"https://localhost:5005/api/v1/",
   authorizeApi:"https://localhost:5001/api/v1/",
   baseSignalr:"https://localhost:5001/",
+  baseKafka:"https://localhost:7032/api/v1/",
 };
 
 /*

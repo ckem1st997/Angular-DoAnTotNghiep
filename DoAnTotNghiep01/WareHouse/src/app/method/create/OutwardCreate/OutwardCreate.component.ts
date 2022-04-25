@@ -90,7 +90,11 @@ export class OutwardCreateComponent implements OnInit,OnDestroy {
     this.service.AddIndex(whid).subscribe(x => {
       this.dt = x.data;
       this.form.patchValue(x.data);
-
+      this.form.patchValue({
+        voucherDate: new Date().toISOString().slice(0, 16),
+        createdDate: new Date().toISOString().slice(0, 16),
+        modifiedDate: new Date().toISOString().slice(0, 16),
+      })
     });
     this.form = this.formBuilder.group({
       id: Guid.newGuid(),

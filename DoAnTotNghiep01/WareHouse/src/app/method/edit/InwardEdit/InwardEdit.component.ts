@@ -75,6 +75,7 @@ export class InwardEditComponent implements OnInit, OnDestroy {
   }
   @HostListener('window:resize', ['$event'])
 
+
   onWindowResize(): void {
     const getScreenHeight = window.innerHeight;
     var clientHeight = document.getElementById('formCreate') as HTMLFormElement;
