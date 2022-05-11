@@ -30,7 +30,7 @@ export class SignalRService {
   // connect to hub
   public startConnection = () => {
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl(this.baseUrl, { accessTokenFactory: () => '' + this.auth.userValue.token + '' })
+      .withUrl(this.baseUrl, { accessTokenFactory: () => '' + this.auth.userValue.token + '',withCredentials:false })
       .configureLogging(signalR.LogLevel.Information)
       .withAutomaticReconnect()
       .build();

@@ -9,7 +9,7 @@ export const environment = {
   // baseSignalr:"http://localhost:5001/",
   baseApi:"http://localhost:8000/api-wh/api/v1/",
   authorizeApi:"http://localhost:8000/api-mt/api/v1/",
-  baseSignalr:"hhttp://localhost:8000/api-wh/",
+  baseSignalr:"http://localhost:8000/api-mt/",
 };
 
 /*
