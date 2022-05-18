@@ -1,16 +1,12 @@
-### STAGE 1:BUILD ###
-# Defining a node image to be used as giving it an alias of "build"
-# Which version of Node image to use depends on project dependencies 
-# This is needed to build and compile our code 
-# while generating the docker image
-FROM node:16.13.0 AS build
-WORKDIR /usr/src/app
-COPY package.json package-lock.json ./
+# Stage 1: Build an Angular Docker Image
+FROM node as build
+WORKDIR /app
+COPY package*.json /app/
 RUN npm install
-COPY . .
-RUN npm run build
-
-### STAGE 2: Run ###
-FROM nginx:1.17.1-alpine
-COPY nginx.conf /etc/nginx/nginx.conf
-COPY --from=build /usr/src/app/dist/aston-villa-app /usr/share/nginx/html
+COPY . /app
+ARG configuration=production
+RUN npm run build -- --outputPath=./dist/out --configuration $configuration
+# Stage 2, use the compiled app, ready for production with Nginx
+FROM nginx
+COPY --from=build /app/dist/out/ /usr/share/nginx/html
+COPY /nginx-custom.conf /etc/nginx/conf.d/default.conf
